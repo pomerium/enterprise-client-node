@@ -1,0 +1,59 @@
+{
+  "name": "@pomerium/enterprise-client-node",
+  "version": "0.1.0",
+  "author": "Caleb Doxsey <cdoxsey@pomerium.com>",
+  "description": "NodeJS client for the Pomerium Enterprise Console",
+  "scripts": {
+    "clean": "rm -rf ./lib",
+    "build": "npm run clean && npm run build:esm && npm run build:cjs",
+    "build:esm": "tsc -p ./configs/tsconfig.esm.json && mv lib/esm/index.js lib/esm/index.mjs",
+    "build:cjs": "tsc -p ./configs/tsconfig.cjs.json",
+    "prepack": "npm run build",
+    "pretty": "prettier --write \"src/**/*.ts\""
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./lib/esm/types/index.d.ts",
+        "default": "./lib/esm/index.mjs"
+      },
+      "require": {
+        "types": "./lib/cjs/types/index.d.ts",
+        "default": "./lib/cjs/index.js"
+      }
+    }
+  },
+  "types": "./lib/cjs/types/index.d.ts",
+  "main": "./lib/cjs/index.js",
+  "release": {
+    "branches": [
+      "main"
+    ]
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pomerium/enterprise-client-node.git"
+  },
+  "keywords": [
+    "zero trust",
+    "pomerium",
+    "enterprise"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@protobuf-ts/plugin": "^2.9.4",
+    "@types/node": "^22.5.5",
+    "prettier": "^3.3.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.2"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.12.0",
+    "@protobuf-ts/grpc-transport": "^2.9.4",
+    "@protobuf-ts/runtime": "^2.9.4",
+    "@protobuf-ts/runtime-rpc": "^2.9.4"
+  }
+}
