@@ -4,6 +4,8 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { DataBroker } from "./databroker_svc";
+import type { QueryDataBrokerRecordsResponse } from "./databroker_svc";
+import type { QueryDataBrokerRecordsRequest } from "./databroker_svc";
 import type { ListDataBrokerRecordTypesResponse } from "./databroker_svc";
 import type { Empty } from "./google/protobuf/empty";
 import { stackIntercept } from "@protobuf-ts/runtime-rpc";
@@ -23,6 +25,10 @@ export interface IDataBrokerClient {
      * @generated from protobuf rpc: ListDataBrokerRecordTypes(google.protobuf.Empty) returns (pomerium.dashboard.ListDataBrokerRecordTypesResponse);
      */
     listDataBrokerRecordTypes(input: Empty, options?: RpcOptions): UnaryCall<Empty, ListDataBrokerRecordTypesResponse>;
+    /**
+     * @generated from protobuf rpc: QueryDataBrokerRecords(pomerium.dashboard.QueryDataBrokerRecordsRequest) returns (pomerium.dashboard.QueryDataBrokerRecordsResponse);
+     */
+    queryDataBrokerRecords(input: QueryDataBrokerRecordsRequest, options?: RpcOptions): UnaryCall<QueryDataBrokerRecordsRequest, QueryDataBrokerRecordsResponse>;
 }
 /**
  * @generated from protobuf service pomerium.dashboard.DataBroker
@@ -46,5 +52,12 @@ export class DataBrokerClient implements IDataBrokerClient, ServiceInfo {
     listDataBrokerRecordTypes(input: Empty, options?: RpcOptions): UnaryCall<Empty, ListDataBrokerRecordTypesResponse> {
         const method = this.methods[1], opt = this._transport.mergeOptions(options);
         return stackIntercept<Empty, ListDataBrokerRecordTypesResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: QueryDataBrokerRecords(pomerium.dashboard.QueryDataBrokerRecordsRequest) returns (pomerium.dashboard.QueryDataBrokerRecordsResponse);
+     */
+    queryDataBrokerRecords(input: QueryDataBrokerRecordsRequest, options?: RpcOptions): UnaryCall<QueryDataBrokerRecordsRequest, QueryDataBrokerRecordsResponse> {
+        const method = this.methods[2], opt = this._transport.mergeOptions(options);
+        return stackIntercept<QueryDataBrokerRecordsRequest, QueryDataBrokerRecordsResponse>("unary", this._transport, method, opt, input);
     }
 }
