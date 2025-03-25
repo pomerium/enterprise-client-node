@@ -227,6 +227,10 @@ export interface Route {
      */
     kubernetesServiceAccountToken?: string;
     /**
+     * @generated from protobuf field: optional string kubernetes_service_account_token_file = 60;
+     */
+    kubernetesServiceAccountTokenFile?: string;
+    /**
      * @generated from protobuf field: envoy.config.cluster.v3.Cluster envoy_opts = 39;
      */
     envoyOpts?: Cluster;
@@ -234,6 +238,10 @@ export interface Route {
      * @generated from protobuf field: bool enable_google_cloud_serverless_authentication = 46;
      */
     enableGoogleCloudServerlessAuthentication: boolean;
+    /**
+     * @generated from protobuf field: pomerium.dashboard.IssuerFormat jwt_issuer_format = 61;
+     */
+    jwtIssuerFormat: IssuerFormat;
     /**
      * @generated from protobuf field: optional string idp_client_id = 57;
      */
@@ -464,6 +472,25 @@ export interface MoveRoutesRequest {
  */
 export interface MoveRoutesResponse {
 }
+/**
+ * @generated from protobuf enum pomerium.dashboard.IssuerFormat
+ */
+export enum IssuerFormat {
+    /**
+     * Issuer strings will be the hostname of the route, with no scheme or
+     * trailing slash.
+     *
+     * @generated from protobuf enum value: IssuerHostOnly = 0;
+     */
+    IssuerHostOnly = 0,
+    /**
+     * Issuer strings will be a complete URI, including the scheme and ending
+     * with a trailing slash.
+     *
+     * @generated from protobuf enum value: IssuerURI = 1;
+     */
+    IssuerURI = 1
+}
 // @generated message type with reflection information, may provide speed optimized methods
 class RouteRewriteHeader$Type extends MessageType<RouteRewriteHeader> {
     constructor() {
@@ -629,8 +656,10 @@ class Route$Type extends MessageType<Route> {
             { no: 25, name: "preserve_host_header", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ },
             { no: 26, name: "pass_identity_headers", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ },
             { no: 27, name: "kubernetes_service_account_token", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 60, name: "kubernetes_service_account_token_file", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 39, name: "envoy_opts", kind: "message", T: () => Cluster },
             { no: 46, name: "enable_google_cloud_serverless_authentication", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 61, name: "jwt_issuer_format", kind: "enum", T: () => ["pomerium.dashboard.IssuerFormat", IssuerFormat] },
             { no: 57, name: "idp_client_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 58, name: "idp_client_secret", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 53, name: "show_error_details", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
@@ -653,6 +682,7 @@ class Route$Type extends MessageType<Route> {
         message.setResponseHeaders = {};
         message.rewriteResponseHeaders = [];
         message.enableGoogleCloudServerlessAuthentication = false;
+        message.jwtIssuerFormat = 0;
         message.showErrorDetails = false;
         message.originatorId = "";
         message.policyIds = [];
@@ -787,11 +817,17 @@ class Route$Type extends MessageType<Route> {
                 case /* optional string kubernetes_service_account_token */ 27:
                     message.kubernetesServiceAccountToken = reader.string();
                     break;
+                case /* optional string kubernetes_service_account_token_file */ 60:
+                    message.kubernetesServiceAccountTokenFile = reader.string();
+                    break;
                 case /* envoy.config.cluster.v3.Cluster envoy_opts */ 39:
                     message.envoyOpts = Cluster.internalBinaryRead(reader, reader.uint32(), options, message.envoyOpts);
                     break;
                 case /* bool enable_google_cloud_serverless_authentication */ 46:
                     message.enableGoogleCloudServerlessAuthentication = reader.bool();
+                    break;
+                case /* pomerium.dashboard.IssuerFormat jwt_issuer_format */ 61:
+                    message.jwtIssuerFormat = reader.int32();
                     break;
                 case /* optional string idp_client_id */ 57:
                     message.idpClientId = reader.string();
@@ -978,12 +1014,18 @@ class Route$Type extends MessageType<Route> {
         /* optional string kubernetes_service_account_token = 27; */
         if (message.kubernetesServiceAccountToken !== undefined)
             writer.tag(27, WireType.LengthDelimited).string(message.kubernetesServiceAccountToken);
+        /* optional string kubernetes_service_account_token_file = 60; */
+        if (message.kubernetesServiceAccountTokenFile !== undefined)
+            writer.tag(60, WireType.LengthDelimited).string(message.kubernetesServiceAccountTokenFile);
         /* envoy.config.cluster.v3.Cluster envoy_opts = 39; */
         if (message.envoyOpts)
             Cluster.internalBinaryWrite(message.envoyOpts, writer.tag(39, WireType.LengthDelimited).fork(), options).join();
         /* bool enable_google_cloud_serverless_authentication = 46; */
         if (message.enableGoogleCloudServerlessAuthentication !== false)
             writer.tag(46, WireType.Varint).bool(message.enableGoogleCloudServerlessAuthentication);
+        /* pomerium.dashboard.IssuerFormat jwt_issuer_format = 61; */
+        if (message.jwtIssuerFormat !== 0)
+            writer.tag(61, WireType.Varint).int32(message.jwtIssuerFormat);
         /* optional string idp_client_id = 57; */
         if (message.idpClientId !== undefined)
             writer.tag(57, WireType.LengthDelimited).string(message.idpClientId);

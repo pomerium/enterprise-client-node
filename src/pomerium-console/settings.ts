@@ -22,6 +22,10 @@ export interface ConsoleSettings {
      * @generated from protobuf field: bool enable_feedback_widget = 1;
      */
     enableFeedbackWidget: boolean;
+    /**
+     * @generated from protobuf field: bool use_changesets = 2;
+     */
+    useChangesets: boolean;
 }
 /**
  * Settings defines the global pomerium settings
@@ -405,12 +409,14 @@ export interface SetSettingsResponse {
 class ConsoleSettings$Type extends MessageType<ConsoleSettings> {
     constructor() {
         super("pomerium.dashboard.ConsoleSettings", [
-            { no: 1, name: "enable_feedback_widget", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+            { no: 1, name: "enable_feedback_widget", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 2, name: "use_changesets", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
     create(value?: PartialMessage<ConsoleSettings>): ConsoleSettings {
         const message = globalThis.Object.create((this.messagePrototype!));
         message.enableFeedbackWidget = false;
+        message.useChangesets = false;
         if (value !== undefined)
             reflectionMergePartial<ConsoleSettings>(this, message, value);
         return message;
@@ -422,6 +428,9 @@ class ConsoleSettings$Type extends MessageType<ConsoleSettings> {
             switch (fieldNo) {
                 case /* bool enable_feedback_widget */ 1:
                     message.enableFeedbackWidget = reader.bool();
+                    break;
+                case /* bool use_changesets */ 2:
+                    message.useChangesets = reader.bool();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -438,6 +447,9 @@ class ConsoleSettings$Type extends MessageType<ConsoleSettings> {
         /* bool enable_feedback_widget = 1; */
         if (message.enableFeedbackWidget !== false)
             writer.tag(1, WireType.Varint).bool(message.enableFeedbackWidget);
+        /* bool use_changesets = 2; */
+        if (message.useChangesets !== false)
+            writer.tag(2, WireType.Varint).bool(message.useChangesets);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

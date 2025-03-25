@@ -6,12 +6,12 @@ _root_dir="$(dirname "$_scripts_dir")"
 _deps_dir="$_root_dir/deps"
 
 readonly _git_deps=(
-    "pomerium/pomerium|v0.27.0"
-    "pomerium/pomerium-console|v0.27.0"
-    'envoyproxy/protoc-gen-validate|v1.0.2'
-    'envoyproxy/data-plane-api|d525ab36724d6a94477f7642e02418b50a8c4043'
-    'cncf/xds|e9ce68804cb4e64cab5a52e3c8baf840d4ff87b7'
-    'googleapis/googleapis|114a745b2841a044e98cdbb19358ed29fcf4a5f1'
+    "pomerium/pomerium|v0.28.0"
+    "pomerium/pomerium-console|v0.28.0"
+    "envoyproxy/protoc-gen-validate|v1.2.1"
+    "envoyproxy/data-plane-api|d525ab36724d6a94477f7642e02418b50a8c4043"
+    "cncf/xds|e9ce68804cb4e64cab5a52e3c8baf840d4ff87b7"
+    "googleapis/googleapis|114a745b2841a044e98cdbb19358ed29fcf4a5f1"
 )
 
 function clone() {

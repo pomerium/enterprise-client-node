@@ -12,7 +12,8 @@ import { UnknownFieldHandler } from "@protobuf-ts/runtime";
 import type { PartialMessage } from "@protobuf-ts/runtime";
 import { reflectionMergePartial } from "@protobuf-ts/runtime";
 import { MessageType } from "@protobuf-ts/runtime";
-import { Record } from "./github.com/pomerium/pomerium/pkg/grpc/databroker/databroker";
+import { Struct } from "./google/protobuf/struct";
+import { Record as Record$ } from "./github.com/pomerium/pomerium/pkg/grpc/databroker/databroker";
 /**
  * @generated from protobuf message pomerium.dashboard.ListDataBrokerRecordsRequest
  */
@@ -29,7 +30,7 @@ export interface ListDataBrokerRecordsResponse {
     /**
      * @generated from protobuf field: repeated databroker.Record records = 1;
      */
-    records: Record[];
+    records: Record$[];
 }
 /**
  * @generated from protobuf message pomerium.dashboard.ListDataBrokerRecordTypesResponse
@@ -39,6 +40,65 @@ export interface ListDataBrokerRecordTypesResponse {
      * @generated from protobuf field: repeated string record_types = 1;
      */
     recordTypes: string[];
+}
+/**
+ * @generated from protobuf message pomerium.dashboard.QueryDataBrokerRecordsRequest
+ */
+export interface QueryDataBrokerRecordsRequest {
+    /**
+     * @generated from protobuf field: string record_type = 1;
+     */
+    recordType: string;
+    /**
+     * look up records with any fields that match the query
+     *
+     * @generated from protobuf field: string query = 2;
+     */
+    query: string;
+    /**
+     * list records starting from an offset in the total list
+     *
+     * @generated from protobuf field: int64 offset = 3;
+     */
+    offset: bigint;
+    /**
+     * list records up to a limit
+     *
+     * @generated from protobuf field: int64 limit = 4;
+     */
+    limit: bigint;
+}
+/**
+ * @generated from protobuf message pomerium.dashboard.Record
+ */
+export interface Record {
+    /**
+     * Record ID
+     *
+     * @generated from protobuf field: string id = 1;
+     */
+    id: string;
+    /**
+     * Record properties
+     *
+     * @generated from protobuf field: google.protobuf.Struct properties = 2;
+     */
+    properties?: Struct;
+}
+/**
+ * @generated from protobuf message pomerium.dashboard.QueryDataBrokerRecordsResponse
+ */
+export interface QueryDataBrokerRecordsResponse {
+    /**
+     * Maps record IDs to record properties
+     *
+     * @generated from protobuf field: repeated pomerium.dashboard.Record records = 1;
+     */
+    records: Record[];
+    /**
+     * @generated from protobuf field: int64 total_count = 2;
+     */
+    totalCount: bigint;
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class ListDataBrokerRecordsRequest$Type extends MessageType<ListDataBrokerRecordsRequest> {
@@ -91,7 +151,7 @@ export const ListDataBrokerRecordsRequest = new ListDataBrokerRecordsRequest$Typ
 class ListDataBrokerRecordsResponse$Type extends MessageType<ListDataBrokerRecordsResponse> {
     constructor() {
         super("pomerium.dashboard.ListDataBrokerRecordsResponse", [
-            { no: 1, name: "records", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Record }
+            { no: 1, name: "records", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Record$ }
         ]);
     }
     create(value?: PartialMessage<ListDataBrokerRecordsResponse>): ListDataBrokerRecordsResponse {
@@ -107,7 +167,7 @@ class ListDataBrokerRecordsResponse$Type extends MessageType<ListDataBrokerRecor
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
                 case /* repeated databroker.Record records */ 1:
-                    message.records.push(Record.internalBinaryRead(reader, reader.uint32(), options));
+                    message.records.push(Record$.internalBinaryRead(reader, reader.uint32(), options));
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -123,7 +183,7 @@ class ListDataBrokerRecordsResponse$Type extends MessageType<ListDataBrokerRecor
     internalBinaryWrite(message: ListDataBrokerRecordsResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
         /* repeated databroker.Record records = 1; */
         for (let i = 0; i < message.records.length; i++)
-            Record.internalBinaryWrite(message.records[i], writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+            Record$.internalBinaryWrite(message.records[i], writer.tag(1, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -181,10 +241,191 @@ class ListDataBrokerRecordTypesResponse$Type extends MessageType<ListDataBrokerR
  * @generated MessageType for protobuf message pomerium.dashboard.ListDataBrokerRecordTypesResponse
  */
 export const ListDataBrokerRecordTypesResponse = new ListDataBrokerRecordTypesResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class QueryDataBrokerRecordsRequest$Type extends MessageType<QueryDataBrokerRecordsRequest> {
+    constructor() {
+        super("pomerium.dashboard.QueryDataBrokerRecordsRequest", [
+            { no: 1, name: "record_type", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "query", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "offset", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ },
+            { no: 4, name: "limit", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ }
+        ]);
+    }
+    create(value?: PartialMessage<QueryDataBrokerRecordsRequest>): QueryDataBrokerRecordsRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.recordType = "";
+        message.query = "";
+        message.offset = 0n;
+        message.limit = 0n;
+        if (value !== undefined)
+            reflectionMergePartial<QueryDataBrokerRecordsRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: QueryDataBrokerRecordsRequest): QueryDataBrokerRecordsRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string record_type */ 1:
+                    message.recordType = reader.string();
+                    break;
+                case /* string query */ 2:
+                    message.query = reader.string();
+                    break;
+                case /* int64 offset */ 3:
+                    message.offset = reader.int64().toBigInt();
+                    break;
+                case /* int64 limit */ 4:
+                    message.limit = reader.int64().toBigInt();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: QueryDataBrokerRecordsRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string record_type = 1; */
+        if (message.recordType !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.recordType);
+        /* string query = 2; */
+        if (message.query !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.query);
+        /* int64 offset = 3; */
+        if (message.offset !== 0n)
+            writer.tag(3, WireType.Varint).int64(message.offset);
+        /* int64 limit = 4; */
+        if (message.limit !== 0n)
+            writer.tag(4, WireType.Varint).int64(message.limit);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.QueryDataBrokerRecordsRequest
+ */
+export const QueryDataBrokerRecordsRequest = new QueryDataBrokerRecordsRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class Record$Type extends MessageType<Record> {
+    constructor() {
+        super("pomerium.dashboard.Record", [
+            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "properties", kind: "message", T: () => Struct }
+        ]);
+    }
+    create(value?: PartialMessage<Record>): Record {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.id = "";
+        if (value !== undefined)
+            reflectionMergePartial<Record>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: Record): Record {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string id */ 1:
+                    message.id = reader.string();
+                    break;
+                case /* google.protobuf.Struct properties */ 2:
+                    message.properties = Struct.internalBinaryRead(reader, reader.uint32(), options, message.properties);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: Record, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string id = 1; */
+        if (message.id !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.id);
+        /* google.protobuf.Struct properties = 2; */
+        if (message.properties)
+            Struct.internalBinaryWrite(message.properties, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.Record
+ */
+export const Record = new Record$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class QueryDataBrokerRecordsResponse$Type extends MessageType<QueryDataBrokerRecordsResponse> {
+    constructor() {
+        super("pomerium.dashboard.QueryDataBrokerRecordsResponse", [
+            { no: 1, name: "records", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Record },
+            { no: 2, name: "total_count", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ }
+        ]);
+    }
+    create(value?: PartialMessage<QueryDataBrokerRecordsResponse>): QueryDataBrokerRecordsResponse {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.records = [];
+        message.totalCount = 0n;
+        if (value !== undefined)
+            reflectionMergePartial<QueryDataBrokerRecordsResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: QueryDataBrokerRecordsResponse): QueryDataBrokerRecordsResponse {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* repeated pomerium.dashboard.Record records */ 1:
+                    message.records.push(Record.internalBinaryRead(reader, reader.uint32(), options));
+                    break;
+                case /* int64 total_count */ 2:
+                    message.totalCount = reader.int64().toBigInt();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: QueryDataBrokerRecordsResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* repeated pomerium.dashboard.Record records = 1; */
+        for (let i = 0; i < message.records.length; i++)
+            Record.internalBinaryWrite(message.records[i], writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* int64 total_count = 2; */
+        if (message.totalCount !== 0n)
+            writer.tag(2, WireType.Varint).int64(message.totalCount);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.QueryDataBrokerRecordsResponse
+ */
+export const QueryDataBrokerRecordsResponse = new QueryDataBrokerRecordsResponse$Type();
 /**
  * @generated ServiceType for protobuf service pomerium.dashboard.DataBroker
  */
 export const DataBroker = new ServiceType("pomerium.dashboard.DataBroker", [
     { name: "ListDataBrokerRecords", options: {}, I: ListDataBrokerRecordsRequest, O: ListDataBrokerRecordsResponse },
-    { name: "ListDataBrokerRecordTypes", options: {}, I: Empty, O: ListDataBrokerRecordTypesResponse }
+    { name: "ListDataBrokerRecordTypes", options: {}, I: Empty, O: ListDataBrokerRecordTypesResponse },
+    { name: "QueryDataBrokerRecords", options: {}, I: QueryDataBrokerRecordsRequest, O: QueryDataBrokerRecordsResponse }
 ]);

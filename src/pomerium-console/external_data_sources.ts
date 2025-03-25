@@ -35,7 +35,7 @@ export interface ExternalDataSource {
      */
     deletedAt?: Timestamp;
     /**
-     * Url is th URL to query for data.
+     * Url is the URL to query for data.
      *
      * @generated from protobuf field: string url = 5;
      */
