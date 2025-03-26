@@ -12,9 +12,9 @@ import type { PartialMessage } from "@protobuf-ts/runtime";
 import { reflectionMergePartial } from "@protobuf-ts/runtime";
 import { MessageType } from "@protobuf-ts/runtime";
 import { Policy } from "./policy";
-import { Cluster } from "./envoy/config/cluster/v3/cluster";
+import { HealthCheck } from "./route_health_check";
 import { Duration } from "./google/protobuf/duration";
-import { RedirectAction } from "./envoy/config/route/v3/route_components";
+import { RedirectAction } from "./route_redirect_action";
 import { Timestamp } from "./google/protobuf/timestamp";
 /**
  * @generated from protobuf message pomerium.dashboard.RouteRewriteHeader
@@ -55,7 +55,25 @@ export interface RouteDirectResponse {
     body: string;
 }
 /**
+ * @generated from protobuf message pomerium.dashboard.JwtGroupsFilter
+ */
+export interface JwtGroupsFilter {
+    /**
+     * Explicit list of group IDs/names to include.
+     *
+     * @generated from protobuf field: repeated string groups = 1;
+     */
+    groups: string[];
+    /**
+     * Infer group IDs/names based on PPL groups criteria.
+     *
+     * @generated from protobuf field: optional bool infer_from_ppl = 2;
+     */
+    inferFromPpl?: boolean;
+}
+/**
  * Route defines a proxy route's settings and policy associations
+ * Next ID: 72
  *
  * @generated from protobuf message pomerium.dashboard.Route
  */
@@ -85,6 +103,14 @@ export interface Route {
      */
     name: string;
     /**
+     * @generated from protobuf field: optional string description = 65;
+     */
+    description?: string;
+    /**
+     * @generated from protobuf field: optional string logo_url = 66;
+     */
+    logoUrl?: string;
+    /**
      * name for prometheus stats, computed on first save
      *
      * @generated from protobuf field: string stat_name = 47;
@@ -99,7 +125,7 @@ export interface Route {
      */
     to: string[];
     /**
-     * @generated from protobuf field: envoy.config.route.v3.RedirectAction redirect = 40;
+     * @generated from protobuf field: pomerium.dashboard.RedirectAction redirect = 67;
      */
     redirect?: RedirectAction;
     /**
@@ -227,13 +253,25 @@ export interface Route {
      */
     kubernetesServiceAccountToken?: string;
     /**
-     * @generated from protobuf field: envoy.config.cluster.v3.Cluster envoy_opts = 39;
+     * @generated from protobuf field: optional string kubernetes_service_account_token_file = 60;
      */
-    envoyOpts?: Cluster;
+    kubernetesServiceAccountTokenFile?: string;
     /**
      * @generated from protobuf field: bool enable_google_cloud_serverless_authentication = 46;
      */
     enableGoogleCloudServerlessAuthentication: boolean;
+    /**
+     * @generated from protobuf field: pomerium.dashboard.IssuerFormat jwt_issuer_format = 61;
+     */
+    jwtIssuerFormat: IssuerFormat;
+    /**
+     * @generated from protobuf field: optional pomerium.dashboard.BearerTokenFormat bearer_token_format = 68;
+     */
+    bearerTokenFormat?: BearerTokenFormat;
+    /**
+     * @generated from protobuf field: pomerium.dashboard.JwtGroupsFilter jwt_groups_filter = 62;
+     */
+    jwtGroupsFilter?: JwtGroupsFilter;
     /**
      * @generated from protobuf field: optional string idp_client_id = 57;
      */
@@ -268,6 +306,37 @@ export interface Route {
      * @generated from protobuf field: string namespace_name = 35;
      */
     namespaceName: string;
+    /**
+     * computed
+     *
+     * @generated from protobuf field: repeated string enforced_policy_ids = 63;
+     */
+    enforcedPolicyIds: string[];
+    /**
+     * @generated from protobuf field: repeated string enforced_policy_names = 64;
+     */
+    enforcedPolicyNames: string[];
+    /**
+     * @generated from protobuf field: optional pomerium.dashboard.Route.StringList idp_access_token_allowed_audiences = 69;
+     */
+    idpAccessTokenAllowedAudiences?: Route_StringList;
+    /**
+     * @generated from protobuf field: optional pomerium.dashboard.LoadBalancingPolicy load_balancing_policy = 70;
+     */
+    loadBalancingPolicy?: LoadBalancingPolicy;
+    /**
+     * @generated from protobuf field: repeated pomerium.dashboard.HealthCheck health_checks = 71;
+     */
+    healthChecks: HealthCheck[];
+}
+/**
+ * @generated from protobuf message pomerium.dashboard.Route.StringList
+ */
+export interface Route_StringList {
+    /**
+     * @generated from protobuf field: repeated string values = 1;
+     */
+    values: string[];
 }
 /**
  * RouteWithPolicies contains automatically created routes and policies from a
@@ -464,6 +533,90 @@ export interface MoveRoutesRequest {
  */
 export interface MoveRoutesResponse {
 }
+/**
+ * @generated from protobuf enum pomerium.dashboard.IssuerFormat
+ */
+export enum IssuerFormat {
+    /**
+     * Issuer strings will be the hostname of the route, with no scheme or
+     * trailing slash.
+     *
+     * @generated from protobuf enum value: IssuerHostOnly = 0;
+     */
+    IssuerHostOnly = 0,
+    /**
+     * Issuer strings will be a complete URI, including the scheme and ending
+     * with a trailing slash.
+     *
+     * @generated from protobuf enum value: IssuerURI = 1;
+     */
+    IssuerURI = 1
+}
+/**
+ * @generated from protobuf enum pomerium.dashboard.BearerTokenFormat
+ */
+export enum BearerTokenFormat {
+    /**
+     * @generated from protobuf enum value: BEARER_TOKEN_FORMAT_UNKNOWN = 0;
+     */
+    UNKNOWN = 0,
+    /**
+     * @generated from protobuf enum value: BEARER_TOKEN_FORMAT_DEFAULT = 1;
+     */
+    DEFAULT = 1,
+    /**
+     * @generated from protobuf enum value: BEARER_TOKEN_FORMAT_IDP_ACCESS_TOKEN = 2;
+     */
+    IDP_ACCESS_TOKEN = 2,
+    /**
+     * @generated from protobuf enum value: BEARER_TOKEN_FORMAT_IDP_IDENTITY_TOKEN = 3;
+     */
+    IDP_IDENTITY_TOKEN = 3
+}
+/**
+ * LoadBalancingPolicy defines the strategy used to balance requests across
+ * upstream endpoints
+ *
+ * @generated from protobuf enum pomerium.dashboard.LoadBalancingPolicy
+ */
+export enum LoadBalancingPolicy {
+    /**
+     * Default load balancing if not specified
+     *
+     * @generated from protobuf enum value: LOAD_BALANCING_POLICY_UNSPECIFIED = 0;
+     */
+    UNSPECIFIED = 0,
+    /**
+     * Classic round robin algorithm
+     *
+     * @generated from protobuf enum value: LOAD_BALANCING_POLICY_ROUND_ROBIN = 1;
+     */
+    ROUND_ROBIN = 1,
+    /**
+     * Consistent hashing load balancing
+     *
+     * @generated from protobuf enum value: LOAD_BALANCING_POLICY_MAGLEV = 2;
+     */
+    MAGLEV = 2,
+    /**
+     * Random selection of backend
+     *
+     * @generated from protobuf enum value: LOAD_BALANCING_POLICY_RANDOM = 3;
+     */
+    RANDOM = 3,
+    /**
+     * Consistent hashing on an attribute
+     *
+     * @generated from protobuf enum value: LOAD_BALANCING_POLICY_RING_HASH = 4;
+     */
+    RING_HASH = 4,
+    /**
+     * Select backend with fewest active requests
+     *
+     * @generated from protobuf enum value: LOAD_BALANCING_POLICY_LEAST_REQUEST = 5;
+     */
+    LEAST_REQUEST = 5
+}
 // @generated message type with reflection information, may provide speed optimized methods
 class RouteRewriteHeader$Type extends MessageType<RouteRewriteHeader> {
     constructor() {
@@ -586,6 +739,60 @@ class RouteDirectResponse$Type extends MessageType<RouteDirectResponse> {
  */
 export const RouteDirectResponse = new RouteDirectResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class JwtGroupsFilter$Type extends MessageType<JwtGroupsFilter> {
+    constructor() {
+        super("pomerium.dashboard.JwtGroupsFilter", [
+            { no: 1, name: "groups", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "infer_from_ppl", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ }
+        ]);
+    }
+    create(value?: PartialMessage<JwtGroupsFilter>): JwtGroupsFilter {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.groups = [];
+        if (value !== undefined)
+            reflectionMergePartial<JwtGroupsFilter>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: JwtGroupsFilter): JwtGroupsFilter {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* repeated string groups */ 1:
+                    message.groups.push(reader.string());
+                    break;
+                case /* optional bool infer_from_ppl */ 2:
+                    message.inferFromPpl = reader.bool();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: JwtGroupsFilter, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* repeated string groups = 1; */
+        for (let i = 0; i < message.groups.length; i++)
+            writer.tag(1, WireType.LengthDelimited).string(message.groups[i]);
+        /* optional bool infer_from_ppl = 2; */
+        if (message.inferFromPpl !== undefined)
+            writer.tag(2, WireType.Varint).bool(message.inferFromPpl);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.JwtGroupsFilter
+ */
+export const JwtGroupsFilter = new JwtGroupsFilter$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class Route$Type extends MessageType<Route> {
     constructor() {
         super("pomerium.dashboard.Route", [
@@ -595,10 +802,12 @@ class Route$Type extends MessageType<Route> {
             { no: 3, name: "modified_at", kind: "message", T: () => Timestamp },
             { no: 4, name: "deleted_at", kind: "message", T: () => Timestamp },
             { no: 5, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 65, name: "description", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 66, name: "logo_url", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 47, name: "stat_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 6, name: "from", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 7, name: "to", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
-            { no: 40, name: "redirect", kind: "message", T: () => RedirectAction },
+            { no: 67, name: "redirect", kind: "message", T: () => RedirectAction },
             { no: 59, name: "response", kind: "message", T: () => RouteDirectResponse },
             { no: 8, name: "prefix", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 9, name: "path", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
@@ -629,15 +838,23 @@ class Route$Type extends MessageType<Route> {
             { no: 25, name: "preserve_host_header", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ },
             { no: 26, name: "pass_identity_headers", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ },
             { no: 27, name: "kubernetes_service_account_token", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
-            { no: 39, name: "envoy_opts", kind: "message", T: () => Cluster },
+            { no: 60, name: "kubernetes_service_account_token_file", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 46, name: "enable_google_cloud_serverless_authentication", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 61, name: "jwt_issuer_format", kind: "enum", T: () => ["pomerium.dashboard.IssuerFormat", IssuerFormat] },
+            { no: 68, name: "bearer_token_format", kind: "enum", opt: true, T: () => ["pomerium.dashboard.BearerTokenFormat", BearerTokenFormat, "BEARER_TOKEN_FORMAT_"] },
+            { no: 62, name: "jwt_groups_filter", kind: "message", T: () => JwtGroupsFilter },
             { no: 57, name: "idp_client_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 58, name: "idp_client_secret", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 53, name: "show_error_details", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 54, name: "originator_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 28, name: "policy_ids", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
             { no: 34, name: "policy_names", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
-            { no: 35, name: "namespace_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 35, name: "namespace_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 63, name: "enforced_policy_ids", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
+            { no: 64, name: "enforced_policy_names", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
+            { no: 69, name: "idp_access_token_allowed_audiences", kind: "message", T: () => Route_StringList },
+            { no: 70, name: "load_balancing_policy", kind: "enum", opt: true, T: () => ["pomerium.dashboard.LoadBalancingPolicy", LoadBalancingPolicy, "LOAD_BALANCING_POLICY_"], options: { "validate.rules": { enum: { definedOnly: true } } } },
+            { no: 71, name: "health_checks", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => HealthCheck }
         ]);
     }
     create(value?: PartialMessage<Route>): Route {
@@ -653,11 +870,15 @@ class Route$Type extends MessageType<Route> {
         message.setResponseHeaders = {};
         message.rewriteResponseHeaders = [];
         message.enableGoogleCloudServerlessAuthentication = false;
+        message.jwtIssuerFormat = 0;
         message.showErrorDetails = false;
         message.originatorId = "";
         message.policyIds = [];
         message.policyNames = [];
         message.namespaceName = "";
+        message.enforcedPolicyIds = [];
+        message.enforcedPolicyNames = [];
+        message.healthChecks = [];
         if (value !== undefined)
             reflectionMergePartial<Route>(this, message, value);
         return message;
@@ -685,6 +906,12 @@ class Route$Type extends MessageType<Route> {
                 case /* string name */ 5:
                     message.name = reader.string();
                     break;
+                case /* optional string description */ 65:
+                    message.description = reader.string();
+                    break;
+                case /* optional string logo_url */ 66:
+                    message.logoUrl = reader.string();
+                    break;
                 case /* string stat_name */ 47:
                     message.statName = reader.string();
                     break;
@@ -694,7 +921,7 @@ class Route$Type extends MessageType<Route> {
                 case /* repeated string to */ 7:
                     message.to.push(reader.string());
                     break;
-                case /* envoy.config.route.v3.RedirectAction redirect */ 40:
+                case /* pomerium.dashboard.RedirectAction redirect */ 67:
                     message.redirect = RedirectAction.internalBinaryRead(reader, reader.uint32(), options, message.redirect);
                     break;
                 case /* pomerium.dashboard.RouteDirectResponse response */ 59:
@@ -787,11 +1014,20 @@ class Route$Type extends MessageType<Route> {
                 case /* optional string kubernetes_service_account_token */ 27:
                     message.kubernetesServiceAccountToken = reader.string();
                     break;
-                case /* envoy.config.cluster.v3.Cluster envoy_opts */ 39:
-                    message.envoyOpts = Cluster.internalBinaryRead(reader, reader.uint32(), options, message.envoyOpts);
+                case /* optional string kubernetes_service_account_token_file */ 60:
+                    message.kubernetesServiceAccountTokenFile = reader.string();
                     break;
                 case /* bool enable_google_cloud_serverless_authentication */ 46:
                     message.enableGoogleCloudServerlessAuthentication = reader.bool();
+                    break;
+                case /* pomerium.dashboard.IssuerFormat jwt_issuer_format */ 61:
+                    message.jwtIssuerFormat = reader.int32();
+                    break;
+                case /* optional pomerium.dashboard.BearerTokenFormat bearer_token_format */ 68:
+                    message.bearerTokenFormat = reader.int32();
+                    break;
+                case /* pomerium.dashboard.JwtGroupsFilter jwt_groups_filter */ 62:
+                    message.jwtGroupsFilter = JwtGroupsFilter.internalBinaryRead(reader, reader.uint32(), options, message.jwtGroupsFilter);
                     break;
                 case /* optional string idp_client_id */ 57:
                     message.idpClientId = reader.string();
@@ -813,6 +1049,21 @@ class Route$Type extends MessageType<Route> {
                     break;
                 case /* string namespace_name */ 35:
                     message.namespaceName = reader.string();
+                    break;
+                case /* repeated string enforced_policy_ids */ 63:
+                    message.enforcedPolicyIds.push(reader.string());
+                    break;
+                case /* repeated string enforced_policy_names */ 64:
+                    message.enforcedPolicyNames.push(reader.string());
+                    break;
+                case /* optional pomerium.dashboard.Route.StringList idp_access_token_allowed_audiences */ 69:
+                    message.idpAccessTokenAllowedAudiences = Route_StringList.internalBinaryRead(reader, reader.uint32(), options, message.idpAccessTokenAllowedAudiences);
+                    break;
+                case /* optional pomerium.dashboard.LoadBalancingPolicy load_balancing_policy */ 70:
+                    message.loadBalancingPolicy = reader.int32();
+                    break;
+                case /* repeated pomerium.dashboard.HealthCheck health_checks */ 71:
+                    message.healthChecks.push(HealthCheck.internalBinaryRead(reader, reader.uint32(), options));
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -876,6 +1127,12 @@ class Route$Type extends MessageType<Route> {
         /* string name = 5; */
         if (message.name !== "")
             writer.tag(5, WireType.LengthDelimited).string(message.name);
+        /* optional string description = 65; */
+        if (message.description !== undefined)
+            writer.tag(65, WireType.LengthDelimited).string(message.description);
+        /* optional string logo_url = 66; */
+        if (message.logoUrl !== undefined)
+            writer.tag(66, WireType.LengthDelimited).string(message.logoUrl);
         /* string stat_name = 47; */
         if (message.statName !== "")
             writer.tag(47, WireType.LengthDelimited).string(message.statName);
@@ -885,9 +1142,9 @@ class Route$Type extends MessageType<Route> {
         /* repeated string to = 7; */
         for (let i = 0; i < message.to.length; i++)
             writer.tag(7, WireType.LengthDelimited).string(message.to[i]);
-        /* envoy.config.route.v3.RedirectAction redirect = 40; */
+        /* pomerium.dashboard.RedirectAction redirect = 67; */
         if (message.redirect)
-            RedirectAction.internalBinaryWrite(message.redirect, writer.tag(40, WireType.LengthDelimited).fork(), options).join();
+            RedirectAction.internalBinaryWrite(message.redirect, writer.tag(67, WireType.LengthDelimited).fork(), options).join();
         /* pomerium.dashboard.RouteDirectResponse response = 59; */
         if (message.response)
             RouteDirectResponse.internalBinaryWrite(message.response, writer.tag(59, WireType.LengthDelimited).fork(), options).join();
@@ -978,12 +1235,21 @@ class Route$Type extends MessageType<Route> {
         /* optional string kubernetes_service_account_token = 27; */
         if (message.kubernetesServiceAccountToken !== undefined)
             writer.tag(27, WireType.LengthDelimited).string(message.kubernetesServiceAccountToken);
-        /* envoy.config.cluster.v3.Cluster envoy_opts = 39; */
-        if (message.envoyOpts)
-            Cluster.internalBinaryWrite(message.envoyOpts, writer.tag(39, WireType.LengthDelimited).fork(), options).join();
+        /* optional string kubernetes_service_account_token_file = 60; */
+        if (message.kubernetesServiceAccountTokenFile !== undefined)
+            writer.tag(60, WireType.LengthDelimited).string(message.kubernetesServiceAccountTokenFile);
         /* bool enable_google_cloud_serverless_authentication = 46; */
         if (message.enableGoogleCloudServerlessAuthentication !== false)
             writer.tag(46, WireType.Varint).bool(message.enableGoogleCloudServerlessAuthentication);
+        /* pomerium.dashboard.IssuerFormat jwt_issuer_format = 61; */
+        if (message.jwtIssuerFormat !== 0)
+            writer.tag(61, WireType.Varint).int32(message.jwtIssuerFormat);
+        /* optional pomerium.dashboard.BearerTokenFormat bearer_token_format = 68; */
+        if (message.bearerTokenFormat !== undefined)
+            writer.tag(68, WireType.Varint).int32(message.bearerTokenFormat);
+        /* pomerium.dashboard.JwtGroupsFilter jwt_groups_filter = 62; */
+        if (message.jwtGroupsFilter)
+            JwtGroupsFilter.internalBinaryWrite(message.jwtGroupsFilter, writer.tag(62, WireType.LengthDelimited).fork(), options).join();
         /* optional string idp_client_id = 57; */
         if (message.idpClientId !== undefined)
             writer.tag(57, WireType.LengthDelimited).string(message.idpClientId);
@@ -1005,6 +1271,21 @@ class Route$Type extends MessageType<Route> {
         /* string namespace_name = 35; */
         if (message.namespaceName !== "")
             writer.tag(35, WireType.LengthDelimited).string(message.namespaceName);
+        /* repeated string enforced_policy_ids = 63; */
+        for (let i = 0; i < message.enforcedPolicyIds.length; i++)
+            writer.tag(63, WireType.LengthDelimited).string(message.enforcedPolicyIds[i]);
+        /* repeated string enforced_policy_names = 64; */
+        for (let i = 0; i < message.enforcedPolicyNames.length; i++)
+            writer.tag(64, WireType.LengthDelimited).string(message.enforcedPolicyNames[i]);
+        /* optional pomerium.dashboard.Route.StringList idp_access_token_allowed_audiences = 69; */
+        if (message.idpAccessTokenAllowedAudiences)
+            Route_StringList.internalBinaryWrite(message.idpAccessTokenAllowedAudiences, writer.tag(69, WireType.LengthDelimited).fork(), options).join();
+        /* optional pomerium.dashboard.LoadBalancingPolicy load_balancing_policy = 70; */
+        if (message.loadBalancingPolicy !== undefined)
+            writer.tag(70, WireType.Varint).int32(message.loadBalancingPolicy);
+        /* repeated pomerium.dashboard.HealthCheck health_checks = 71; */
+        for (let i = 0; i < message.healthChecks.length; i++)
+            HealthCheck.internalBinaryWrite(message.healthChecks[i], writer.tag(71, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -1015,6 +1296,53 @@ class Route$Type extends MessageType<Route> {
  * @generated MessageType for protobuf message pomerium.dashboard.Route
  */
 export const Route = new Route$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class Route_StringList$Type extends MessageType<Route_StringList> {
+    constructor() {
+        super("pomerium.dashboard.Route.StringList", [
+            { no: 1, name: "values", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<Route_StringList>): Route_StringList {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.values = [];
+        if (value !== undefined)
+            reflectionMergePartial<Route_StringList>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: Route_StringList): Route_StringList {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* repeated string values */ 1:
+                    message.values.push(reader.string());
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: Route_StringList, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* repeated string values = 1; */
+        for (let i = 0; i < message.values.length; i++)
+            writer.tag(1, WireType.LengthDelimited).string(message.values[i]);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.Route.StringList
+ */
+export const Route_StringList = new Route_StringList$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class RouteWithPolicies$Type extends MessageType<RouteWithPolicies> {
     constructor() {
