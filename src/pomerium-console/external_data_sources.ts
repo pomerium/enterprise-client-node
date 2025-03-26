@@ -23,6 +23,10 @@ export interface ExternalDataSource {
      */
     id: string;
     /**
+     * @generated from protobuf field: string originator_id = 13;
+     */
+    originatorId: string;
+    /**
      * @generated from protobuf field: google.protobuf.Timestamp created_at = 2;
      */
     createdAt?: Timestamp;
@@ -35,7 +39,7 @@ export interface ExternalDataSource {
      */
     deletedAt?: Timestamp;
     /**
-     * Url is th URL to query for data.
+     * Url is the URL to query for data.
      *
      * @generated from protobuf field: string url = 5;
      */
@@ -181,6 +185,7 @@ class ExternalDataSource$Type extends MessageType<ExternalDataSource> {
     constructor() {
         super("pomerium.dashboard.ExternalDataSource", [
             { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 13, name: "originator_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "created_at", kind: "message", T: () => Timestamp },
             { no: 3, name: "modified_at", kind: "message", T: () => Timestamp },
             { no: 4, name: "deleted_at", kind: "message", T: () => Timestamp },
@@ -197,6 +202,7 @@ class ExternalDataSource$Type extends MessageType<ExternalDataSource> {
     create(value?: PartialMessage<ExternalDataSource>): ExternalDataSource {
         const message = globalThis.Object.create((this.messagePrototype!));
         message.id = "";
+        message.originatorId = "";
         message.url = "";
         message.recordType = "";
         message.foreignKey = "";
@@ -212,6 +218,9 @@ class ExternalDataSource$Type extends MessageType<ExternalDataSource> {
             switch (fieldNo) {
                 case /* string id */ 1:
                     message.id = reader.string();
+                    break;
+                case /* string originator_id */ 13:
+                    message.originatorId = reader.string();
                     break;
                 case /* google.protobuf.Timestamp created_at */ 2:
                     message.createdAt = Timestamp.internalBinaryRead(reader, reader.uint32(), options, message.createdAt);
@@ -277,6 +286,9 @@ class ExternalDataSource$Type extends MessageType<ExternalDataSource> {
         /* string id = 1; */
         if (message.id !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.id);
+        /* string originator_id = 13; */
+        if (message.originatorId !== "")
+            writer.tag(13, WireType.LengthDelimited).string(message.originatorId);
         /* google.protobuf.Timestamp created_at = 2; */
         if (message.createdAt)
             Timestamp.internalBinaryWrite(message.createdAt, writer.tag(2, WireType.LengthDelimited).fork(), options).join();

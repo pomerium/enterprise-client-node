@@ -11,7 +11,9 @@ import { UnknownFieldHandler } from "@protobuf-ts/runtime";
 import type { PartialMessage } from "@protobuf-ts/runtime";
 import { reflectionMergePartial } from "@protobuf-ts/runtime";
 import { MessageType } from "@protobuf-ts/runtime";
+import { BearerTokenFormat } from "./routes";
 import { Struct } from "./google/protobuf/struct";
+import { JwtGroupsFilter } from "./routes";
 import { Duration } from "./google/protobuf/duration";
 import { Timestamp } from "./google/protobuf/timestamp";
 /**
@@ -22,10 +24,14 @@ export interface ConsoleSettings {
      * @generated from protobuf field: bool enable_feedback_widget = 1;
      */
     enableFeedbackWidget: boolean;
+    /**
+     * @generated from protobuf field: bool use_changesets = 2;
+     */
+    useChangesets: boolean;
 }
 /**
  * Settings defines the global pomerium settings
- * Next id: 85.
+ * Next id: 106.
  *
  * @generated from protobuf message pomerium.dashboard.Settings
  */
@@ -189,6 +195,10 @@ export interface Settings {
         [key: string]: string;
     };
     /**
+     * @generated from protobuf field: pomerium.dashboard.JwtGroupsFilter jwt_groups_filter = 87;
+     */
+    jwtGroupsFilter?: JwtGroupsFilter;
+    /**
      * @generated from protobuf field: optional google.protobuf.Duration default_upstream_timeout = 39;
      */
     defaultUpstreamTimeout?: Duration;
@@ -197,29 +207,65 @@ export interface Settings {
      */
     metricsAddress?: string;
     /**
-     * @generated from protobuf field: optional string tracing_provider = 41;
+     * @generated from protobuf field: optional string otel_traces_exporter = 88;
      */
-    tracingProvider?: string;
+    otelTracesExporter?: string;
     /**
-     * @generated from protobuf field: optional double tracing_sample_rate = 42;
+     * @generated from protobuf field: optional double otel_traces_sampler_arg = 89;
      */
-    tracingSampleRate?: number;
+    otelTracesSamplerArg?: number;
     /**
-     * @generated from protobuf field: optional string tracing_datadog_address = 81;
+     * @generated from protobuf field: repeated string otel_resource_attributes = 90;
      */
-    tracingDatadogAddress?: string;
+    otelResourceAttributes: string[];
     /**
-     * @generated from protobuf field: optional string tracing_jaeger_collector_endpoint = 43;
+     * @generated from protobuf field: optional string otel_log_level = 91;
      */
-    tracingJaegerCollectorEndpoint?: string;
+    otelLogLevel?: string;
     /**
-     * @generated from protobuf field: optional string tracing_jaeger_agent_endpoint = 44;
+     * @generated from protobuf field: optional int32 otel_attribute_value_length_limit = 92;
      */
-    tracingJaegerAgentEndpoint?: string;
+    otelAttributeValueLengthLimit?: number;
     /**
-     * @generated from protobuf field: optional string tracing_zipkin_endpoint = 45;
+     * @generated from protobuf field: optional string otel_exporter_otlp_endpoint = 93;
      */
-    tracingZipkinEndpoint?: string;
+    otelExporterOtlpEndpoint?: string;
+    /**
+     * @generated from protobuf field: optional string otel_exporter_otlp_traces_endpoint = 94;
+     */
+    otelExporterOtlpTracesEndpoint?: string;
+    /**
+     * @generated from protobuf field: optional string otel_exporter_otlp_protocol = 95;
+     */
+    otelExporterOtlpProtocol?: string;
+    /**
+     * @generated from protobuf field: optional string otel_exporter_otlp_traces_protocol = 96;
+     */
+    otelExporterOtlpTracesProtocol?: string;
+    /**
+     * @generated from protobuf field: repeated string otel_exporter_otlp_headers = 97;
+     */
+    otelExporterOtlpHeaders: string[];
+    /**
+     * @generated from protobuf field: repeated string otel_exporter_otlp_traces_headers = 98;
+     */
+    otelExporterOtlpTracesHeaders: string[];
+    /**
+     * @generated from protobuf field: optional google.protobuf.Duration otel_exporter_otlp_timeout = 99;
+     */
+    otelExporterOtlpTimeout?: Duration;
+    /**
+     * @generated from protobuf field: optional google.protobuf.Duration otel_exporter_otlp_traces_timeout = 100;
+     */
+    otelExporterOtlpTracesTimeout?: Duration;
+    /**
+     * @generated from protobuf field: optional google.protobuf.Duration otel_bsp_schedule_delay = 101;
+     */
+    otelBspScheduleDelay?: Duration;
+    /**
+     * @generated from protobuf field: optional int32 otel_bsp_max_export_batch_size = 102;
+     */
+    otelBspMaxExportBatchSize?: number;
     /**
      * @generated from protobuf field: optional string grpc_address = 46;
      */
@@ -328,6 +374,18 @@ export interface Settings {
      * @generated from protobuf field: optional bool pass_identity_headers = 84;
      */
     passIdentityHeaders?: boolean;
+    /**
+     * @generated from protobuf field: string originator_id = 103;
+     */
+    originatorId: string;
+    /**
+     * @generated from protobuf field: optional pomerium.dashboard.BearerTokenFormat bearer_token_format = 104;
+     */
+    bearerTokenFormat?: BearerTokenFormat;
+    /**
+     * @generated from protobuf field: optional pomerium.dashboard.Settings.StringList idp_access_token_allowed_audiences = 105;
+     */
+    idpAccessTokenAllowedAudiences?: Settings_StringList;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.Settings.Certificate
@@ -405,12 +463,14 @@ export interface SetSettingsResponse {
 class ConsoleSettings$Type extends MessageType<ConsoleSettings> {
     constructor() {
         super("pomerium.dashboard.ConsoleSettings", [
-            { no: 1, name: "enable_feedback_widget", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+            { no: 1, name: "enable_feedback_widget", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 2, name: "use_changesets", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
     create(value?: PartialMessage<ConsoleSettings>): ConsoleSettings {
         const message = globalThis.Object.create((this.messagePrototype!));
         message.enableFeedbackWidget = false;
+        message.useChangesets = false;
         if (value !== undefined)
             reflectionMergePartial<ConsoleSettings>(this, message, value);
         return message;
@@ -422,6 +482,9 @@ class ConsoleSettings$Type extends MessageType<ConsoleSettings> {
             switch (fieldNo) {
                 case /* bool enable_feedback_widget */ 1:
                     message.enableFeedbackWidget = reader.bool();
+                    break;
+                case /* bool use_changesets */ 2:
+                    message.useChangesets = reader.bool();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -438,6 +501,9 @@ class ConsoleSettings$Type extends MessageType<ConsoleSettings> {
         /* bool enable_feedback_widget = 1; */
         if (message.enableFeedbackWidget !== false)
             writer.tag(1, WireType.Varint).bool(message.enableFeedbackWidget);
+        /* bool use_changesets = 2; */
+        if (message.useChangesets !== false)
+            writer.tag(2, WireType.Varint).bool(message.useChangesets);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -490,14 +556,24 @@ class Settings$Type extends MessageType<Settings> {
             { no: 64, name: "certificate_authority_key_pair_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 67, name: "set_response_headers", kind: "map", K: 9 /*ScalarType.STRING*/, V: { kind: "scalar", T: 9 /*ScalarType.STRING*/ } },
             { no: 66, name: "jwt_claims_headers", kind: "map", K: 9 /*ScalarType.STRING*/, V: { kind: "scalar", T: 9 /*ScalarType.STRING*/ } },
+            { no: 87, name: "jwt_groups_filter", kind: "message", T: () => JwtGroupsFilter },
             { no: 39, name: "default_upstream_timeout", kind: "message", T: () => Duration },
             { no: 40, name: "metrics_address", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
-            { no: 41, name: "tracing_provider", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
-            { no: 42, name: "tracing_sample_rate", kind: "scalar", opt: true, T: 1 /*ScalarType.DOUBLE*/ },
-            { no: 81, name: "tracing_datadog_address", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
-            { no: 43, name: "tracing_jaeger_collector_endpoint", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
-            { no: 44, name: "tracing_jaeger_agent_endpoint", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
-            { no: 45, name: "tracing_zipkin_endpoint", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 88, name: "otel_traces_exporter", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 89, name: "otel_traces_sampler_arg", kind: "scalar", opt: true, T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 90, name: "otel_resource_attributes", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
+            { no: 91, name: "otel_log_level", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 92, name: "otel_attribute_value_length_limit", kind: "scalar", opt: true, T: 5 /*ScalarType.INT32*/ },
+            { no: 93, name: "otel_exporter_otlp_endpoint", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 94, name: "otel_exporter_otlp_traces_endpoint", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 95, name: "otel_exporter_otlp_protocol", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 96, name: "otel_exporter_otlp_traces_protocol", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 97, name: "otel_exporter_otlp_headers", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
+            { no: 98, name: "otel_exporter_otlp_traces_headers", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
+            { no: 99, name: "otel_exporter_otlp_timeout", kind: "message", T: () => Duration },
+            { no: 100, name: "otel_exporter_otlp_traces_timeout", kind: "message", T: () => Duration },
+            { no: 101, name: "otel_bsp_schedule_delay", kind: "message", T: () => Duration },
+            { no: 102, name: "otel_bsp_max_export_batch_size", kind: "scalar", opt: true, T: 5 /*ScalarType.INT32*/ },
             { no: 46, name: "grpc_address", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 47, name: "grpc_insecure", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ },
             { no: 51, name: "cache_service_url", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
@@ -524,7 +600,10 @@ class Settings$Type extends MessageType<Settings> {
             { no: 79, name: "identity_provider_refresh_timeout", kind: "message", T: () => Duration },
             { no: 82, name: "access_log_fields", kind: "message", T: () => Settings_StringList },
             { no: 83, name: "authorize_log_fields", kind: "message", T: () => Settings_StringList },
-            { no: 84, name: "pass_identity_headers", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ }
+            { no: 84, name: "pass_identity_headers", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ },
+            { no: 103, name: "originator_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 104, name: "bearer_token_format", kind: "enum", opt: true, T: () => ["pomerium.dashboard.BearerTokenFormat", BearerTokenFormat, "BEARER_TOKEN_FORMAT_"] },
+            { no: 105, name: "idp_access_token_allowed_audiences", kind: "message", T: () => Settings_StringList }
         ]);
     }
     create(value?: PartialMessage<Settings>): Settings {
@@ -534,6 +613,10 @@ class Settings$Type extends MessageType<Settings> {
         message.requestParams = {};
         message.setResponseHeaders = {};
         message.jwtClaimsHeaders = {};
+        message.otelResourceAttributes = [];
+        message.otelExporterOtlpHeaders = [];
+        message.otelExporterOtlpTracesHeaders = [];
+        message.originatorId = "";
         if (value !== undefined)
             reflectionMergePartial<Settings>(this, message, value);
         return message;
@@ -657,29 +740,59 @@ class Settings$Type extends MessageType<Settings> {
                 case /* map<string, string> jwt_claims_headers */ 66:
                     this.binaryReadMap66(message.jwtClaimsHeaders, reader, options);
                     break;
+                case /* pomerium.dashboard.JwtGroupsFilter jwt_groups_filter */ 87:
+                    message.jwtGroupsFilter = JwtGroupsFilter.internalBinaryRead(reader, reader.uint32(), options, message.jwtGroupsFilter);
+                    break;
                 case /* optional google.protobuf.Duration default_upstream_timeout */ 39:
                     message.defaultUpstreamTimeout = Duration.internalBinaryRead(reader, reader.uint32(), options, message.defaultUpstreamTimeout);
                     break;
                 case /* optional string metrics_address */ 40:
                     message.metricsAddress = reader.string();
                     break;
-                case /* optional string tracing_provider */ 41:
-                    message.tracingProvider = reader.string();
+                case /* optional string otel_traces_exporter */ 88:
+                    message.otelTracesExporter = reader.string();
                     break;
-                case /* optional double tracing_sample_rate */ 42:
-                    message.tracingSampleRate = reader.double();
+                case /* optional double otel_traces_sampler_arg */ 89:
+                    message.otelTracesSamplerArg = reader.double();
                     break;
-                case /* optional string tracing_datadog_address */ 81:
-                    message.tracingDatadogAddress = reader.string();
+                case /* repeated string otel_resource_attributes */ 90:
+                    message.otelResourceAttributes.push(reader.string());
                     break;
-                case /* optional string tracing_jaeger_collector_endpoint */ 43:
-                    message.tracingJaegerCollectorEndpoint = reader.string();
+                case /* optional string otel_log_level */ 91:
+                    message.otelLogLevel = reader.string();
                     break;
-                case /* optional string tracing_jaeger_agent_endpoint */ 44:
-                    message.tracingJaegerAgentEndpoint = reader.string();
+                case /* optional int32 otel_attribute_value_length_limit */ 92:
+                    message.otelAttributeValueLengthLimit = reader.int32();
                     break;
-                case /* optional string tracing_zipkin_endpoint */ 45:
-                    message.tracingZipkinEndpoint = reader.string();
+                case /* optional string otel_exporter_otlp_endpoint */ 93:
+                    message.otelExporterOtlpEndpoint = reader.string();
+                    break;
+                case /* optional string otel_exporter_otlp_traces_endpoint */ 94:
+                    message.otelExporterOtlpTracesEndpoint = reader.string();
+                    break;
+                case /* optional string otel_exporter_otlp_protocol */ 95:
+                    message.otelExporterOtlpProtocol = reader.string();
+                    break;
+                case /* optional string otel_exporter_otlp_traces_protocol */ 96:
+                    message.otelExporterOtlpTracesProtocol = reader.string();
+                    break;
+                case /* repeated string otel_exporter_otlp_headers */ 97:
+                    message.otelExporterOtlpHeaders.push(reader.string());
+                    break;
+                case /* repeated string otel_exporter_otlp_traces_headers */ 98:
+                    message.otelExporterOtlpTracesHeaders.push(reader.string());
+                    break;
+                case /* optional google.protobuf.Duration otel_exporter_otlp_timeout */ 99:
+                    message.otelExporterOtlpTimeout = Duration.internalBinaryRead(reader, reader.uint32(), options, message.otelExporterOtlpTimeout);
+                    break;
+                case /* optional google.protobuf.Duration otel_exporter_otlp_traces_timeout */ 100:
+                    message.otelExporterOtlpTracesTimeout = Duration.internalBinaryRead(reader, reader.uint32(), options, message.otelExporterOtlpTracesTimeout);
+                    break;
+                case /* optional google.protobuf.Duration otel_bsp_schedule_delay */ 101:
+                    message.otelBspScheduleDelay = Duration.internalBinaryRead(reader, reader.uint32(), options, message.otelBspScheduleDelay);
+                    break;
+                case /* optional int32 otel_bsp_max_export_batch_size */ 102:
+                    message.otelBspMaxExportBatchSize = reader.int32();
                     break;
                 case /* optional string grpc_address */ 46:
                     message.grpcAddress = reader.string();
@@ -761,6 +874,15 @@ class Settings$Type extends MessageType<Settings> {
                     break;
                 case /* optional bool pass_identity_headers */ 84:
                     message.passIdentityHeaders = reader.bool();
+                    break;
+                case /* string originator_id */ 103:
+                    message.originatorId = reader.string();
+                    break;
+                case /* optional pomerium.dashboard.BearerTokenFormat bearer_token_format */ 104:
+                    message.bearerTokenFormat = reader.int32();
+                    break;
+                case /* optional pomerium.dashboard.Settings.StringList idp_access_token_allowed_audiences */ 105:
+                    message.idpAccessTokenAllowedAudiences = Settings_StringList.internalBinaryRead(reader, reader.uint32(), options, message.idpAccessTokenAllowedAudiences);
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -936,30 +1058,60 @@ class Settings$Type extends MessageType<Settings> {
         /* map<string, string> jwt_claims_headers = 66; */
         for (let k of globalThis.Object.keys(message.jwtClaimsHeaders))
             writer.tag(66, WireType.LengthDelimited).fork().tag(1, WireType.LengthDelimited).string(k).tag(2, WireType.LengthDelimited).string(message.jwtClaimsHeaders[k]).join();
+        /* pomerium.dashboard.JwtGroupsFilter jwt_groups_filter = 87; */
+        if (message.jwtGroupsFilter)
+            JwtGroupsFilter.internalBinaryWrite(message.jwtGroupsFilter, writer.tag(87, WireType.LengthDelimited).fork(), options).join();
         /* optional google.protobuf.Duration default_upstream_timeout = 39; */
         if (message.defaultUpstreamTimeout)
             Duration.internalBinaryWrite(message.defaultUpstreamTimeout, writer.tag(39, WireType.LengthDelimited).fork(), options).join();
         /* optional string metrics_address = 40; */
         if (message.metricsAddress !== undefined)
             writer.tag(40, WireType.LengthDelimited).string(message.metricsAddress);
-        /* optional string tracing_provider = 41; */
-        if (message.tracingProvider !== undefined)
-            writer.tag(41, WireType.LengthDelimited).string(message.tracingProvider);
-        /* optional double tracing_sample_rate = 42; */
-        if (message.tracingSampleRate !== undefined)
-            writer.tag(42, WireType.Bit64).double(message.tracingSampleRate);
-        /* optional string tracing_datadog_address = 81; */
-        if (message.tracingDatadogAddress !== undefined)
-            writer.tag(81, WireType.LengthDelimited).string(message.tracingDatadogAddress);
-        /* optional string tracing_jaeger_collector_endpoint = 43; */
-        if (message.tracingJaegerCollectorEndpoint !== undefined)
-            writer.tag(43, WireType.LengthDelimited).string(message.tracingJaegerCollectorEndpoint);
-        /* optional string tracing_jaeger_agent_endpoint = 44; */
-        if (message.tracingJaegerAgentEndpoint !== undefined)
-            writer.tag(44, WireType.LengthDelimited).string(message.tracingJaegerAgentEndpoint);
-        /* optional string tracing_zipkin_endpoint = 45; */
-        if (message.tracingZipkinEndpoint !== undefined)
-            writer.tag(45, WireType.LengthDelimited).string(message.tracingZipkinEndpoint);
+        /* optional string otel_traces_exporter = 88; */
+        if (message.otelTracesExporter !== undefined)
+            writer.tag(88, WireType.LengthDelimited).string(message.otelTracesExporter);
+        /* optional double otel_traces_sampler_arg = 89; */
+        if (message.otelTracesSamplerArg !== undefined)
+            writer.tag(89, WireType.Bit64).double(message.otelTracesSamplerArg);
+        /* repeated string otel_resource_attributes = 90; */
+        for (let i = 0; i < message.otelResourceAttributes.length; i++)
+            writer.tag(90, WireType.LengthDelimited).string(message.otelResourceAttributes[i]);
+        /* optional string otel_log_level = 91; */
+        if (message.otelLogLevel !== undefined)
+            writer.tag(91, WireType.LengthDelimited).string(message.otelLogLevel);
+        /* optional int32 otel_attribute_value_length_limit = 92; */
+        if (message.otelAttributeValueLengthLimit !== undefined)
+            writer.tag(92, WireType.Varint).int32(message.otelAttributeValueLengthLimit);
+        /* optional string otel_exporter_otlp_endpoint = 93; */
+        if (message.otelExporterOtlpEndpoint !== undefined)
+            writer.tag(93, WireType.LengthDelimited).string(message.otelExporterOtlpEndpoint);
+        /* optional string otel_exporter_otlp_traces_endpoint = 94; */
+        if (message.otelExporterOtlpTracesEndpoint !== undefined)
+            writer.tag(94, WireType.LengthDelimited).string(message.otelExporterOtlpTracesEndpoint);
+        /* optional string otel_exporter_otlp_protocol = 95; */
+        if (message.otelExporterOtlpProtocol !== undefined)
+            writer.tag(95, WireType.LengthDelimited).string(message.otelExporterOtlpProtocol);
+        /* optional string otel_exporter_otlp_traces_protocol = 96; */
+        if (message.otelExporterOtlpTracesProtocol !== undefined)
+            writer.tag(96, WireType.LengthDelimited).string(message.otelExporterOtlpTracesProtocol);
+        /* repeated string otel_exporter_otlp_headers = 97; */
+        for (let i = 0; i < message.otelExporterOtlpHeaders.length; i++)
+            writer.tag(97, WireType.LengthDelimited).string(message.otelExporterOtlpHeaders[i]);
+        /* repeated string otel_exporter_otlp_traces_headers = 98; */
+        for (let i = 0; i < message.otelExporterOtlpTracesHeaders.length; i++)
+            writer.tag(98, WireType.LengthDelimited).string(message.otelExporterOtlpTracesHeaders[i]);
+        /* optional google.protobuf.Duration otel_exporter_otlp_timeout = 99; */
+        if (message.otelExporterOtlpTimeout)
+            Duration.internalBinaryWrite(message.otelExporterOtlpTimeout, writer.tag(99, WireType.LengthDelimited).fork(), options).join();
+        /* optional google.protobuf.Duration otel_exporter_otlp_traces_timeout = 100; */
+        if (message.otelExporterOtlpTracesTimeout)
+            Duration.internalBinaryWrite(message.otelExporterOtlpTracesTimeout, writer.tag(100, WireType.LengthDelimited).fork(), options).join();
+        /* optional google.protobuf.Duration otel_bsp_schedule_delay = 101; */
+        if (message.otelBspScheduleDelay)
+            Duration.internalBinaryWrite(message.otelBspScheduleDelay, writer.tag(101, WireType.LengthDelimited).fork(), options).join();
+        /* optional int32 otel_bsp_max_export_batch_size = 102; */
+        if (message.otelBspMaxExportBatchSize !== undefined)
+            writer.tag(102, WireType.Varint).int32(message.otelBspMaxExportBatchSize);
         /* optional string grpc_address = 46; */
         if (message.grpcAddress !== undefined)
             writer.tag(46, WireType.LengthDelimited).string(message.grpcAddress);
@@ -1041,6 +1193,15 @@ class Settings$Type extends MessageType<Settings> {
         /* optional bool pass_identity_headers = 84; */
         if (message.passIdentityHeaders !== undefined)
             writer.tag(84, WireType.Varint).bool(message.passIdentityHeaders);
+        /* string originator_id = 103; */
+        if (message.originatorId !== "")
+            writer.tag(103, WireType.LengthDelimited).string(message.originatorId);
+        /* optional pomerium.dashboard.BearerTokenFormat bearer_token_format = 104; */
+        if (message.bearerTokenFormat !== undefined)
+            writer.tag(104, WireType.Varint).int32(message.bearerTokenFormat);
+        /* optional pomerium.dashboard.Settings.StringList idp_access_token_allowed_audiences = 105; */
+        if (message.idpAccessTokenAllowedAudiences)
+            Settings_StringList.internalBinaryWrite(message.idpAccessTokenAllowedAudiences, writer.tag(105, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
