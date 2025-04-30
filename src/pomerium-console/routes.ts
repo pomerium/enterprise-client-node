@@ -73,7 +73,7 @@ export interface JwtGroupsFilter {
 }
 /**
  * Route defines a proxy route's settings and policy associations
- * Next ID: 72
+ * Next ID: 73
  *
  * @generated from protobuf message pomerium.dashboard.Route
  */
@@ -261,9 +261,9 @@ export interface Route {
      */
     enableGoogleCloudServerlessAuthentication: boolean;
     /**
-     * @generated from protobuf field: pomerium.dashboard.IssuerFormat jwt_issuer_format = 61;
+     * @generated from protobuf field: optional pomerium.dashboard.IssuerFormat jwt_issuer_format = 61;
      */
-    jwtIssuerFormat: IssuerFormat;
+    jwtIssuerFormat?: IssuerFormat;
     /**
      * @generated from protobuf field: optional pomerium.dashboard.BearerTokenFormat bearer_token_format = 68;
      */
@@ -294,6 +294,12 @@ export interface Route {
      * @generated from protobuf field: repeated string policy_ids = 28;
      */
     policyIds: string[];
+    /**
+     * multi-route login additional hosts
+     *
+     * @generated from protobuf field: repeated string depends_on = 72;
+     */
+    dependsOn: string[];
     /**
      * computed properties (may be nil)
      *
@@ -434,6 +440,12 @@ export interface ListRoutesRequest {
      * @generated from protobuf field: optional string order_by = 5;
      */
     orderBy?: string;
+    /**
+     * list Routes belonging to the cluster, or the default cluster if not set
+     *
+     * @generated from protobuf field: optional string cluster_id = 6;
+     */
+    clusterId?: string;
 }
 /**
  * ListRoutesResponse is the list of routes found for a ListRoutesRequest
@@ -840,7 +852,7 @@ class Route$Type extends MessageType<Route> {
             { no: 27, name: "kubernetes_service_account_token", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 60, name: "kubernetes_service_account_token_file", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 46, name: "enable_google_cloud_serverless_authentication", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 61, name: "jwt_issuer_format", kind: "enum", T: () => ["pomerium.dashboard.IssuerFormat", IssuerFormat] },
+            { no: 61, name: "jwt_issuer_format", kind: "enum", opt: true, T: () => ["pomerium.dashboard.IssuerFormat", IssuerFormat] },
             { no: 68, name: "bearer_token_format", kind: "enum", opt: true, T: () => ["pomerium.dashboard.BearerTokenFormat", BearerTokenFormat, "BEARER_TOKEN_FORMAT_"] },
             { no: 62, name: "jwt_groups_filter", kind: "message", T: () => JwtGroupsFilter },
             { no: 57, name: "idp_client_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
@@ -848,6 +860,7 @@ class Route$Type extends MessageType<Route> {
             { no: 53, name: "show_error_details", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 54, name: "originator_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 28, name: "policy_ids", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
+            { no: 72, name: "depends_on", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
             { no: 34, name: "policy_names", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
             { no: 35, name: "namespace_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 63, name: "enforced_policy_ids", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
@@ -870,10 +883,10 @@ class Route$Type extends MessageType<Route> {
         message.setResponseHeaders = {};
         message.rewriteResponseHeaders = [];
         message.enableGoogleCloudServerlessAuthentication = false;
-        message.jwtIssuerFormat = 0;
         message.showErrorDetails = false;
         message.originatorId = "";
         message.policyIds = [];
+        message.dependsOn = [];
         message.policyNames = [];
         message.namespaceName = "";
         message.enforcedPolicyIds = [];
@@ -1020,7 +1033,7 @@ class Route$Type extends MessageType<Route> {
                 case /* bool enable_google_cloud_serverless_authentication */ 46:
                     message.enableGoogleCloudServerlessAuthentication = reader.bool();
                     break;
-                case /* pomerium.dashboard.IssuerFormat jwt_issuer_format */ 61:
+                case /* optional pomerium.dashboard.IssuerFormat jwt_issuer_format */ 61:
                     message.jwtIssuerFormat = reader.int32();
                     break;
                 case /* optional pomerium.dashboard.BearerTokenFormat bearer_token_format */ 68:
@@ -1043,6 +1056,9 @@ class Route$Type extends MessageType<Route> {
                     break;
                 case /* repeated string policy_ids */ 28:
                     message.policyIds.push(reader.string());
+                    break;
+                case /* repeated string depends_on */ 72:
+                    message.dependsOn.push(reader.string());
                     break;
                 case /* repeated string policy_names */ 34:
                     message.policyNames.push(reader.string());
@@ -1241,8 +1257,8 @@ class Route$Type extends MessageType<Route> {
         /* bool enable_google_cloud_serverless_authentication = 46; */
         if (message.enableGoogleCloudServerlessAuthentication !== false)
             writer.tag(46, WireType.Varint).bool(message.enableGoogleCloudServerlessAuthentication);
-        /* pomerium.dashboard.IssuerFormat jwt_issuer_format = 61; */
-        if (message.jwtIssuerFormat !== 0)
+        /* optional pomerium.dashboard.IssuerFormat jwt_issuer_format = 61; */
+        if (message.jwtIssuerFormat !== undefined)
             writer.tag(61, WireType.Varint).int32(message.jwtIssuerFormat);
         /* optional pomerium.dashboard.BearerTokenFormat bearer_token_format = 68; */
         if (message.bearerTokenFormat !== undefined)
@@ -1265,6 +1281,9 @@ class Route$Type extends MessageType<Route> {
         /* repeated string policy_ids = 28; */
         for (let i = 0; i < message.policyIds.length; i++)
             writer.tag(28, WireType.LengthDelimited).string(message.policyIds[i]);
+        /* repeated string depends_on = 72; */
+        for (let i = 0; i < message.dependsOn.length; i++)
+            writer.tag(72, WireType.LengthDelimited).string(message.dependsOn[i]);
         /* repeated string policy_names = 34; */
         for (let i = 0; i < message.policyNames.length; i++)
             writer.tag(34, WireType.LengthDelimited).string(message.policyNames[i]);
@@ -1642,7 +1661,8 @@ class ListRoutesRequest$Type extends MessageType<ListRoutesRequest> {
             { no: 2, name: "query", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "offset", kind: "scalar", opt: true, T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ },
             { no: 4, name: "limit", kind: "scalar", opt: true, T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ },
-            { no: 5, name: "order_by", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
+            { no: 5, name: "order_by", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 6, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<ListRoutesRequest>): ListRoutesRequest {
@@ -1672,6 +1692,9 @@ class ListRoutesRequest$Type extends MessageType<ListRoutesRequest> {
                 case /* optional string order_by */ 5:
                     message.orderBy = reader.string();
                     break;
+                case /* optional string cluster_id */ 6:
+                    message.clusterId = reader.string();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -1699,6 +1722,9 @@ class ListRoutesRequest$Type extends MessageType<ListRoutesRequest> {
         /* optional string order_by = 5; */
         if (message.orderBy !== undefined)
             writer.tag(5, WireType.LengthDelimited).string(message.orderBy);
+        /* optional string cluster_id = 6; */
+        if (message.clusterId !== undefined)
+            writer.tag(6, WireType.LengthDelimited).string(message.clusterId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

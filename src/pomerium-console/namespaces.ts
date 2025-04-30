@@ -47,6 +47,10 @@ export interface Namespace {
      */
     originatorId: string;
     /**
+     * @generated from protobuf field: optional string cluster_id = 10;
+     */
+    clusterId?: string;
+    /**
      * computed
      *
      * @generated from protobuf field: int64 route_count = 7;
@@ -196,6 +200,10 @@ export interface NamespacePermission {
      * @generated from protobuf field: string role = 7;
      */
     role: string;
+    /**
+     * @generated from protobuf field: string originator_id = 9;
+     */
+    originatorId: string;
 }
 /**
  * NamespacePermissionGroup defines a permission binding to a group identity
@@ -227,6 +235,10 @@ export interface NamespacePermissionGroup {
      * @generated from protobuf field: string role = 6;
      */
     role: string;
+    /**
+     * @generated from protobuf field: string originator_id = 7;
+     */
+    originatorId: string;
 }
 /**
  * NamespacePermissionUser defines a permission binding to a user identity
@@ -262,6 +274,10 @@ export interface NamespacePermissionUser {
      * @generated from protobuf field: string role = 6;
      */
     role: string;
+    /**
+     * @generated from protobuf field: string originator_id = 8;
+     */
+    originatorId: string;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.DeleteNamespacePermissionRequest
@@ -374,6 +390,7 @@ class Namespace$Type extends MessageType<Namespace> {
             { no: 5, name: "deleted_at", kind: "message", T: () => Timestamp },
             { no: 6, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 9, name: "originator_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 10, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 7, name: "route_count", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ },
             { no: 8, name: "policy_count", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ }
         ]);
@@ -416,6 +433,9 @@ class Namespace$Type extends MessageType<Namespace> {
                 case /* string originator_id */ 9:
                     message.originatorId = reader.string();
                     break;
+                case /* optional string cluster_id */ 10:
+                    message.clusterId = reader.string();
+                    break;
                 case /* int64 route_count */ 7:
                     message.routeCount = reader.int64().toBigInt();
                     break;
@@ -455,6 +475,9 @@ class Namespace$Type extends MessageType<Namespace> {
         /* string originator_id = 9; */
         if (message.originatorId !== "")
             writer.tag(9, WireType.LengthDelimited).string(message.originatorId);
+        /* optional string cluster_id = 10; */
+        if (message.clusterId !== undefined)
+            writer.tag(10, WireType.LengthDelimited).string(message.clusterId);
         /* int64 route_count = 7; */
         if (message.routeCount !== 0n)
             writer.tag(7, WireType.Varint).int64(message.routeCount);
@@ -968,7 +991,8 @@ class NamespacePermission$Type extends MessageType<NamespacePermission> {
             { no: 8, name: "namespace_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "subject_type", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 6, name: "subject_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 7, name: "role", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 7, name: "role", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 9, name: "originator_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<NamespacePermission>): NamespacePermission {
@@ -979,6 +1003,7 @@ class NamespacePermission$Type extends MessageType<NamespacePermission> {
         message.subjectType = "";
         message.subjectId = "";
         message.role = "";
+        message.originatorId = "";
         if (value !== undefined)
             reflectionMergePartial<NamespacePermission>(this, message, value);
         return message;
@@ -1011,6 +1036,9 @@ class NamespacePermission$Type extends MessageType<NamespacePermission> {
                     break;
                 case /* string role */ 7:
                     message.role = reader.string();
+                    break;
+                case /* string originator_id */ 9:
+                    message.originatorId = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -1048,6 +1076,9 @@ class NamespacePermission$Type extends MessageType<NamespacePermission> {
         /* string role = 7; */
         if (message.role !== "")
             writer.tag(7, WireType.LengthDelimited).string(message.role);
+        /* string originator_id = 9; */
+        if (message.originatorId !== "")
+            writer.tag(9, WireType.LengthDelimited).string(message.originatorId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -1067,7 +1098,8 @@ class NamespacePermissionGroup$Type extends MessageType<NamespacePermissionGroup
             { no: 3, name: "group_email", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "namespace_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "namespace_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "role", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 6, name: "role", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 7, name: "originator_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<NamespacePermissionGroup>): NamespacePermissionGroup {
@@ -1078,6 +1110,7 @@ class NamespacePermissionGroup$Type extends MessageType<NamespacePermissionGroup
         message.namespaceId = "";
         message.namespaceName = "";
         message.role = "";
+        message.originatorId = "";
         if (value !== undefined)
             reflectionMergePartial<NamespacePermissionGroup>(this, message, value);
         return message;
@@ -1104,6 +1137,9 @@ class NamespacePermissionGroup$Type extends MessageType<NamespacePermissionGroup
                     break;
                 case /* string role */ 6:
                     message.role = reader.string();
+                    break;
+                case /* string originator_id */ 7:
+                    message.originatorId = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -1135,6 +1171,9 @@ class NamespacePermissionGroup$Type extends MessageType<NamespacePermissionGroup
         /* string role = 6; */
         if (message.role !== "")
             writer.tag(6, WireType.LengthDelimited).string(message.role);
+        /* string originator_id = 7; */
+        if (message.originatorId !== "")
+            writer.tag(7, WireType.LengthDelimited).string(message.originatorId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -1155,7 +1194,8 @@ class NamespacePermissionUser$Type extends MessageType<NamespacePermissionUser> 
             { no: 4, name: "group_ids", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "namespace_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 7, name: "namespace_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "role", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 6, name: "role", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 8, name: "originator_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<NamespacePermissionUser>): NamespacePermissionUser {
@@ -1167,6 +1207,7 @@ class NamespacePermissionUser$Type extends MessageType<NamespacePermissionUser> 
         message.namespaceId = "";
         message.namespaceName = "";
         message.role = "";
+        message.originatorId = "";
         if (value !== undefined)
             reflectionMergePartial<NamespacePermissionUser>(this, message, value);
         return message;
@@ -1196,6 +1237,9 @@ class NamespacePermissionUser$Type extends MessageType<NamespacePermissionUser> 
                     break;
                 case /* string role */ 6:
                     message.role = reader.string();
+                    break;
+                case /* string originator_id */ 8:
+                    message.originatorId = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -1230,6 +1274,9 @@ class NamespacePermissionUser$Type extends MessageType<NamespacePermissionUser> 
         /* string role = 6; */
         if (message.role !== "")
             writer.tag(6, WireType.LengthDelimited).string(message.role);
+        /* string originator_id = 8; */
+        if (message.originatorId !== "")
+            writer.tag(8, WireType.LengthDelimited).string(message.originatorId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

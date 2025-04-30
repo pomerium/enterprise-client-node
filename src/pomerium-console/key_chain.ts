@@ -371,6 +371,10 @@ export interface ListKeyPairsRequest {
      * @generated from protobuf field: optional string domain = 6;
      */
     domain?: string;
+    /**
+     * @generated from protobuf field: optional string cluster_id = 7;
+     */
+    clusterId?: string;
 }
 /**
  * ListKeyPairsResponse is the list of Key Pairs found from a
@@ -1337,7 +1341,8 @@ class ListKeyPairsRequest$Type extends MessageType<ListKeyPairsRequest> {
             { no: 3, name: "offset", kind: "scalar", opt: true, T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ },
             { no: 4, name: "limit", kind: "scalar", opt: true, T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ },
             { no: 5, name: "order_by", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "domain", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
+            { no: 6, name: "domain", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 7, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<ListKeyPairsRequest>): ListKeyPairsRequest {
@@ -1370,6 +1375,9 @@ class ListKeyPairsRequest$Type extends MessageType<ListKeyPairsRequest> {
                 case /* optional string domain */ 6:
                     message.domain = reader.string();
                     break;
+                case /* optional string cluster_id */ 7:
+                    message.clusterId = reader.string();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -1400,6 +1408,9 @@ class ListKeyPairsRequest$Type extends MessageType<ListKeyPairsRequest> {
         /* optional string domain = 6; */
         if (message.domain !== undefined)
             writer.tag(6, WireType.LengthDelimited).string(message.domain);
+        /* optional string cluster_id = 7; */
+        if (message.clusterId !== undefined)
+            writer.tag(7, WireType.LengthDelimited).string(message.clusterId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

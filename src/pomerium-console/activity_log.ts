@@ -38,6 +38,10 @@ export interface ActivityLogEntry {
      */
     createdAt?: Timestamp;
     /**
+     * @generated from protobuf field: optional string cluster_id = 21;
+     */
+    clusterId?: string;
+    /**
      * @generated from protobuf field: string namespace_id = 4;
      */
     namespaceId: string;
@@ -328,6 +332,7 @@ class ActivityLogEntry$Type extends MessageType<ActivityLogEntry> {
             { no: 20, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "activity_type", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "created_at", kind: "message", T: () => Timestamp },
+            { no: 21, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "namespace_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "namespace_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 6, name: "user_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
@@ -386,6 +391,9 @@ class ActivityLogEntry$Type extends MessageType<ActivityLogEntry> {
                     break;
                 case /* google.protobuf.Timestamp created_at */ 3:
                     message.createdAt = Timestamp.internalBinaryRead(reader, reader.uint32(), options, message.createdAt);
+                    break;
+                case /* optional string cluster_id */ 21:
+                    message.clusterId = reader.string();
                     break;
                 case /* string namespace_id */ 4:
                     message.namespaceId = reader.string();
@@ -459,6 +467,9 @@ class ActivityLogEntry$Type extends MessageType<ActivityLogEntry> {
         /* google.protobuf.Timestamp created_at = 3; */
         if (message.createdAt)
             Timestamp.internalBinaryWrite(message.createdAt, writer.tag(3, WireType.LengthDelimited).fork(), options).join();
+        /* optional string cluster_id = 21; */
+        if (message.clusterId !== undefined)
+            writer.tag(21, WireType.LengthDelimited).string(message.clusterId);
         /* string namespace_id = 4; */
         if (message.namespaceId !== "")
             writer.tag(4, WireType.LengthDelimited).string(message.namespaceId);

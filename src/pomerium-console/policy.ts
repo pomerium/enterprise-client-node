@@ -174,6 +174,12 @@ export interface ListPoliciesRequest {
      * @generated from protobuf field: optional string order_by = 5;
      */
     orderBy?: string;
+    /**
+     * list Policies belonging to the cluster, or the default cluster if not set
+     *
+     * @generated from protobuf field: optional string cluster_id = 6;
+     */
+    clusterId?: string;
 }
 /**
  * ListPoliciesResponse is the list of policies found for a ListPoliciesRequest
@@ -597,7 +603,8 @@ class ListPoliciesRequest$Type extends MessageType<ListPoliciesRequest> {
             { no: 2, name: "query", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "offset", kind: "scalar", opt: true, T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ },
             { no: 4, name: "limit", kind: "scalar", opt: true, T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ },
-            { no: 5, name: "order_by", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
+            { no: 5, name: "order_by", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 6, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<ListPoliciesRequest>): ListPoliciesRequest {
@@ -627,6 +634,9 @@ class ListPoliciesRequest$Type extends MessageType<ListPoliciesRequest> {
                 case /* optional string order_by */ 5:
                     message.orderBy = reader.string();
                     break;
+                case /* optional string cluster_id */ 6:
+                    message.clusterId = reader.string();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -654,6 +664,9 @@ class ListPoliciesRequest$Type extends MessageType<ListPoliciesRequest> {
         /* optional string order_by = 5; */
         if (message.orderBy !== undefined)
             writer.tag(5, WireType.LengthDelimited).string(message.orderBy);
+        /* optional string cluster_id = 6; */
+        if (message.clusterId !== undefined)
+            writer.tag(6, WireType.LengthDelimited).string(message.clusterId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
