@@ -105,6 +105,10 @@ export interface GetUserInfoRequest {
      * @generated from protobuf field: optional string user_id = 1;
      */
     userId?: string;
+    /**
+     * @generated from protobuf field: optional string cluster_id = 2;
+     */
+    clusterId?: string;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.GetUserInfoResponse
@@ -133,6 +137,10 @@ export interface QueryGroupsRequest {
      * @generated from protobuf field: int64 limit = 3;
      */
     limit: bigint;
+    /**
+     * @generated from protobuf field: optional string cluster_id = 4;
+     */
+    clusterId?: string;
 }
 /**
  * QueryGroupsResponse is the list of groups retrieved from a QueryGroupsRequest
@@ -173,6 +181,10 @@ export interface QueryUsersRequest {
      * @generated from protobuf field: int64 limit = 3;
      */
     limit: bigint;
+    /**
+     * @generated from protobuf field: optional string cluster_id = 4;
+     */
+    clusterId?: string;
 }
 /**
  * QueryUsersResponse is the list of users retrieved from a QueryUsersRequest
@@ -223,6 +235,10 @@ export interface PomeriumServiceAccount {
      * @generated from protobuf field: google.protobuf.Timestamp issued_at = 4;
      */
     issuedAt?: Timestamp;
+    /**
+     * @generated from protobuf field: optional string originator_id = 11;
+     */
+    originatorId?: string;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.AddPomeriumServiceAccountRequest
@@ -232,6 +248,10 @@ export interface AddPomeriumServiceAccountRequest {
      * @generated from protobuf field: pomerium.dashboard.PomeriumServiceAccount service_account = 1;
      */
     serviceAccount?: PomeriumServiceAccount;
+    /**
+     * @generated from protobuf field: optional string cluster_id = 2;
+     */
+    clusterId?: string;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.AddPomeriumServiceAccountResponse
@@ -254,6 +274,10 @@ export interface DeletePomeriumServiceAccountRequest {
      * @generated from protobuf field: string id = 1;
      */
     id: string;
+    /**
+     * @generated from protobuf field: optional string cluster_id = 2;
+     */
+    clusterId?: string;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.DeletePomeriumServiceAccountResponse
@@ -268,6 +292,10 @@ export interface GetPomeriumServiceAccountRequest {
      * @generated from protobuf field: string id = 1;
      */
     id: string;
+    /**
+     * @generated from protobuf field: optional string cluster_id = 2;
+     */
+    clusterId?: string;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.GetPomeriumServiceAccountResponse
@@ -288,6 +316,10 @@ export interface ListPomeriumServiceAccountsRequest {
      * @generated from protobuf field: string namespace = 1;
      */
     namespace: string;
+    /**
+     * @generated from protobuf field: optional string cluster_id = 2;
+     */
+    clusterId?: string;
 }
 /**
  * ListPomeriumServiceAccountsResponse is the list of service accounts found for
@@ -309,6 +341,10 @@ export interface SetPomeriumServiceAccountRequest {
      * @generated from protobuf field: pomerium.dashboard.PomeriumServiceAccount service_account = 1;
      */
     serviceAccount?: PomeriumServiceAccount;
+    /**
+     * @generated from protobuf field: optional string cluster_id = 2;
+     */
+    clusterId?: string;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.SetPomeriumServiceAccountResponse
@@ -406,6 +442,10 @@ export interface DeletePomeriumSessionRequest {
      * @generated from protobuf field: string id = 1;
      */
     id: string;
+    /**
+     * @generated from protobuf field: optional string cluster_id = 2;
+     */
+    clusterId?: string;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.DeletePomeriumSessionResponse
@@ -420,6 +460,10 @@ export interface GetPomeriumSessionRequest {
      * @generated from protobuf field: string id = 1;
      */
     id: string;
+    /**
+     * @generated from protobuf field: optional string cluster_id = 2;
+     */
+    clusterId?: string;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.GetPomeriumSessionResponse
@@ -468,6 +512,10 @@ export interface ListPomeriumSessionsRequest {
      * @generated from protobuf field: optional string user_id = 5;
      */
     userId?: string;
+    /**
+     * @generated from protobuf field: optional string cluster_id = 6;
+     */
+    clusterId?: string;
 }
 /**
  * ListPomeriumSessionsResponse is the sessions found for a
@@ -495,6 +543,10 @@ export interface ImpersonateRequest {
      * @generated from protobuf field: string session_id = 1;
      */
     sessionId: string;
+    /**
+     * @generated from protobuf field: optional string cluster_id = 2;
+     */
+    clusterId?: string;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.ImpersonateResponse
@@ -755,7 +807,8 @@ export const UserInfo = new UserInfo$Type();
 class GetUserInfoRequest$Type extends MessageType<GetUserInfoRequest> {
     constructor() {
         super("pomerium.dashboard.GetUserInfoRequest", [
-            { no: 1, name: "user_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "user_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<GetUserInfoRequest>): GetUserInfoRequest {
@@ -772,6 +825,9 @@ class GetUserInfoRequest$Type extends MessageType<GetUserInfoRequest> {
                 case /* optional string user_id */ 1:
                     message.userId = reader.string();
                     break;
+                case /* optional string cluster_id */ 2:
+                    message.clusterId = reader.string();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -787,6 +843,9 @@ class GetUserInfoRequest$Type extends MessageType<GetUserInfoRequest> {
         /* optional string user_id = 1; */
         if (message.userId !== undefined)
             writer.tag(1, WireType.LengthDelimited).string(message.userId);
+        /* optional string cluster_id = 2; */
+        if (message.clusterId !== undefined)
+            writer.tag(2, WireType.LengthDelimited).string(message.clusterId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -849,7 +908,8 @@ class QueryGroupsRequest$Type extends MessageType<QueryGroupsRequest> {
         super("pomerium.dashboard.QueryGroupsRequest", [
             { no: 1, name: "query", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "offset", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ },
-            { no: 3, name: "limit", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ }
+            { no: 3, name: "limit", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ },
+            { no: 4, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<QueryGroupsRequest>): QueryGroupsRequest {
@@ -875,6 +935,9 @@ class QueryGroupsRequest$Type extends MessageType<QueryGroupsRequest> {
                 case /* int64 limit */ 3:
                     message.limit = reader.int64().toBigInt();
                     break;
+                case /* optional string cluster_id */ 4:
+                    message.clusterId = reader.string();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -896,6 +959,9 @@ class QueryGroupsRequest$Type extends MessageType<QueryGroupsRequest> {
         /* int64 limit = 3; */
         if (message.limit !== 0n)
             writer.tag(3, WireType.Varint).int64(message.limit);
+        /* optional string cluster_id = 4; */
+        if (message.clusterId !== undefined)
+            writer.tag(4, WireType.LengthDelimited).string(message.clusterId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -967,7 +1033,8 @@ class QueryUsersRequest$Type extends MessageType<QueryUsersRequest> {
         super("pomerium.dashboard.QueryUsersRequest", [
             { no: 1, name: "query", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "offset", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ },
-            { no: 3, name: "limit", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ }
+            { no: 3, name: "limit", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ },
+            { no: 4, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<QueryUsersRequest>): QueryUsersRequest {
@@ -993,6 +1060,9 @@ class QueryUsersRequest$Type extends MessageType<QueryUsersRequest> {
                 case /* int64 limit */ 3:
                     message.limit = reader.int64().toBigInt();
                     break;
+                case /* optional string cluster_id */ 4:
+                    message.clusterId = reader.string();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -1014,6 +1084,9 @@ class QueryUsersRequest$Type extends MessageType<QueryUsersRequest> {
         /* int64 limit = 3; */
         if (message.limit !== 0n)
             writer.tag(3, WireType.Varint).int64(message.limit);
+        /* optional string cluster_id = 4; */
+        if (message.clusterId !== undefined)
+            writer.tag(4, WireType.LengthDelimited).string(message.clusterId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -1089,7 +1162,8 @@ class PomeriumServiceAccount$Type extends MessageType<PomeriumServiceAccount> {
             { no: 2, name: "user_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 10, name: "accessed_at", kind: "message", T: () => Timestamp },
             { no: 3, name: "expires_at", kind: "message", T: () => Timestamp },
-            { no: 4, name: "issued_at", kind: "message", T: () => Timestamp }
+            { no: 4, name: "issued_at", kind: "message", T: () => Timestamp },
+            { no: 11, name: "originator_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<PomeriumServiceAccount>): PomeriumServiceAccount {
@@ -1126,6 +1200,9 @@ class PomeriumServiceAccount$Type extends MessageType<PomeriumServiceAccount> {
                 case /* google.protobuf.Timestamp issued_at */ 4:
                     message.issuedAt = Timestamp.internalBinaryRead(reader, reader.uint32(), options, message.issuedAt);
                     break;
+                case /* optional string originator_id */ 11:
+                    message.originatorId = reader.string();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -1159,6 +1236,9 @@ class PomeriumServiceAccount$Type extends MessageType<PomeriumServiceAccount> {
         /* google.protobuf.Timestamp issued_at = 4; */
         if (message.issuedAt)
             Timestamp.internalBinaryWrite(message.issuedAt, writer.tag(4, WireType.LengthDelimited).fork(), options).join();
+        /* optional string originator_id = 11; */
+        if (message.originatorId !== undefined)
+            writer.tag(11, WireType.LengthDelimited).string(message.originatorId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -1173,7 +1253,8 @@ export const PomeriumServiceAccount = new PomeriumServiceAccount$Type();
 class AddPomeriumServiceAccountRequest$Type extends MessageType<AddPomeriumServiceAccountRequest> {
     constructor() {
         super("pomerium.dashboard.AddPomeriumServiceAccountRequest", [
-            { no: 1, name: "service_account", kind: "message", T: () => PomeriumServiceAccount }
+            { no: 1, name: "service_account", kind: "message", T: () => PomeriumServiceAccount },
+            { no: 2, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<AddPomeriumServiceAccountRequest>): AddPomeriumServiceAccountRequest {
@@ -1190,6 +1271,9 @@ class AddPomeriumServiceAccountRequest$Type extends MessageType<AddPomeriumServi
                 case /* pomerium.dashboard.PomeriumServiceAccount service_account */ 1:
                     message.serviceAccount = PomeriumServiceAccount.internalBinaryRead(reader, reader.uint32(), options, message.serviceAccount);
                     break;
+                case /* optional string cluster_id */ 2:
+                    message.clusterId = reader.string();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -1205,6 +1289,9 @@ class AddPomeriumServiceAccountRequest$Type extends MessageType<AddPomeriumServi
         /* pomerium.dashboard.PomeriumServiceAccount service_account = 1; */
         if (message.serviceAccount)
             PomeriumServiceAccount.internalBinaryWrite(message.serviceAccount, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* optional string cluster_id = 2; */
+        if (message.clusterId !== undefined)
+            writer.tag(2, WireType.LengthDelimited).string(message.clusterId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -1273,7 +1360,8 @@ export const AddPomeriumServiceAccountResponse = new AddPomeriumServiceAccountRe
 class DeletePomeriumServiceAccountRequest$Type extends MessageType<DeletePomeriumServiceAccountRequest> {
     constructor() {
         super("pomerium.dashboard.DeletePomeriumServiceAccountRequest", [
-            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<DeletePomeriumServiceAccountRequest>): DeletePomeriumServiceAccountRequest {
@@ -1291,6 +1379,9 @@ class DeletePomeriumServiceAccountRequest$Type extends MessageType<DeletePomeriu
                 case /* string id */ 1:
                     message.id = reader.string();
                     break;
+                case /* optional string cluster_id */ 2:
+                    message.clusterId = reader.string();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -1306,6 +1397,9 @@ class DeletePomeriumServiceAccountRequest$Type extends MessageType<DeletePomeriu
         /* string id = 1; */
         if (message.id !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.id);
+        /* optional string cluster_id = 2; */
+        if (message.clusterId !== undefined)
+            writer.tag(2, WireType.LengthDelimited).string(message.clusterId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -1345,7 +1439,8 @@ export const DeletePomeriumServiceAccountResponse = new DeletePomeriumServiceAcc
 class GetPomeriumServiceAccountRequest$Type extends MessageType<GetPomeriumServiceAccountRequest> {
     constructor() {
         super("pomerium.dashboard.GetPomeriumServiceAccountRequest", [
-            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<GetPomeriumServiceAccountRequest>): GetPomeriumServiceAccountRequest {
@@ -1363,6 +1458,9 @@ class GetPomeriumServiceAccountRequest$Type extends MessageType<GetPomeriumServi
                 case /* string id */ 1:
                     message.id = reader.string();
                     break;
+                case /* optional string cluster_id */ 2:
+                    message.clusterId = reader.string();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -1378,6 +1476,9 @@ class GetPomeriumServiceAccountRequest$Type extends MessageType<GetPomeriumServi
         /* string id = 1; */
         if (message.id !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.id);
+        /* optional string cluster_id = 2; */
+        if (message.clusterId !== undefined)
+            writer.tag(2, WireType.LengthDelimited).string(message.clusterId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -1438,7 +1539,8 @@ export const GetPomeriumServiceAccountResponse = new GetPomeriumServiceAccountRe
 class ListPomeriumServiceAccountsRequest$Type extends MessageType<ListPomeriumServiceAccountsRequest> {
     constructor() {
         super("pomerium.dashboard.ListPomeriumServiceAccountsRequest", [
-            { no: 1, name: "namespace", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "namespace", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<ListPomeriumServiceAccountsRequest>): ListPomeriumServiceAccountsRequest {
@@ -1456,6 +1558,9 @@ class ListPomeriumServiceAccountsRequest$Type extends MessageType<ListPomeriumSe
                 case /* string namespace */ 1:
                     message.namespace = reader.string();
                     break;
+                case /* optional string cluster_id */ 2:
+                    message.clusterId = reader.string();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -1471,6 +1576,9 @@ class ListPomeriumServiceAccountsRequest$Type extends MessageType<ListPomeriumSe
         /* string namespace = 1; */
         if (message.namespace !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.namespace);
+        /* optional string cluster_id = 2; */
+        if (message.clusterId !== undefined)
+            writer.tag(2, WireType.LengthDelimited).string(message.clusterId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -1532,7 +1640,8 @@ export const ListPomeriumServiceAccountsResponse = new ListPomeriumServiceAccoun
 class SetPomeriumServiceAccountRequest$Type extends MessageType<SetPomeriumServiceAccountRequest> {
     constructor() {
         super("pomerium.dashboard.SetPomeriumServiceAccountRequest", [
-            { no: 1, name: "service_account", kind: "message", T: () => PomeriumServiceAccount }
+            { no: 1, name: "service_account", kind: "message", T: () => PomeriumServiceAccount },
+            { no: 2, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<SetPomeriumServiceAccountRequest>): SetPomeriumServiceAccountRequest {
@@ -1549,6 +1658,9 @@ class SetPomeriumServiceAccountRequest$Type extends MessageType<SetPomeriumServi
                 case /* pomerium.dashboard.PomeriumServiceAccount service_account */ 1:
                     message.serviceAccount = PomeriumServiceAccount.internalBinaryRead(reader, reader.uint32(), options, message.serviceAccount);
                     break;
+                case /* optional string cluster_id */ 2:
+                    message.clusterId = reader.string();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -1564,6 +1676,9 @@ class SetPomeriumServiceAccountRequest$Type extends MessageType<SetPomeriumServi
         /* pomerium.dashboard.PomeriumServiceAccount service_account = 1; */
         if (message.serviceAccount)
             PomeriumServiceAccount.internalBinaryWrite(message.serviceAccount, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* optional string cluster_id = 2; */
+        if (message.clusterId !== undefined)
+            writer.tag(2, WireType.LengthDelimited).string(message.clusterId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -1877,7 +1992,8 @@ export const PomeriumSession_User = new PomeriumSession_User$Type();
 class DeletePomeriumSessionRequest$Type extends MessageType<DeletePomeriumSessionRequest> {
     constructor() {
         super("pomerium.dashboard.DeletePomeriumSessionRequest", [
-            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<DeletePomeriumSessionRequest>): DeletePomeriumSessionRequest {
@@ -1895,6 +2011,9 @@ class DeletePomeriumSessionRequest$Type extends MessageType<DeletePomeriumSessio
                 case /* string id */ 1:
                     message.id = reader.string();
                     break;
+                case /* optional string cluster_id */ 2:
+                    message.clusterId = reader.string();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -1910,6 +2029,9 @@ class DeletePomeriumSessionRequest$Type extends MessageType<DeletePomeriumSessio
         /* string id = 1; */
         if (message.id !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.id);
+        /* optional string cluster_id = 2; */
+        if (message.clusterId !== undefined)
+            writer.tag(2, WireType.LengthDelimited).string(message.clusterId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -1949,7 +2071,8 @@ export const DeletePomeriumSessionResponse = new DeletePomeriumSessionResponse$T
 class GetPomeriumSessionRequest$Type extends MessageType<GetPomeriumSessionRequest> {
     constructor() {
         super("pomerium.dashboard.GetPomeriumSessionRequest", [
-            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<GetPomeriumSessionRequest>): GetPomeriumSessionRequest {
@@ -1967,6 +2090,9 @@ class GetPomeriumSessionRequest$Type extends MessageType<GetPomeriumSessionReque
                 case /* string id */ 1:
                     message.id = reader.string();
                     break;
+                case /* optional string cluster_id */ 2:
+                    message.clusterId = reader.string();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -1982,6 +2108,9 @@ class GetPomeriumSessionRequest$Type extends MessageType<GetPomeriumSessionReque
         /* string id = 1; */
         if (message.id !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.id);
+        /* optional string cluster_id = 2; */
+        if (message.clusterId !== undefined)
+            writer.tag(2, WireType.LengthDelimited).string(message.clusterId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -2054,7 +2183,8 @@ class ListPomeriumSessionsRequest$Type extends MessageType<ListPomeriumSessionsR
             { no: 2, name: "offset", kind: "scalar", opt: true, T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ },
             { no: 3, name: "limit", kind: "scalar", opt: true, T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ },
             { no: 4, name: "order_by", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "user_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
+            { no: 5, name: "user_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 6, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<ListPomeriumSessionsRequest>): ListPomeriumSessionsRequest {
@@ -2083,6 +2213,9 @@ class ListPomeriumSessionsRequest$Type extends MessageType<ListPomeriumSessionsR
                 case /* optional string user_id */ 5:
                     message.userId = reader.string();
                     break;
+                case /* optional string cluster_id */ 6:
+                    message.clusterId = reader.string();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -2110,6 +2243,9 @@ class ListPomeriumSessionsRequest$Type extends MessageType<ListPomeriumSessionsR
         /* optional string user_id = 5; */
         if (message.userId !== undefined)
             writer.tag(5, WireType.LengthDelimited).string(message.userId);
+        /* optional string cluster_id = 6; */
+        if (message.clusterId !== undefined)
+            writer.tag(6, WireType.LengthDelimited).string(message.clusterId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -2179,7 +2315,8 @@ export const ListPomeriumSessionsResponse = new ListPomeriumSessionsResponse$Typ
 class ImpersonateRequest$Type extends MessageType<ImpersonateRequest> {
     constructor() {
         super("pomerium.dashboard.ImpersonateRequest", [
-            { no: 1, name: "session_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "session_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<ImpersonateRequest>): ImpersonateRequest {
@@ -2197,6 +2334,9 @@ class ImpersonateRequest$Type extends MessageType<ImpersonateRequest> {
                 case /* string session_id */ 1:
                     message.sessionId = reader.string();
                     break;
+                case /* optional string cluster_id */ 2:
+                    message.clusterId = reader.string();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -2212,6 +2352,9 @@ class ImpersonateRequest$Type extends MessageType<ImpersonateRequest> {
         /* string session_id = 1; */
         if (message.sessionId !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.sessionId);
+        /* optional string cluster_id = 2; */
+        if (message.clusterId !== undefined)
+            writer.tag(2, WireType.LengthDelimited).string(message.clusterId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

@@ -243,6 +243,10 @@ export interface DeviceEnrollment {
      * @generated from protobuf field: string ip_address = 12;
      */
     ipAddress: string;
+    /**
+     * @generated from protobuf field: optional string cluster_id = 13;
+     */
+    clusterId?: string;
 }
 /**
  * A DeviceCredential is a user's device-specific credential.
@@ -290,6 +294,10 @@ export interface DeviceCredential {
     } | {
         oneofKind: undefined;
     };
+    /**
+     * @generated from protobuf field: optional string cluster_id = 9;
+     */
+    clusterId?: string;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.DeviceCredential.WebAuthn
@@ -443,6 +451,10 @@ export interface ListDevicesRequest {
      * @generated from protobuf field: optional string approved_by = 3;
      */
     approvedBy?: string;
+    /**
+     * @generated from protobuf field: optional string cluster_id = 4;
+     */
+    clusterId?: string;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.ListDevicesResponse
@@ -481,6 +493,11 @@ export interface ListDevicesResponse_Device {
      * @generated from protobuf field: string approved_by_user_name = 6;
      */
     approvedByUserName: string;
+}
+/**
+ * @generated from protobuf message pomerium.dashboard.ListDeviceTypesRequest
+ */
+export interface ListDeviceTypesRequest {
 }
 /**
  * @generated from protobuf message pomerium.dashboard.ListDeviceTypesResponse
@@ -869,7 +886,8 @@ class DeviceEnrollment$Type extends MessageType<DeviceEnrollment> {
             { no: 9, name: "approved_by_user_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 10, name: "enrolled_at", kind: "message", T: () => Timestamp },
             { no: 11, name: "user_agent", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 12, name: "ip_address", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 12, name: "ip_address", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 13, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<DeviceEnrollment>): DeviceEnrollment {
@@ -926,6 +944,9 @@ class DeviceEnrollment$Type extends MessageType<DeviceEnrollment> {
                 case /* string ip_address */ 12:
                     message.ipAddress = reader.string();
                     break;
+                case /* optional string cluster_id */ 13:
+                    message.clusterId = reader.string();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -974,6 +995,9 @@ class DeviceEnrollment$Type extends MessageType<DeviceEnrollment> {
         /* string ip_address = 12; */
         if (message.ipAddress !== "")
             writer.tag(12, WireType.LengthDelimited).string(message.ipAddress);
+        /* optional string cluster_id = 13; */
+        if (message.clusterId !== undefined)
+            writer.tag(13, WireType.LengthDelimited).string(message.clusterId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -995,7 +1019,8 @@ class DeviceCredential$Type extends MessageType<DeviceCredential> {
             { no: 5, name: "device_type_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 6, name: "device_enrollment_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 7, name: "user_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 8, name: "webauthn", kind: "message", oneof: "specifier", T: () => DeviceCredential_WebAuthn }
+            { no: 8, name: "webauthn", kind: "message", oneof: "specifier", T: () => DeviceCredential_WebAuthn },
+            { no: 9, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<DeviceCredential>): DeviceCredential {
@@ -1041,6 +1066,9 @@ class DeviceCredential$Type extends MessageType<DeviceCredential> {
                         webauthn: DeviceCredential_WebAuthn.internalBinaryRead(reader, reader.uint32(), options, (message.specifier as any).webauthn)
                     };
                     break;
+                case /* optional string cluster_id */ 9:
+                    message.clusterId = reader.string();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -1077,6 +1105,9 @@ class DeviceCredential$Type extends MessageType<DeviceCredential> {
         /* pomerium.dashboard.DeviceCredential.WebAuthn webauthn = 8; */
         if (message.specifier.oneofKind === "webauthn")
             DeviceCredential_WebAuthn.internalBinaryWrite(message.specifier.webauthn, writer.tag(8, WireType.LengthDelimited).fork(), options).join();
+        /* optional string cluster_id = 9; */
+        if (message.clusterId !== undefined)
+            writer.tag(9, WireType.LengthDelimited).string(message.clusterId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -1518,7 +1549,8 @@ class ListDevicesRequest$Type extends MessageType<ListDevicesRequest> {
         super("pomerium.dashboard.ListDevicesRequest", [
             { no: 1, name: "type_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "user_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "approved_by", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
+            { no: 3, name: "approved_by", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<ListDevicesRequest>): ListDevicesRequest {
@@ -1541,6 +1573,9 @@ class ListDevicesRequest$Type extends MessageType<ListDevicesRequest> {
                 case /* optional string approved_by */ 3:
                     message.approvedBy = reader.string();
                     break;
+                case /* optional string cluster_id */ 4:
+                    message.clusterId = reader.string();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -1562,6 +1597,9 @@ class ListDevicesRequest$Type extends MessageType<ListDevicesRequest> {
         /* optional string approved_by = 3; */
         if (message.approvedBy !== undefined)
             writer.tag(3, WireType.LengthDelimited).string(message.approvedBy);
+        /* optional string cluster_id = 4; */
+        if (message.clusterId !== undefined)
+            writer.tag(4, WireType.LengthDelimited).string(message.clusterId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -1703,6 +1741,31 @@ class ListDevicesResponse_Device$Type extends MessageType<ListDevicesResponse_De
  * @generated MessageType for protobuf message pomerium.dashboard.ListDevicesResponse.Device
  */
 export const ListDevicesResponse_Device = new ListDevicesResponse_Device$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ListDeviceTypesRequest$Type extends MessageType<ListDeviceTypesRequest> {
+    constructor() {
+        super("pomerium.dashboard.ListDeviceTypesRequest", []);
+    }
+    create(value?: PartialMessage<ListDeviceTypesRequest>): ListDeviceTypesRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<ListDeviceTypesRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ListDeviceTypesRequest): ListDeviceTypesRequest {
+        return target ?? this.create();
+    }
+    internalBinaryWrite(message: ListDeviceTypesRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.ListDeviceTypesRequest
+ */
+export const ListDeviceTypesRequest = new ListDeviceTypesRequest$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ListDeviceTypesResponse$Type extends MessageType<ListDeviceTypesResponse> {
     constructor() {
@@ -1852,5 +1915,5 @@ export const DeviceService = new ServiceType("pomerium.dashboard.DeviceService",
     { name: "DeleteDevice", options: {}, I: DeleteDeviceRequest, O: Empty },
     { name: "DeleteDeviceType", options: {}, I: DeleteDeviceTypeRequest, O: Empty },
     { name: "ListDevices", options: {}, I: ListDevicesRequest, O: ListDevicesResponse },
-    { name: "ListDeviceTypes", options: {}, I: Empty, O: ListDeviceTypesResponse }
+    { name: "ListDeviceTypes", options: {}, I: ListDeviceTypesRequest, O: ListDeviceTypesResponse }
 ]);

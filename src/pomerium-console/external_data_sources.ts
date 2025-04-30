@@ -27,6 +27,10 @@ export interface ExternalDataSource {
      */
     originatorId: string;
     /**
+     * @generated from protobuf field: optional string cluster_id = 14;
+     */
+    clusterId?: string;
+    /**
      * @generated from protobuf field: google.protobuf.Timestamp created_at = 2;
      */
     createdAt?: Timestamp;
@@ -120,6 +124,10 @@ export interface GetExternalDataSourceResponse {
  * @generated from protobuf message pomerium.dashboard.ListExternalDataSourcesRequest
  */
 export interface ListExternalDataSourcesRequest {
+    /**
+     * @generated from protobuf field: optional string cluster_id = 1;
+     */
+    clusterId?: string;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.ListExternalDataSourcesResponse
@@ -134,6 +142,10 @@ export interface ListExternalDataSourcesResponse {
  * @generated from protobuf message pomerium.dashboard.ListExternalDataSourceRecordTypesRequest
  */
 export interface ListExternalDataSourceRecordTypesRequest {
+    /**
+     * @generated from protobuf field: optional string cluster_id = 1;
+     */
+    clusterId?: string;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.ListExternalDataSourceRecordTypesResponse
@@ -152,6 +164,10 @@ export interface ListExternalDataSourceRecordFieldsRequest {
      * @generated from protobuf field: string record_type = 1;
      */
     recordType: string;
+    /**
+     * @generated from protobuf field: optional string cluster_id = 2;
+     */
+    clusterId?: string;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.ListExternalDataSourceRecordFieldsResponse
@@ -186,6 +202,7 @@ class ExternalDataSource$Type extends MessageType<ExternalDataSource> {
         super("pomerium.dashboard.ExternalDataSource", [
             { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 13, name: "originator_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 14, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "created_at", kind: "message", T: () => Timestamp },
             { no: 3, name: "modified_at", kind: "message", T: () => Timestamp },
             { no: 4, name: "deleted_at", kind: "message", T: () => Timestamp },
@@ -221,6 +238,9 @@ class ExternalDataSource$Type extends MessageType<ExternalDataSource> {
                     break;
                 case /* string originator_id */ 13:
                     message.originatorId = reader.string();
+                    break;
+                case /* optional string cluster_id */ 14:
+                    message.clusterId = reader.string();
                     break;
                 case /* google.protobuf.Timestamp created_at */ 2:
                     message.createdAt = Timestamp.internalBinaryRead(reader, reader.uint32(), options, message.createdAt);
@@ -289,6 +309,9 @@ class ExternalDataSource$Type extends MessageType<ExternalDataSource> {
         /* string originator_id = 13; */
         if (message.originatorId !== "")
             writer.tag(13, WireType.LengthDelimited).string(message.originatorId);
+        /* optional string cluster_id = 14; */
+        if (message.clusterId !== undefined)
+            writer.tag(14, WireType.LengthDelimited).string(message.clusterId);
         /* google.protobuf.Timestamp created_at = 2; */
         if (message.createdAt)
             Timestamp.internalBinaryWrite(message.createdAt, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
@@ -475,7 +498,9 @@ export const GetExternalDataSourceResponse = new GetExternalDataSourceResponse$T
 // @generated message type with reflection information, may provide speed optimized methods
 class ListExternalDataSourcesRequest$Type extends MessageType<ListExternalDataSourcesRequest> {
     constructor() {
-        super("pomerium.dashboard.ListExternalDataSourcesRequest", []);
+        super("pomerium.dashboard.ListExternalDataSourcesRequest", [
+            { no: 1, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
+        ]);
     }
     create(value?: PartialMessage<ListExternalDataSourcesRequest>): ListExternalDataSourcesRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
@@ -484,9 +509,28 @@ class ListExternalDataSourcesRequest$Type extends MessageType<ListExternalDataSo
         return message;
     }
     internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ListExternalDataSourcesRequest): ListExternalDataSourcesRequest {
-        return target ?? this.create();
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* optional string cluster_id */ 1:
+                    message.clusterId = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
     }
     internalBinaryWrite(message: ListExternalDataSourcesRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* optional string cluster_id = 1; */
+        if (message.clusterId !== undefined)
+            writer.tag(1, WireType.LengthDelimited).string(message.clusterId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -547,7 +591,9 @@ export const ListExternalDataSourcesResponse = new ListExternalDataSourcesRespon
 // @generated message type with reflection information, may provide speed optimized methods
 class ListExternalDataSourceRecordTypesRequest$Type extends MessageType<ListExternalDataSourceRecordTypesRequest> {
     constructor() {
-        super("pomerium.dashboard.ListExternalDataSourceRecordTypesRequest", []);
+        super("pomerium.dashboard.ListExternalDataSourceRecordTypesRequest", [
+            { no: 1, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
+        ]);
     }
     create(value?: PartialMessage<ListExternalDataSourceRecordTypesRequest>): ListExternalDataSourceRecordTypesRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
@@ -556,9 +602,28 @@ class ListExternalDataSourceRecordTypesRequest$Type extends MessageType<ListExte
         return message;
     }
     internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ListExternalDataSourceRecordTypesRequest): ListExternalDataSourceRecordTypesRequest {
-        return target ?? this.create();
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* optional string cluster_id */ 1:
+                    message.clusterId = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
     }
     internalBinaryWrite(message: ListExternalDataSourceRecordTypesRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* optional string cluster_id = 1; */
+        if (message.clusterId !== undefined)
+            writer.tag(1, WireType.LengthDelimited).string(message.clusterId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -620,7 +685,8 @@ export const ListExternalDataSourceRecordTypesResponse = new ListExternalDataSou
 class ListExternalDataSourceRecordFieldsRequest$Type extends MessageType<ListExternalDataSourceRecordFieldsRequest> {
     constructor() {
         super("pomerium.dashboard.ListExternalDataSourceRecordFieldsRequest", [
-            { no: 1, name: "record_type", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "record_type", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<ListExternalDataSourceRecordFieldsRequest>): ListExternalDataSourceRecordFieldsRequest {
@@ -638,6 +704,9 @@ class ListExternalDataSourceRecordFieldsRequest$Type extends MessageType<ListExt
                 case /* string record_type */ 1:
                     message.recordType = reader.string();
                     break;
+                case /* optional string cluster_id */ 2:
+                    message.clusterId = reader.string();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -653,6 +722,9 @@ class ListExternalDataSourceRecordFieldsRequest$Type extends MessageType<ListExt
         /* string record_type = 1; */
         if (message.recordType !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.recordType);
+        /* optional string cluster_id = 2; */
+        if (message.clusterId !== undefined)
+            writer.tag(2, WireType.LengthDelimited).string(message.clusterId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

@@ -13,6 +13,7 @@ import { reflectionMergePartial } from "@protobuf-ts/runtime";
 import { MessageType } from "@protobuf-ts/runtime";
 import { BearerTokenFormat } from "./routes";
 import { Struct } from "./google/protobuf/struct";
+import { IssuerFormat } from "./routes";
 import { JwtGroupsFilter } from "./routes";
 import { Duration } from "./google/protobuf/duration";
 import { Timestamp } from "./google/protobuf/timestamp";
@@ -31,11 +32,19 @@ export interface ConsoleSettings {
 }
 /**
  * Settings defines the global pomerium settings
- * Next id: 106.
+ * Next id: 110.
  *
  * @generated from protobuf message pomerium.dashboard.Settings
  */
 export interface Settings {
+    /**
+     * @generated from protobuf field: string id = 107;
+     */
+    id: string;
+    /**
+     * @generated from protobuf field: optional string cluster_id = 108;
+     */
+    clusterId?: string;
     /**
      * @generated from protobuf field: google.protobuf.Timestamp modified_at = 1;
      */
@@ -198,6 +207,10 @@ export interface Settings {
      * @generated from protobuf field: pomerium.dashboard.JwtGroupsFilter jwt_groups_filter = 87;
      */
     jwtGroupsFilter?: JwtGroupsFilter;
+    /**
+     * @generated from protobuf field: optional pomerium.dashboard.IssuerFormat jwt_issuer_format = 106;
+     */
+    jwtIssuerFormat?: IssuerFormat;
     /**
      * @generated from protobuf field: optional google.protobuf.Duration default_upstream_timeout = 39;
      */
@@ -386,6 +399,10 @@ export interface Settings {
      * @generated from protobuf field: optional pomerium.dashboard.Settings.StringList idp_access_token_allowed_audiences = 105;
      */
     idpAccessTokenAllowedAudiences?: Settings_StringList;
+    /**
+     * @generated from protobuf field: optional pomerium.dashboard.CodecType codec_type = 109;
+     */
+    codecType?: CodecType;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.Settings.Certificate
@@ -431,6 +448,10 @@ export interface GetConsoleSettingsResponse {
  * @generated from protobuf message pomerium.dashboard.GetSettingsRequest
  */
 export interface GetSettingsRequest {
+    /**
+     * @generated from protobuf field: optional string cluster_id = 1;
+     */
+    clusterId?: string;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.GetSettingsResponse
@@ -458,6 +479,31 @@ export interface SetSettingsResponse {
      * @generated from protobuf field: pomerium.dashboard.Settings settings = 1;
      */
     settings?: Settings;
+}
+/**
+ * @generated from protobuf enum pomerium.dashboard.CodecType
+ */
+export enum CodecType {
+    /**
+     * @generated from protobuf enum value: CODEC_TYPE_UNKNOWN = 0;
+     */
+    UNKNOWN = 0,
+    /**
+     * @generated from protobuf enum value: CODEC_TYPE_AUTO = 1;
+     */
+    AUTO = 1,
+    /**
+     * @generated from protobuf enum value: CODEC_TYPE_HTTP1 = 2;
+     */
+    HTTP1 = 2,
+    /**
+     * @generated from protobuf enum value: CODEC_TYPE_HTTP2 = 3;
+     */
+    HTTP2 = 3,
+    /**
+     * @generated from protobuf enum value: CODEC_TYPE_HTTP3 = 4;
+     */
+    HTTP3 = 4
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class ConsoleSettings$Type extends MessageType<ConsoleSettings> {
@@ -518,6 +564,8 @@ export const ConsoleSettings = new ConsoleSettings$Type();
 class Settings$Type extends MessageType<Settings> {
     constructor() {
         super("pomerium.dashboard.Settings", [
+            { no: 107, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 108, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 1, name: "modified_at", kind: "message", T: () => Timestamp },
             { no: 68, name: "installation_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "log_level", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
@@ -557,6 +605,7 @@ class Settings$Type extends MessageType<Settings> {
             { no: 67, name: "set_response_headers", kind: "map", K: 9 /*ScalarType.STRING*/, V: { kind: "scalar", T: 9 /*ScalarType.STRING*/ } },
             { no: 66, name: "jwt_claims_headers", kind: "map", K: 9 /*ScalarType.STRING*/, V: { kind: "scalar", T: 9 /*ScalarType.STRING*/ } },
             { no: 87, name: "jwt_groups_filter", kind: "message", T: () => JwtGroupsFilter },
+            { no: 106, name: "jwt_issuer_format", kind: "enum", opt: true, T: () => ["pomerium.dashboard.IssuerFormat", IssuerFormat] },
             { no: 39, name: "default_upstream_timeout", kind: "message", T: () => Duration },
             { no: 40, name: "metrics_address", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 88, name: "otel_traces_exporter", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
@@ -603,11 +652,13 @@ class Settings$Type extends MessageType<Settings> {
             { no: 84, name: "pass_identity_headers", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ },
             { no: 103, name: "originator_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 104, name: "bearer_token_format", kind: "enum", opt: true, T: () => ["pomerium.dashboard.BearerTokenFormat", BearerTokenFormat, "BEARER_TOKEN_FORMAT_"] },
-            { no: 105, name: "idp_access_token_allowed_audiences", kind: "message", T: () => Settings_StringList }
+            { no: 105, name: "idp_access_token_allowed_audiences", kind: "message", T: () => Settings_StringList },
+            { no: 109, name: "codec_type", kind: "enum", opt: true, T: () => ["pomerium.dashboard.CodecType", CodecType, "CODEC_TYPE_"] }
         ]);
     }
     create(value?: PartialMessage<Settings>): Settings {
         const message = globalThis.Object.create((this.messagePrototype!));
+        message.id = "";
         message.certificates = [];
         message.scopes = [];
         message.requestParams = {};
@@ -626,6 +677,12 @@ class Settings$Type extends MessageType<Settings> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
+                case /* string id */ 107:
+                    message.id = reader.string();
+                    break;
+                case /* optional string cluster_id */ 108:
+                    message.clusterId = reader.string();
+                    break;
                 case /* google.protobuf.Timestamp modified_at */ 1:
                     message.modifiedAt = Timestamp.internalBinaryRead(reader, reader.uint32(), options, message.modifiedAt);
                     break;
@@ -742,6 +799,9 @@ class Settings$Type extends MessageType<Settings> {
                     break;
                 case /* pomerium.dashboard.JwtGroupsFilter jwt_groups_filter */ 87:
                     message.jwtGroupsFilter = JwtGroupsFilter.internalBinaryRead(reader, reader.uint32(), options, message.jwtGroupsFilter);
+                    break;
+                case /* optional pomerium.dashboard.IssuerFormat jwt_issuer_format */ 106:
+                    message.jwtIssuerFormat = reader.int32();
                     break;
                 case /* optional google.protobuf.Duration default_upstream_timeout */ 39:
                     message.defaultUpstreamTimeout = Duration.internalBinaryRead(reader, reader.uint32(), options, message.defaultUpstreamTimeout);
@@ -884,6 +944,9 @@ class Settings$Type extends MessageType<Settings> {
                 case /* optional pomerium.dashboard.Settings.StringList idp_access_token_allowed_audiences */ 105:
                     message.idpAccessTokenAllowedAudiences = Settings_StringList.internalBinaryRead(reader, reader.uint32(), options, message.idpAccessTokenAllowedAudiences);
                     break;
+                case /* optional pomerium.dashboard.CodecType codec_type */ 109:
+                    message.codecType = reader.int32();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -944,6 +1007,12 @@ class Settings$Type extends MessageType<Settings> {
         map[key ?? ""] = val ?? "";
     }
     internalBinaryWrite(message: Settings, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string id = 107; */
+        if (message.id !== "")
+            writer.tag(107, WireType.LengthDelimited).string(message.id);
+        /* optional string cluster_id = 108; */
+        if (message.clusterId !== undefined)
+            writer.tag(108, WireType.LengthDelimited).string(message.clusterId);
         /* google.protobuf.Timestamp modified_at = 1; */
         if (message.modifiedAt)
             Timestamp.internalBinaryWrite(message.modifiedAt, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
@@ -1061,6 +1130,9 @@ class Settings$Type extends MessageType<Settings> {
         /* pomerium.dashboard.JwtGroupsFilter jwt_groups_filter = 87; */
         if (message.jwtGroupsFilter)
             JwtGroupsFilter.internalBinaryWrite(message.jwtGroupsFilter, writer.tag(87, WireType.LengthDelimited).fork(), options).join();
+        /* optional pomerium.dashboard.IssuerFormat jwt_issuer_format = 106; */
+        if (message.jwtIssuerFormat !== undefined)
+            writer.tag(106, WireType.Varint).int32(message.jwtIssuerFormat);
         /* optional google.protobuf.Duration default_upstream_timeout = 39; */
         if (message.defaultUpstreamTimeout)
             Duration.internalBinaryWrite(message.defaultUpstreamTimeout, writer.tag(39, WireType.LengthDelimited).fork(), options).join();
@@ -1202,6 +1274,9 @@ class Settings$Type extends MessageType<Settings> {
         /* optional pomerium.dashboard.Settings.StringList idp_access_token_allowed_audiences = 105; */
         if (message.idpAccessTokenAllowedAudiences)
             Settings_StringList.internalBinaryWrite(message.idpAccessTokenAllowedAudiences, writer.tag(105, WireType.LengthDelimited).fork(), options).join();
+        /* optional pomerium.dashboard.CodecType codec_type = 109; */
+        if (message.codecType !== undefined)
+            writer.tag(109, WireType.Varint).int32(message.codecType);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -1396,7 +1471,9 @@ export const GetConsoleSettingsResponse = new GetConsoleSettingsResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class GetSettingsRequest$Type extends MessageType<GetSettingsRequest> {
     constructor() {
-        super("pomerium.dashboard.GetSettingsRequest", []);
+        super("pomerium.dashboard.GetSettingsRequest", [
+            { no: 1, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
+        ]);
     }
     create(value?: PartialMessage<GetSettingsRequest>): GetSettingsRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
@@ -1405,9 +1482,28 @@ class GetSettingsRequest$Type extends MessageType<GetSettingsRequest> {
         return message;
     }
     internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetSettingsRequest): GetSettingsRequest {
-        return target ?? this.create();
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* optional string cluster_id */ 1:
+                    message.clusterId = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
     }
     internalBinaryWrite(message: GetSettingsRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* optional string cluster_id = 1; */
+        if (message.clusterId !== undefined)
+            writer.tag(1, WireType.LengthDelimited).string(message.clusterId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

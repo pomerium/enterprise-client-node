@@ -5,6 +5,7 @@ import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { DeviceService } from "./devices";
 import type { ListDeviceTypesResponse } from "./devices";
+import type { ListDeviceTypesRequest } from "./devices";
 import type { ListDevicesResponse } from "./devices";
 import type { ListDevicesRequest } from "./devices";
 import type { DeleteDeviceTypeRequest } from "./devices";
@@ -49,9 +50,9 @@ export interface IDeviceServiceClient {
      */
     listDevices(input: ListDevicesRequest, options?: RpcOptions): UnaryCall<ListDevicesRequest, ListDevicesResponse>;
     /**
-     * @generated from protobuf rpc: ListDeviceTypes(google.protobuf.Empty) returns (pomerium.dashboard.ListDeviceTypesResponse);
+     * @generated from protobuf rpc: ListDeviceTypes(pomerium.dashboard.ListDeviceTypesRequest) returns (pomerium.dashboard.ListDeviceTypesResponse);
      */
-    listDeviceTypes(input: Empty, options?: RpcOptions): UnaryCall<Empty, ListDeviceTypesResponse>;
+    listDeviceTypes(input: ListDeviceTypesRequest, options?: RpcOptions): UnaryCall<ListDeviceTypesRequest, ListDeviceTypesResponse>;
 }
 /**
  * DeviceService manages device credentials, enrollments and types
@@ -107,10 +108,10 @@ export class DeviceServiceClient implements IDeviceServiceClient, ServiceInfo {
         return stackIntercept<ListDevicesRequest, ListDevicesResponse>("unary", this._transport, method, opt, input);
     }
     /**
-     * @generated from protobuf rpc: ListDeviceTypes(google.protobuf.Empty) returns (pomerium.dashboard.ListDeviceTypesResponse);
+     * @generated from protobuf rpc: ListDeviceTypes(pomerium.dashboard.ListDeviceTypesRequest) returns (pomerium.dashboard.ListDeviceTypesResponse);
      */
-    listDeviceTypes(input: Empty, options?: RpcOptions): UnaryCall<Empty, ListDeviceTypesResponse> {
+    listDeviceTypes(input: ListDeviceTypesRequest, options?: RpcOptions): UnaryCall<ListDeviceTypesRequest, ListDeviceTypesResponse> {
         const method = this.methods[6], opt = this._transport.mergeOptions(options);
-        return stackIntercept<Empty, ListDeviceTypesResponse>("unary", this._transport, method, opt, input);
+        return stackIntercept<ListDeviceTypesRequest, ListDeviceTypesResponse>("unary", this._transport, method, opt, input);
     }
 }
