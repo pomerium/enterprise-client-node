@@ -72,8 +72,53 @@ export interface JwtGroupsFilter {
     inferFromPpl?: boolean;
 }
 /**
+ * CircuitBreakerThresholds defines CircuitBreaker settings.
+ *
+ * @generated from protobuf message pomerium.dashboard.CircuitBreakerThresholds
+ */
+export interface CircuitBreakerThresholds {
+    /**
+     * The maximum number of connections that Envoy will make to the upstream
+     * cluster. If not specified, the default is 1024.
+     *
+     * @generated from protobuf field: optional uint32 max_connections = 1;
+     */
+    maxConnections?: number;
+    /**
+     * The maximum number of pending requests that Envoy will allow to the
+     * upstream cluster. If not specified, the default is 1024. This limit is
+     * applied as a connection limit for non-HTTP traffic.
+     *
+     * @generated from protobuf field: optional uint32 max_pending_requests = 2;
+     */
+    maxPendingRequests?: number;
+    /**
+     * The maximum number of parallel requests that Envoy will make to the
+     * upstream cluster. If not specified, the default is 1024. This limit does
+     * not apply to non-HTTP traffic.
+     *
+     * @generated from protobuf field: optional uint32 max_requests = 3;
+     */
+    maxRequests?: number;
+    /**
+     * The maximum number of parallel retries that Envoy will allow to the
+     * upstream cluster. If not specified, the default is 3.
+     *
+     * @generated from protobuf field: optional uint32 max_retries = 4;
+     */
+    maxRetries?: number;
+    /**
+     * The maximum number of connection pools per cluster that Envoy will
+     * concurrently support at once. If not specified, the default is unlimited.
+     * Set this for clusters which create a large number of connection pools.
+     *
+     * @generated from protobuf field: optional uint32 max_connection_pools = 5;
+     */
+    maxConnectionPools?: number;
+}
+/**
  * Route defines a proxy route's settings and policy associations
- * Next ID: 73
+ * Next ID: 74
  *
  * @generated from protobuf message pomerium.dashboard.Route
  */
@@ -334,6 +379,10 @@ export interface Route {
      * @generated from protobuf field: repeated pomerium.dashboard.HealthCheck health_checks = 71;
      */
     healthChecks: HealthCheck[];
+    /**
+     * @generated from protobuf field: optional pomerium.dashboard.CircuitBreakerThresholds circuit_breaker_thresholds = 73;
+     */
+    circuitBreakerThresholds?: CircuitBreakerThresholds;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.Route.StringList
@@ -805,6 +854,80 @@ class JwtGroupsFilter$Type extends MessageType<JwtGroupsFilter> {
  */
 export const JwtGroupsFilter = new JwtGroupsFilter$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class CircuitBreakerThresholds$Type extends MessageType<CircuitBreakerThresholds> {
+    constructor() {
+        super("pomerium.dashboard.CircuitBreakerThresholds", [
+            { no: 1, name: "max_connections", kind: "scalar", opt: true, T: 13 /*ScalarType.UINT32*/ },
+            { no: 2, name: "max_pending_requests", kind: "scalar", opt: true, T: 13 /*ScalarType.UINT32*/ },
+            { no: 3, name: "max_requests", kind: "scalar", opt: true, T: 13 /*ScalarType.UINT32*/ },
+            { no: 4, name: "max_retries", kind: "scalar", opt: true, T: 13 /*ScalarType.UINT32*/ },
+            { no: 5, name: "max_connection_pools", kind: "scalar", opt: true, T: 13 /*ScalarType.UINT32*/ }
+        ]);
+    }
+    create(value?: PartialMessage<CircuitBreakerThresholds>): CircuitBreakerThresholds {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<CircuitBreakerThresholds>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: CircuitBreakerThresholds): CircuitBreakerThresholds {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* optional uint32 max_connections */ 1:
+                    message.maxConnections = reader.uint32();
+                    break;
+                case /* optional uint32 max_pending_requests */ 2:
+                    message.maxPendingRequests = reader.uint32();
+                    break;
+                case /* optional uint32 max_requests */ 3:
+                    message.maxRequests = reader.uint32();
+                    break;
+                case /* optional uint32 max_retries */ 4:
+                    message.maxRetries = reader.uint32();
+                    break;
+                case /* optional uint32 max_connection_pools */ 5:
+                    message.maxConnectionPools = reader.uint32();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: CircuitBreakerThresholds, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* optional uint32 max_connections = 1; */
+        if (message.maxConnections !== undefined)
+            writer.tag(1, WireType.Varint).uint32(message.maxConnections);
+        /* optional uint32 max_pending_requests = 2; */
+        if (message.maxPendingRequests !== undefined)
+            writer.tag(2, WireType.Varint).uint32(message.maxPendingRequests);
+        /* optional uint32 max_requests = 3; */
+        if (message.maxRequests !== undefined)
+            writer.tag(3, WireType.Varint).uint32(message.maxRequests);
+        /* optional uint32 max_retries = 4; */
+        if (message.maxRetries !== undefined)
+            writer.tag(4, WireType.Varint).uint32(message.maxRetries);
+        /* optional uint32 max_connection_pools = 5; */
+        if (message.maxConnectionPools !== undefined)
+            writer.tag(5, WireType.Varint).uint32(message.maxConnectionPools);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.CircuitBreakerThresholds
+ */
+export const CircuitBreakerThresholds = new CircuitBreakerThresholds$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class Route$Type extends MessageType<Route> {
     constructor() {
         super("pomerium.dashboard.Route", [
@@ -867,7 +990,8 @@ class Route$Type extends MessageType<Route> {
             { no: 64, name: "enforced_policy_names", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
             { no: 69, name: "idp_access_token_allowed_audiences", kind: "message", T: () => Route_StringList },
             { no: 70, name: "load_balancing_policy", kind: "enum", opt: true, T: () => ["pomerium.dashboard.LoadBalancingPolicy", LoadBalancingPolicy, "LOAD_BALANCING_POLICY_"], options: { "validate.rules": { enum: { definedOnly: true } } } },
-            { no: 71, name: "health_checks", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => HealthCheck }
+            { no: 71, name: "health_checks", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => HealthCheck },
+            { no: 73, name: "circuit_breaker_thresholds", kind: "message", T: () => CircuitBreakerThresholds }
         ]);
     }
     create(value?: PartialMessage<Route>): Route {
@@ -1080,6 +1204,9 @@ class Route$Type extends MessageType<Route> {
                     break;
                 case /* repeated pomerium.dashboard.HealthCheck health_checks */ 71:
                     message.healthChecks.push(HealthCheck.internalBinaryRead(reader, reader.uint32(), options));
+                    break;
+                case /* optional pomerium.dashboard.CircuitBreakerThresholds circuit_breaker_thresholds */ 73:
+                    message.circuitBreakerThresholds = CircuitBreakerThresholds.internalBinaryRead(reader, reader.uint32(), options, message.circuitBreakerThresholds);
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -1305,6 +1432,9 @@ class Route$Type extends MessageType<Route> {
         /* repeated pomerium.dashboard.HealthCheck health_checks = 71; */
         for (let i = 0; i < message.healthChecks.length; i++)
             HealthCheck.internalBinaryWrite(message.healthChecks[i], writer.tag(71, WireType.LengthDelimited).fork(), options).join();
+        /* optional pomerium.dashboard.CircuitBreakerThresholds circuit_breaker_thresholds = 73; */
+        if (message.circuitBreakerThresholds)
+            CircuitBreakerThresholds.internalBinaryWrite(message.circuitBreakerThresholds, writer.tag(73, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

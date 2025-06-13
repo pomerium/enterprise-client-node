@@ -11,6 +11,7 @@ import { UnknownFieldHandler } from "@protobuf-ts/runtime";
 import type { PartialMessage } from "@protobuf-ts/runtime";
 import { reflectionMergePartial } from "@protobuf-ts/runtime";
 import { MessageType } from "@protobuf-ts/runtime";
+import { CircuitBreakerThresholds } from "./routes";
 import { BearerTokenFormat } from "./routes";
 import { Struct } from "./google/protobuf/struct";
 import { IssuerFormat } from "./routes";
@@ -32,7 +33,7 @@ export interface ConsoleSettings {
 }
 /**
  * Settings defines the global pomerium settings
- * Next id: 110.
+ * Next id: 111.
  *
  * @generated from protobuf message pomerium.dashboard.Settings
  */
@@ -403,6 +404,10 @@ export interface Settings {
      * @generated from protobuf field: optional pomerium.dashboard.CodecType codec_type = 109;
      */
     codecType?: CodecType;
+    /**
+     * @generated from protobuf field: optional pomerium.dashboard.CircuitBreakerThresholds circuit_breaker_thresholds = 110;
+     */
+    circuitBreakerThresholds?: CircuitBreakerThresholds;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.Settings.Certificate
@@ -653,7 +658,8 @@ class Settings$Type extends MessageType<Settings> {
             { no: 103, name: "originator_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 104, name: "bearer_token_format", kind: "enum", opt: true, T: () => ["pomerium.dashboard.BearerTokenFormat", BearerTokenFormat, "BEARER_TOKEN_FORMAT_"] },
             { no: 105, name: "idp_access_token_allowed_audiences", kind: "message", T: () => Settings_StringList },
-            { no: 109, name: "codec_type", kind: "enum", opt: true, T: () => ["pomerium.dashboard.CodecType", CodecType, "CODEC_TYPE_"] }
+            { no: 109, name: "codec_type", kind: "enum", opt: true, T: () => ["pomerium.dashboard.CodecType", CodecType, "CODEC_TYPE_"] },
+            { no: 110, name: "circuit_breaker_thresholds", kind: "message", T: () => CircuitBreakerThresholds }
         ]);
     }
     create(value?: PartialMessage<Settings>): Settings {
@@ -946,6 +952,9 @@ class Settings$Type extends MessageType<Settings> {
                     break;
                 case /* optional pomerium.dashboard.CodecType codec_type */ 109:
                     message.codecType = reader.int32();
+                    break;
+                case /* optional pomerium.dashboard.CircuitBreakerThresholds circuit_breaker_thresholds */ 110:
+                    message.circuitBreakerThresholds = CircuitBreakerThresholds.internalBinaryRead(reader, reader.uint32(), options, message.circuitBreakerThresholds);
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -1277,6 +1286,9 @@ class Settings$Type extends MessageType<Settings> {
         /* optional pomerium.dashboard.CodecType codec_type = 109; */
         if (message.codecType !== undefined)
             writer.tag(109, WireType.Varint).int32(message.codecType);
+        /* optional pomerium.dashboard.CircuitBreakerThresholds circuit_breaker_thresholds = 110; */
+        if (message.circuitBreakerThresholds)
+            CircuitBreakerThresholds.internalBinaryWrite(message.circuitBreakerThresholds, writer.tag(110, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
