@@ -11,6 +11,7 @@ import { UnknownFieldHandler } from "@protobuf-ts/runtime";
 import type { PartialMessage } from "@protobuf-ts/runtime";
 import { reflectionMergePartial } from "@protobuf-ts/runtime";
 import { MessageType } from "@protobuf-ts/runtime";
+import { CircuitBreakerThresholds } from "./routes";
 import { BearerTokenFormat } from "./routes";
 import { Struct } from "./google/protobuf/struct";
 import { IssuerFormat } from "./routes";
@@ -32,7 +33,7 @@ export interface ConsoleSettings {
 }
 /**
  * Settings defines the global pomerium settings
- * Next id: 110.
+ * Next id: 116.
  *
  * @generated from protobuf message pomerium.dashboard.Settings
  */
@@ -403,6 +404,30 @@ export interface Settings {
      * @generated from protobuf field: optional pomerium.dashboard.CodecType codec_type = 109;
      */
     codecType?: CodecType;
+    /**
+     * @generated from protobuf field: optional pomerium.dashboard.CircuitBreakerThresholds circuit_breaker_thresholds = 110;
+     */
+    circuitBreakerThresholds?: CircuitBreakerThresholds;
+    /**
+     * @generated from protobuf field: optional string ssh_address = 111;
+     */
+    sshAddress?: string;
+    /**
+     * @generated from protobuf field: optional pomerium.dashboard.Settings.StringList ssh_host_key_files = 112;
+     */
+    sshHostKeyFiles?: Settings_StringList;
+    /**
+     * @generated from protobuf field: optional pomerium.dashboard.Settings.StringList ssh_host_keys = 113;
+     */
+    sshHostKeys?: Settings_StringList;
+    /**
+     * @generated from protobuf field: optional string ssh_user_ca_key_file = 114;
+     */
+    sshUserCaKeyFile?: string;
+    /**
+     * @generated from protobuf field: optional string ssh_user_ca_key = 115;
+     */
+    sshUserCaKey?: string;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.Settings.Certificate
@@ -653,7 +678,13 @@ class Settings$Type extends MessageType<Settings> {
             { no: 103, name: "originator_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 104, name: "bearer_token_format", kind: "enum", opt: true, T: () => ["pomerium.dashboard.BearerTokenFormat", BearerTokenFormat, "BEARER_TOKEN_FORMAT_"] },
             { no: 105, name: "idp_access_token_allowed_audiences", kind: "message", T: () => Settings_StringList },
-            { no: 109, name: "codec_type", kind: "enum", opt: true, T: () => ["pomerium.dashboard.CodecType", CodecType, "CODEC_TYPE_"] }
+            { no: 109, name: "codec_type", kind: "enum", opt: true, T: () => ["pomerium.dashboard.CodecType", CodecType, "CODEC_TYPE_"] },
+            { no: 110, name: "circuit_breaker_thresholds", kind: "message", T: () => CircuitBreakerThresholds },
+            { no: 111, name: "ssh_address", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 112, name: "ssh_host_key_files", kind: "message", T: () => Settings_StringList },
+            { no: 113, name: "ssh_host_keys", kind: "message", T: () => Settings_StringList },
+            { no: 114, name: "ssh_user_ca_key_file", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 115, name: "ssh_user_ca_key", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<Settings>): Settings {
@@ -946,6 +977,24 @@ class Settings$Type extends MessageType<Settings> {
                     break;
                 case /* optional pomerium.dashboard.CodecType codec_type */ 109:
                     message.codecType = reader.int32();
+                    break;
+                case /* optional pomerium.dashboard.CircuitBreakerThresholds circuit_breaker_thresholds */ 110:
+                    message.circuitBreakerThresholds = CircuitBreakerThresholds.internalBinaryRead(reader, reader.uint32(), options, message.circuitBreakerThresholds);
+                    break;
+                case /* optional string ssh_address */ 111:
+                    message.sshAddress = reader.string();
+                    break;
+                case /* optional pomerium.dashboard.Settings.StringList ssh_host_key_files */ 112:
+                    message.sshHostKeyFiles = Settings_StringList.internalBinaryRead(reader, reader.uint32(), options, message.sshHostKeyFiles);
+                    break;
+                case /* optional pomerium.dashboard.Settings.StringList ssh_host_keys */ 113:
+                    message.sshHostKeys = Settings_StringList.internalBinaryRead(reader, reader.uint32(), options, message.sshHostKeys);
+                    break;
+                case /* optional string ssh_user_ca_key_file */ 114:
+                    message.sshUserCaKeyFile = reader.string();
+                    break;
+                case /* optional string ssh_user_ca_key */ 115:
+                    message.sshUserCaKey = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -1277,6 +1326,24 @@ class Settings$Type extends MessageType<Settings> {
         /* optional pomerium.dashboard.CodecType codec_type = 109; */
         if (message.codecType !== undefined)
             writer.tag(109, WireType.Varint).int32(message.codecType);
+        /* optional pomerium.dashboard.CircuitBreakerThresholds circuit_breaker_thresholds = 110; */
+        if (message.circuitBreakerThresholds)
+            CircuitBreakerThresholds.internalBinaryWrite(message.circuitBreakerThresholds, writer.tag(110, WireType.LengthDelimited).fork(), options).join();
+        /* optional string ssh_address = 111; */
+        if (message.sshAddress !== undefined)
+            writer.tag(111, WireType.LengthDelimited).string(message.sshAddress);
+        /* optional pomerium.dashboard.Settings.StringList ssh_host_key_files = 112; */
+        if (message.sshHostKeyFiles)
+            Settings_StringList.internalBinaryWrite(message.sshHostKeyFiles, writer.tag(112, WireType.LengthDelimited).fork(), options).join();
+        /* optional pomerium.dashboard.Settings.StringList ssh_host_keys = 113; */
+        if (message.sshHostKeys)
+            Settings_StringList.internalBinaryWrite(message.sshHostKeys, writer.tag(113, WireType.LengthDelimited).fork(), options).join();
+        /* optional string ssh_user_ca_key_file = 114; */
+        if (message.sshUserCaKeyFile !== undefined)
+            writer.tag(114, WireType.LengthDelimited).string(message.sshUserCaKeyFile);
+        /* optional string ssh_user_ca_key = 115; */
+        if (message.sshUserCaKey !== undefined)
+            writer.tag(115, WireType.LengthDelimited).string(message.sshUserCaKey);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

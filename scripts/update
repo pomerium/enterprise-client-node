@@ -6,8 +6,7 @@ _root_dir="$(dirname "$_scripts_dir")"
 _deps_dir="$_root_dir/deps"
 
 readonly _git_deps=(
-    "pomerium/pomerium|5b024a8ada0f7fc2877a8d263b448f435cc45098"
-    "pomerium/enterprise-client|5765e735b60781392f56685ad901906e0a1ea006"
+    "pomerium/enterprise-client|2aaa1f486b0001ea0c66e38081a914fed30518b1"
     'envoyproxy/protoc-gen-validate|v1.2.1'
     'googleapis/googleapis|114a745b2841a044e98cdbb19358ed29fcf4a5f1'
 )
@@ -50,7 +49,6 @@ for _f in "$_deps_dir/github.com/pomerium/enterprise-client/protos/pomerium-cons
             --proto_path="$_deps_dir" \
             --proto_path="$_deps_dir/github.com/envoyproxy/protoc-gen-validate" \
             --proto_path="$_deps_dir/github.com/googleapis/googleapis" \
-            --proto_path="$_deps_dir/github.com/pomerium/pomerium/pkg/grpc" \
             --proto_path="$_deps_dir/github.com/pomerium/enterprise-client/protos/pomerium-console" \
             "$(basename "$_f")"
     )
