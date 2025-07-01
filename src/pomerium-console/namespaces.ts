@@ -212,6 +212,26 @@ export interface NamespacePermission {
  */
 export interface NamespacePermissionGroup {
     /**
+     * @generated from protobuf field: string id = 8;
+     */
+    id: string;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp created_at = 9;
+     */
+    createdAt?: Timestamp;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp modified_at = 10;
+     */
+    modifiedAt?: Timestamp;
+    /**
+     * @generated from protobuf field: string namespace_id = 4;
+     */
+    namespaceId: string;
+    /**
+     * @generated from protobuf field: string namespace_name = 5;
+     */
+    namespaceName: string;
+    /**
      * @generated from protobuf field: string group_id = 1;
      */
     groupId: string;
@@ -223,14 +243,6 @@ export interface NamespacePermissionGroup {
      * @generated from protobuf field: string group_email = 3;
      */
     groupEmail: string;
-    /**
-     * @generated from protobuf field: string namespace_id = 4;
-     */
-    namespaceId: string;
-    /**
-     * @generated from protobuf field: string namespace_name = 5;
-     */
-    namespaceName: string;
     /**
      * @generated from protobuf field: string role = 6;
      */
@@ -247,6 +259,26 @@ export interface NamespacePermissionGroup {
  */
 export interface NamespacePermissionUser {
     /**
+     * @generated from protobuf field: string id = 9;
+     */
+    id: string;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp created_at = 10;
+     */
+    createdAt?: Timestamp;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp modified_at = 11;
+     */
+    modifiedAt?: Timestamp;
+    /**
+     * @generated from protobuf field: string namespace_id = 5;
+     */
+    namespaceId: string;
+    /**
+     * @generated from protobuf field: string namespace_name = 7;
+     */
+    namespaceName: string;
+    /**
      * @generated from protobuf field: string user_id = 1;
      */
     userId: string;
@@ -262,14 +294,6 @@ export interface NamespacePermissionUser {
      * @generated from protobuf field: repeated string group_ids = 4;
      */
     groupIds: string[];
-    /**
-     * @generated from protobuf field: string namespace_id = 5;
-     */
-    namespaceId: string;
-    /**
-     * @generated from protobuf field: string namespace_name = 7;
-     */
-    namespaceName: string;
     /**
      * @generated from protobuf field: string role = 6;
      */
@@ -1093,22 +1117,26 @@ export const NamespacePermission = new NamespacePermission$Type();
 class NamespacePermissionGroup$Type extends MessageType<NamespacePermissionGroup> {
     constructor() {
         super("pomerium.dashboard.NamespacePermissionGroup", [
+            { no: 8, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 9, name: "created_at", kind: "message", T: () => Timestamp },
+            { no: 10, name: "modified_at", kind: "message", T: () => Timestamp },
+            { no: 4, name: "namespace_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "namespace_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 1, name: "group_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "group_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "group_email", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "namespace_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "namespace_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 6, name: "role", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 7, name: "originator_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<NamespacePermissionGroup>): NamespacePermissionGroup {
         const message = globalThis.Object.create((this.messagePrototype!));
+        message.id = "";
+        message.namespaceId = "";
+        message.namespaceName = "";
         message.groupId = "";
         message.groupName = "";
         message.groupEmail = "";
-        message.namespaceId = "";
-        message.namespaceName = "";
         message.role = "";
         message.originatorId = "";
         if (value !== undefined)
@@ -1120,6 +1148,21 @@ class NamespacePermissionGroup$Type extends MessageType<NamespacePermissionGroup
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
+                case /* string id */ 8:
+                    message.id = reader.string();
+                    break;
+                case /* google.protobuf.Timestamp created_at */ 9:
+                    message.createdAt = Timestamp.internalBinaryRead(reader, reader.uint32(), options, message.createdAt);
+                    break;
+                case /* google.protobuf.Timestamp modified_at */ 10:
+                    message.modifiedAt = Timestamp.internalBinaryRead(reader, reader.uint32(), options, message.modifiedAt);
+                    break;
+                case /* string namespace_id */ 4:
+                    message.namespaceId = reader.string();
+                    break;
+                case /* string namespace_name */ 5:
+                    message.namespaceName = reader.string();
+                    break;
                 case /* string group_id */ 1:
                     message.groupId = reader.string();
                     break;
@@ -1128,12 +1171,6 @@ class NamespacePermissionGroup$Type extends MessageType<NamespacePermissionGroup
                     break;
                 case /* string group_email */ 3:
                     message.groupEmail = reader.string();
-                    break;
-                case /* string namespace_id */ 4:
-                    message.namespaceId = reader.string();
-                    break;
-                case /* string namespace_name */ 5:
-                    message.namespaceName = reader.string();
                     break;
                 case /* string role */ 6:
                     message.role = reader.string();
@@ -1153,6 +1190,21 @@ class NamespacePermissionGroup$Type extends MessageType<NamespacePermissionGroup
         return message;
     }
     internalBinaryWrite(message: NamespacePermissionGroup, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string id = 8; */
+        if (message.id !== "")
+            writer.tag(8, WireType.LengthDelimited).string(message.id);
+        /* google.protobuf.Timestamp created_at = 9; */
+        if (message.createdAt)
+            Timestamp.internalBinaryWrite(message.createdAt, writer.tag(9, WireType.LengthDelimited).fork(), options).join();
+        /* google.protobuf.Timestamp modified_at = 10; */
+        if (message.modifiedAt)
+            Timestamp.internalBinaryWrite(message.modifiedAt, writer.tag(10, WireType.LengthDelimited).fork(), options).join();
+        /* string namespace_id = 4; */
+        if (message.namespaceId !== "")
+            writer.tag(4, WireType.LengthDelimited).string(message.namespaceId);
+        /* string namespace_name = 5; */
+        if (message.namespaceName !== "")
+            writer.tag(5, WireType.LengthDelimited).string(message.namespaceName);
         /* string group_id = 1; */
         if (message.groupId !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.groupId);
@@ -1162,12 +1214,6 @@ class NamespacePermissionGroup$Type extends MessageType<NamespacePermissionGroup
         /* string group_email = 3; */
         if (message.groupEmail !== "")
             writer.tag(3, WireType.LengthDelimited).string(message.groupEmail);
-        /* string namespace_id = 4; */
-        if (message.namespaceId !== "")
-            writer.tag(4, WireType.LengthDelimited).string(message.namespaceId);
-        /* string namespace_name = 5; */
-        if (message.namespaceName !== "")
-            writer.tag(5, WireType.LengthDelimited).string(message.namespaceName);
         /* string role = 6; */
         if (message.role !== "")
             writer.tag(6, WireType.LengthDelimited).string(message.role);
@@ -1188,24 +1234,28 @@ export const NamespacePermissionGroup = new NamespacePermissionGroup$Type();
 class NamespacePermissionUser$Type extends MessageType<NamespacePermissionUser> {
     constructor() {
         super("pomerium.dashboard.NamespacePermissionUser", [
+            { no: 9, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 10, name: "created_at", kind: "message", T: () => Timestamp },
+            { no: 11, name: "modified_at", kind: "message", T: () => Timestamp },
+            { no: 5, name: "namespace_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 7, name: "namespace_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 1, name: "user_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "user_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "user_email", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "group_ids", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "namespace_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 7, name: "namespace_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 6, name: "role", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 8, name: "originator_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<NamespacePermissionUser>): NamespacePermissionUser {
         const message = globalThis.Object.create((this.messagePrototype!));
+        message.id = "";
+        message.namespaceId = "";
+        message.namespaceName = "";
         message.userId = "";
         message.userName = "";
         message.userEmail = "";
         message.groupIds = [];
-        message.namespaceId = "";
-        message.namespaceName = "";
         message.role = "";
         message.originatorId = "";
         if (value !== undefined)
@@ -1217,6 +1267,21 @@ class NamespacePermissionUser$Type extends MessageType<NamespacePermissionUser> 
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
+                case /* string id */ 9:
+                    message.id = reader.string();
+                    break;
+                case /* google.protobuf.Timestamp created_at */ 10:
+                    message.createdAt = Timestamp.internalBinaryRead(reader, reader.uint32(), options, message.createdAt);
+                    break;
+                case /* google.protobuf.Timestamp modified_at */ 11:
+                    message.modifiedAt = Timestamp.internalBinaryRead(reader, reader.uint32(), options, message.modifiedAt);
+                    break;
+                case /* string namespace_id */ 5:
+                    message.namespaceId = reader.string();
+                    break;
+                case /* string namespace_name */ 7:
+                    message.namespaceName = reader.string();
+                    break;
                 case /* string user_id */ 1:
                     message.userId = reader.string();
                     break;
@@ -1228,12 +1293,6 @@ class NamespacePermissionUser$Type extends MessageType<NamespacePermissionUser> 
                     break;
                 case /* repeated string group_ids */ 4:
                     message.groupIds.push(reader.string());
-                    break;
-                case /* string namespace_id */ 5:
-                    message.namespaceId = reader.string();
-                    break;
-                case /* string namespace_name */ 7:
-                    message.namespaceName = reader.string();
                     break;
                 case /* string role */ 6:
                     message.role = reader.string();
@@ -1253,6 +1312,21 @@ class NamespacePermissionUser$Type extends MessageType<NamespacePermissionUser> 
         return message;
     }
     internalBinaryWrite(message: NamespacePermissionUser, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string id = 9; */
+        if (message.id !== "")
+            writer.tag(9, WireType.LengthDelimited).string(message.id);
+        /* google.protobuf.Timestamp created_at = 10; */
+        if (message.createdAt)
+            Timestamp.internalBinaryWrite(message.createdAt, writer.tag(10, WireType.LengthDelimited).fork(), options).join();
+        /* google.protobuf.Timestamp modified_at = 11; */
+        if (message.modifiedAt)
+            Timestamp.internalBinaryWrite(message.modifiedAt, writer.tag(11, WireType.LengthDelimited).fork(), options).join();
+        /* string namespace_id = 5; */
+        if (message.namespaceId !== "")
+            writer.tag(5, WireType.LengthDelimited).string(message.namespaceId);
+        /* string namespace_name = 7; */
+        if (message.namespaceName !== "")
+            writer.tag(7, WireType.LengthDelimited).string(message.namespaceName);
         /* string user_id = 1; */
         if (message.userId !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.userId);
@@ -1265,12 +1339,6 @@ class NamespacePermissionUser$Type extends MessageType<NamespacePermissionUser> 
         /* repeated string group_ids = 4; */
         for (let i = 0; i < message.groupIds.length; i++)
             writer.tag(4, WireType.LengthDelimited).string(message.groupIds[i]);
-        /* string namespace_id = 5; */
-        if (message.namespaceId !== "")
-            writer.tag(5, WireType.LengthDelimited).string(message.namespaceId);
-        /* string namespace_name = 7; */
-        if (message.namespaceName !== "")
-            writer.tag(7, WireType.LengthDelimited).string(message.namespaceName);
         /* string role = 6; */
         if (message.role !== "")
             writer.tag(6, WireType.LengthDelimited).string(message.role);
