@@ -98,6 +98,28 @@ export interface UserInfo {
     isImpersonated: boolean;
 }
 /**
+ * @generated from protobuf message pomerium.dashboard.GetGroupInfoRequest
+ */
+export interface GetGroupInfoRequest {
+    /**
+     * @generated from protobuf field: string group_id = 1;
+     */
+    groupId: string;
+    /**
+     * @generated from protobuf field: optional string cluster_id = 2;
+     */
+    clusterId?: string;
+}
+/**
+ * @generated from protobuf message pomerium.dashboard.GetGroupInfoResponse
+ */
+export interface GetGroupInfoResponse {
+    /**
+     * @generated from protobuf field: pomerium.dashboard.GroupInfo group_info = 1;
+     */
+    groupInfo?: GroupInfo;
+}
+/**
  * @generated from protobuf message pomerium.dashboard.GetUserInfoRequest
  */
 export interface GetUserInfoRequest {
@@ -803,6 +825,106 @@ class UserInfo$Type extends MessageType<UserInfo> {
  * @generated MessageType for protobuf message pomerium.dashboard.UserInfo
  */
 export const UserInfo = new UserInfo$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetGroupInfoRequest$Type extends MessageType<GetGroupInfoRequest> {
+    constructor() {
+        super("pomerium.dashboard.GetGroupInfoRequest", [
+            { no: 1, name: "group_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<GetGroupInfoRequest>): GetGroupInfoRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.groupId = "";
+        if (value !== undefined)
+            reflectionMergePartial<GetGroupInfoRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetGroupInfoRequest): GetGroupInfoRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string group_id */ 1:
+                    message.groupId = reader.string();
+                    break;
+                case /* optional string cluster_id */ 2:
+                    message.clusterId = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetGroupInfoRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string group_id = 1; */
+        if (message.groupId !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.groupId);
+        /* optional string cluster_id = 2; */
+        if (message.clusterId !== undefined)
+            writer.tag(2, WireType.LengthDelimited).string(message.clusterId);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.GetGroupInfoRequest
+ */
+export const GetGroupInfoRequest = new GetGroupInfoRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetGroupInfoResponse$Type extends MessageType<GetGroupInfoResponse> {
+    constructor() {
+        super("pomerium.dashboard.GetGroupInfoResponse", [
+            { no: 1, name: "group_info", kind: "message", T: () => GroupInfo }
+        ]);
+    }
+    create(value?: PartialMessage<GetGroupInfoResponse>): GetGroupInfoResponse {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<GetGroupInfoResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetGroupInfoResponse): GetGroupInfoResponse {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* pomerium.dashboard.GroupInfo group_info */ 1:
+                    message.groupInfo = GroupInfo.internalBinaryRead(reader, reader.uint32(), options, message.groupInfo);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetGroupInfoResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* pomerium.dashboard.GroupInfo group_info = 1; */
+        if (message.groupInfo)
+            GroupInfo.internalBinaryWrite(message.groupInfo, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.GetGroupInfoResponse
+ */
+export const GetGroupInfoResponse = new GetGroupInfoResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class GetUserInfoRequest$Type extends MessageType<GetUserInfoRequest> {
     constructor() {
@@ -2394,6 +2516,7 @@ export const ImpersonateResponse = new ImpersonateResponse$Type();
  * @generated ServiceType for protobuf service pomerium.dashboard.UserService
  */
 export const UserService = new ServiceType("pomerium.dashboard.UserService", [
+    { name: "GetGroupInfo", options: {}, I: GetGroupInfoRequest, O: GetGroupInfoResponse },
     { name: "GetUserInfo", options: {}, I: GetUserInfoRequest, O: GetUserInfoResponse },
     { name: "QueryGroups", options: {}, I: QueryGroupsRequest, O: QueryGroupsResponse },
     { name: "QueryUsers", options: {}, I: QueryUsersRequest, O: QueryUsersResponse }

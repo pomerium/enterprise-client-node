@@ -28,9 +28,11 @@ import type { QueryUsersResponse } from "./users";
 import type { QueryUsersRequest } from "./users";
 import type { QueryGroupsResponse } from "./users";
 import type { QueryGroupsRequest } from "./users";
-import { stackIntercept } from "@protobuf-ts/runtime-rpc";
 import type { GetUserInfoResponse } from "./users";
 import type { GetUserInfoRequest } from "./users";
+import { stackIntercept } from "@protobuf-ts/runtime-rpc";
+import type { GetGroupInfoResponse } from "./users";
+import type { GetGroupInfoRequest } from "./users";
 import type { UnaryCall } from "@protobuf-ts/runtime-rpc";
 import type { RpcOptions } from "@protobuf-ts/runtime-rpc";
 /**
@@ -39,6 +41,12 @@ import type { RpcOptions } from "@protobuf-ts/runtime-rpc";
  * @generated from protobuf service pomerium.dashboard.UserService
  */
 export interface IUserServiceClient {
+    /**
+     * GetGroupInfo retrieves information about a group.
+     *
+     * @generated from protobuf rpc: GetGroupInfo(pomerium.dashboard.GetGroupInfoRequest) returns (pomerium.dashboard.GetGroupInfoResponse);
+     */
+    getGroupInfo(input: GetGroupInfoRequest, options?: RpcOptions): UnaryCall<GetGroupInfoRequest, GetGroupInfoResponse>;
     /**
      * GetUserInfo retrieves identity information and permission mappings for a
      * user
@@ -73,13 +81,22 @@ export class UserServiceClient implements IUserServiceClient, ServiceInfo {
     constructor(private readonly _transport: RpcTransport) {
     }
     /**
+     * GetGroupInfo retrieves information about a group.
+     *
+     * @generated from protobuf rpc: GetGroupInfo(pomerium.dashboard.GetGroupInfoRequest) returns (pomerium.dashboard.GetGroupInfoResponse);
+     */
+    getGroupInfo(input: GetGroupInfoRequest, options?: RpcOptions): UnaryCall<GetGroupInfoRequest, GetGroupInfoResponse> {
+        const method = this.methods[0], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetGroupInfoRequest, GetGroupInfoResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
      * GetUserInfo retrieves identity information and permission mappings for a
      * user
      *
      * @generated from protobuf rpc: GetUserInfo(pomerium.dashboard.GetUserInfoRequest) returns (pomerium.dashboard.GetUserInfoResponse);
      */
     getUserInfo(input: GetUserInfoRequest, options?: RpcOptions): UnaryCall<GetUserInfoRequest, GetUserInfoResponse> {
-        const method = this.methods[0], opt = this._transport.mergeOptions(options);
+        const method = this.methods[1], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetUserInfoRequest, GetUserInfoResponse>("unary", this._transport, method, opt, input);
     }
     /**
@@ -89,7 +106,7 @@ export class UserServiceClient implements IUserServiceClient, ServiceInfo {
      * @generated from protobuf rpc: QueryGroups(pomerium.dashboard.QueryGroupsRequest) returns (pomerium.dashboard.QueryGroupsResponse);
      */
     queryGroups(input: QueryGroupsRequest, options?: RpcOptions): UnaryCall<QueryGroupsRequest, QueryGroupsResponse> {
-        const method = this.methods[1], opt = this._transport.mergeOptions(options);
+        const method = this.methods[2], opt = this._transport.mergeOptions(options);
         return stackIntercept<QueryGroupsRequest, QueryGroupsResponse>("unary", this._transport, method, opt, input);
     }
     /**
@@ -99,7 +116,7 @@ export class UserServiceClient implements IUserServiceClient, ServiceInfo {
      * @generated from protobuf rpc: QueryUsers(pomerium.dashboard.QueryUsersRequest) returns (pomerium.dashboard.QueryUsersResponse);
      */
     queryUsers(input: QueryUsersRequest, options?: RpcOptions): UnaryCall<QueryUsersRequest, QueryUsersResponse> {
-        const method = this.methods[2], opt = this._transport.mergeOptions(options);
+        const method = this.methods[3], opt = this._transport.mergeOptions(options);
         return stackIntercept<QueryUsersRequest, QueryUsersResponse>("unary", this._transport, method, opt, input);
     }
 }
