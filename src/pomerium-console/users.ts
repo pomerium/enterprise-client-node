@@ -556,6 +556,45 @@ export interface ListPomeriumSessionsResponse {
     totalCount: bigint;
 }
 /**
+ * @generated from protobuf message pomerium.dashboard.ListPomeriumSessionsForImpersonationRequest
+ */
+export interface ListPomeriumSessionsForImpersonationRequest {
+    /**
+     * @generated from protobuf field: optional string cluster_id = 1;
+     */
+    clusterId?: string;
+    /**
+     * @generated from protobuf field: optional string query = 2;
+     */
+    query?: string;
+}
+/**
+ * @generated from protobuf message pomerium.dashboard.ListPomeriumSessionsForImpersonationResponse
+ */
+export interface ListPomeriumSessionsForImpersonationResponse {
+    /**
+     * @generated from protobuf field: repeated pomerium.dashboard.ListPomeriumSessionsForImpersonationResponse.Session sessions = 1;
+     */
+    sessions: ListPomeriumSessionsForImpersonationResponse_Session[];
+}
+/**
+ * @generated from protobuf message pomerium.dashboard.ListPomeriumSessionsForImpersonationResponse.Session
+ */
+export interface ListPomeriumSessionsForImpersonationResponse_Session {
+    /**
+     * @generated from protobuf field: string id = 1;
+     */
+    id: string;
+    /**
+     * @generated from protobuf field: string user_display_name = 2;
+     */
+    userDisplayName: string;
+    /**
+     * @generated from protobuf field: string user_email = 3;
+     */
+    userEmail: string;
+}
+/**
  * ImpersonateRequest defines the identity information to impersonate
  *
  * @generated from protobuf message pomerium.dashboard.ImpersonateRequest
@@ -2434,6 +2473,169 @@ class ListPomeriumSessionsResponse$Type extends MessageType<ListPomeriumSessions
  */
 export const ListPomeriumSessionsResponse = new ListPomeriumSessionsResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class ListPomeriumSessionsForImpersonationRequest$Type extends MessageType<ListPomeriumSessionsForImpersonationRequest> {
+    constructor() {
+        super("pomerium.dashboard.ListPomeriumSessionsForImpersonationRequest", [
+            { no: 1, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "query", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<ListPomeriumSessionsForImpersonationRequest>): ListPomeriumSessionsForImpersonationRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<ListPomeriumSessionsForImpersonationRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ListPomeriumSessionsForImpersonationRequest): ListPomeriumSessionsForImpersonationRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* optional string cluster_id */ 1:
+                    message.clusterId = reader.string();
+                    break;
+                case /* optional string query */ 2:
+                    message.query = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: ListPomeriumSessionsForImpersonationRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* optional string cluster_id = 1; */
+        if (message.clusterId !== undefined)
+            writer.tag(1, WireType.LengthDelimited).string(message.clusterId);
+        /* optional string query = 2; */
+        if (message.query !== undefined)
+            writer.tag(2, WireType.LengthDelimited).string(message.query);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.ListPomeriumSessionsForImpersonationRequest
+ */
+export const ListPomeriumSessionsForImpersonationRequest = new ListPomeriumSessionsForImpersonationRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ListPomeriumSessionsForImpersonationResponse$Type extends MessageType<ListPomeriumSessionsForImpersonationResponse> {
+    constructor() {
+        super("pomerium.dashboard.ListPomeriumSessionsForImpersonationResponse", [
+            { no: 1, name: "sessions", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => ListPomeriumSessionsForImpersonationResponse_Session }
+        ]);
+    }
+    create(value?: PartialMessage<ListPomeriumSessionsForImpersonationResponse>): ListPomeriumSessionsForImpersonationResponse {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.sessions = [];
+        if (value !== undefined)
+            reflectionMergePartial<ListPomeriumSessionsForImpersonationResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ListPomeriumSessionsForImpersonationResponse): ListPomeriumSessionsForImpersonationResponse {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* repeated pomerium.dashboard.ListPomeriumSessionsForImpersonationResponse.Session sessions */ 1:
+                    message.sessions.push(ListPomeriumSessionsForImpersonationResponse_Session.internalBinaryRead(reader, reader.uint32(), options));
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: ListPomeriumSessionsForImpersonationResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* repeated pomerium.dashboard.ListPomeriumSessionsForImpersonationResponse.Session sessions = 1; */
+        for (let i = 0; i < message.sessions.length; i++)
+            ListPomeriumSessionsForImpersonationResponse_Session.internalBinaryWrite(message.sessions[i], writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.ListPomeriumSessionsForImpersonationResponse
+ */
+export const ListPomeriumSessionsForImpersonationResponse = new ListPomeriumSessionsForImpersonationResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ListPomeriumSessionsForImpersonationResponse_Session$Type extends MessageType<ListPomeriumSessionsForImpersonationResponse_Session> {
+    constructor() {
+        super("pomerium.dashboard.ListPomeriumSessionsForImpersonationResponse.Session", [
+            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "user_display_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "user_email", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<ListPomeriumSessionsForImpersonationResponse_Session>): ListPomeriumSessionsForImpersonationResponse_Session {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.id = "";
+        message.userDisplayName = "";
+        message.userEmail = "";
+        if (value !== undefined)
+            reflectionMergePartial<ListPomeriumSessionsForImpersonationResponse_Session>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ListPomeriumSessionsForImpersonationResponse_Session): ListPomeriumSessionsForImpersonationResponse_Session {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string id */ 1:
+                    message.id = reader.string();
+                    break;
+                case /* string user_display_name */ 2:
+                    message.userDisplayName = reader.string();
+                    break;
+                case /* string user_email */ 3:
+                    message.userEmail = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: ListPomeriumSessionsForImpersonationResponse_Session, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string id = 1; */
+        if (message.id !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.id);
+        /* string user_display_name = 2; */
+        if (message.userDisplayName !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.userDisplayName);
+        /* string user_email = 3; */
+        if (message.userEmail !== "")
+            writer.tag(3, WireType.LengthDelimited).string(message.userEmail);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.ListPomeriumSessionsForImpersonationResponse.Session
+ */
+export const ListPomeriumSessionsForImpersonationResponse_Session = new ListPomeriumSessionsForImpersonationResponse_Session$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class ImpersonateRequest$Type extends MessageType<ImpersonateRequest> {
     constructor() {
         super("pomerium.dashboard.ImpersonateRequest", [
@@ -2538,5 +2740,6 @@ export const PomeriumSessionService = new ServiceType("pomerium.dashboard.Pomeri
     { name: "DeletePomeriumSession", options: {}, I: DeletePomeriumSessionRequest, O: DeletePomeriumSessionResponse },
     { name: "GetPomeriumSession", options: {}, I: GetPomeriumSessionRequest, O: GetPomeriumSessionResponse },
     { name: "Impersonate", options: {}, I: ImpersonateRequest, O: ImpersonateResponse },
-    { name: "ListPomeriumSessions", options: {}, I: ListPomeriumSessionsRequest, O: ListPomeriumSessionsResponse }
+    { name: "ListPomeriumSessions", options: {}, I: ListPomeriumSessionsRequest, O: ListPomeriumSessionsResponse },
+    { name: "ListPomeriumSessionsForImpersonation", options: {}, I: ListPomeriumSessionsForImpersonationRequest, O: ListPomeriumSessionsForImpersonationResponse }
 ]);
