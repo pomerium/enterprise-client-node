@@ -117,8 +117,101 @@ export interface CircuitBreakerThresholds {
     maxConnectionPools?: number;
 }
 /**
+ * MCP is an experimental support for Model Context Protocol upstreams configuration
+ *
+ * @generated from protobuf message pomerium.dashboard.MCP
+ */
+export interface MCP {
+    /**
+     * @generated from protobuf oneof: mode
+     */
+    mode: {
+        oneofKind: "server";
+        /**
+         * @generated from protobuf field: pomerium.dashboard.MCPServer server = 1;
+         */
+        server: MCPServer;
+    } | {
+        oneofKind: "client";
+        /**
+         * @generated from protobuf field: pomerium.dashboard.MCPClient client = 2;
+         */
+        client: MCPClient;
+    } | {
+        oneofKind: undefined;
+    };
+}
+/**
+ * MCPServer holds configuration for an MCP server route
+ *
+ * @generated from protobuf message pomerium.dashboard.MCPServer
+ */
+export interface MCPServer {
+    /**
+     * @generated from protobuf field: optional pomerium.dashboard.UpstreamOAuth2 upstream_oauth2 = 1;
+     */
+    upstreamOauth2?: UpstreamOAuth2;
+    /**
+     * @generated from protobuf field: optional uint32 max_request_bytes = 2;
+     */
+    maxRequestBytes?: number;
+    /**
+     * @generated from protobuf field: optional string path = 3;
+     */
+    path?: string;
+}
+/**
+ * MCPClient holds configuration for an MCP client route
+ *
+ * @generated from protobuf message pomerium.dashboard.MCPClient
+ */
+export interface MCPClient {
+}
+/**
+ * UpstreamOAuth2 configures OAuth2 authentication for upstream requests
+ *
+ * @generated from protobuf message pomerium.dashboard.UpstreamOAuth2
+ */
+export interface UpstreamOAuth2 {
+    /**
+     * @generated from protobuf field: string client_id = 1;
+     */
+    clientId: string;
+    /**
+     * @generated from protobuf field: string client_secret = 2;
+     */
+    clientSecret: string;
+    /**
+     * @generated from protobuf field: pomerium.dashboard.OAuth2Endpoint oauth2_endpoint = 3;
+     */
+    oauth2Endpoint?: OAuth2Endpoint;
+    /**
+     * @generated from protobuf field: repeated string scopes = 4;
+     */
+    scopes: string[];
+}
+/**
+ * OAuth2Endpoint defines OAuth2 provider endpoints
+ *
+ * @generated from protobuf message pomerium.dashboard.OAuth2Endpoint
+ */
+export interface OAuth2Endpoint {
+    /**
+     * @generated from protobuf field: string auth_url = 1;
+     */
+    authUrl: string;
+    /**
+     * @generated from protobuf field: string token_url = 2;
+     */
+    tokenUrl: string;
+    /**
+     * @generated from protobuf field: optional pomerium.dashboard.OAuth2AuthStyle auth_style = 3;
+     */
+    authStyle?: OAuth2AuthStyle;
+}
+/**
  * Route defines a proxy route's settings and policy associations
- * Next ID: 74
+ * Next ID: 75
  *
  * @generated from protobuf message pomerium.dashboard.Route
  */
@@ -383,6 +476,14 @@ export interface Route {
      * @generated from protobuf field: optional pomerium.dashboard.CircuitBreakerThresholds circuit_breaker_thresholds = 73;
      */
     circuitBreakerThresholds?: CircuitBreakerThresholds;
+    /**
+     * @generated from protobuf field: optional pomerium.dashboard.MCP mcp = 74;
+     */
+    mcp?: MCP;
+    /**
+     * @generated from protobuf field: optional int32 healthy_panic_threshold = 75;
+     */
+    healthyPanicThreshold?: number;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.Route.StringList
@@ -678,6 +779,25 @@ export enum LoadBalancingPolicy {
      */
     LEAST_REQUEST = 5
 }
+/**
+ * OAuth2AuthStyle defines the OAuth2 authentication style
+ *
+ * @generated from protobuf enum pomerium.dashboard.OAuth2AuthStyle
+ */
+export enum OAuth2AuthStyle {
+    /**
+     * @generated from protobuf enum value: OAUTH2_AUTH_STYLE_UNSPECIFIED = 0;
+     */
+    OAUTH2_AUTH_STYLE_UNSPECIFIED = 0,
+    /**
+     * @generated from protobuf enum value: OAUTH2_AUTH_STYLE_IN_PARAMS = 1;
+     */
+    OAUTH2_AUTH_STYLE_IN_PARAMS = 1,
+    /**
+     * @generated from protobuf enum value: OAUTH2_AUTH_STYLE_IN_HEADER = 2;
+     */
+    OAUTH2_AUTH_STYLE_IN_HEADER = 2
+}
 // @generated message type with reflection information, may provide speed optimized methods
 class RouteRewriteHeader$Type extends MessageType<RouteRewriteHeader> {
     constructor() {
@@ -928,6 +1048,283 @@ class CircuitBreakerThresholds$Type extends MessageType<CircuitBreakerThresholds
  */
 export const CircuitBreakerThresholds = new CircuitBreakerThresholds$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class MCP$Type extends MessageType<MCP> {
+    constructor() {
+        super("pomerium.dashboard.MCP", [
+            { no: 1, name: "server", kind: "message", oneof: "mode", T: () => MCPServer },
+            { no: 2, name: "client", kind: "message", oneof: "mode", T: () => MCPClient }
+        ]);
+    }
+    create(value?: PartialMessage<MCP>): MCP {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.mode = { oneofKind: undefined };
+        if (value !== undefined)
+            reflectionMergePartial<MCP>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: MCP): MCP {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* pomerium.dashboard.MCPServer server */ 1:
+                    message.mode = {
+                        oneofKind: "server",
+                        server: MCPServer.internalBinaryRead(reader, reader.uint32(), options, (message.mode as any).server)
+                    };
+                    break;
+                case /* pomerium.dashboard.MCPClient client */ 2:
+                    message.mode = {
+                        oneofKind: "client",
+                        client: MCPClient.internalBinaryRead(reader, reader.uint32(), options, (message.mode as any).client)
+                    };
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: MCP, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* pomerium.dashboard.MCPServer server = 1; */
+        if (message.mode.oneofKind === "server")
+            MCPServer.internalBinaryWrite(message.mode.server, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* pomerium.dashboard.MCPClient client = 2; */
+        if (message.mode.oneofKind === "client")
+            MCPClient.internalBinaryWrite(message.mode.client, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.MCP
+ */
+export const MCP = new MCP$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class MCPServer$Type extends MessageType<MCPServer> {
+    constructor() {
+        super("pomerium.dashboard.MCPServer", [
+            { no: 1, name: "upstream_oauth2", kind: "message", T: () => UpstreamOAuth2 },
+            { no: 2, name: "max_request_bytes", kind: "scalar", opt: true, T: 13 /*ScalarType.UINT32*/ },
+            { no: 3, name: "path", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<MCPServer>): MCPServer {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<MCPServer>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: MCPServer): MCPServer {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* optional pomerium.dashboard.UpstreamOAuth2 upstream_oauth2 */ 1:
+                    message.upstreamOauth2 = UpstreamOAuth2.internalBinaryRead(reader, reader.uint32(), options, message.upstreamOauth2);
+                    break;
+                case /* optional uint32 max_request_bytes */ 2:
+                    message.maxRequestBytes = reader.uint32();
+                    break;
+                case /* optional string path */ 3:
+                    message.path = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: MCPServer, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* optional pomerium.dashboard.UpstreamOAuth2 upstream_oauth2 = 1; */
+        if (message.upstreamOauth2)
+            UpstreamOAuth2.internalBinaryWrite(message.upstreamOauth2, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* optional uint32 max_request_bytes = 2; */
+        if (message.maxRequestBytes !== undefined)
+            writer.tag(2, WireType.Varint).uint32(message.maxRequestBytes);
+        /* optional string path = 3; */
+        if (message.path !== undefined)
+            writer.tag(3, WireType.LengthDelimited).string(message.path);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.MCPServer
+ */
+export const MCPServer = new MCPServer$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class MCPClient$Type extends MessageType<MCPClient> {
+    constructor() {
+        super("pomerium.dashboard.MCPClient", []);
+    }
+    create(value?: PartialMessage<MCPClient>): MCPClient {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<MCPClient>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: MCPClient): MCPClient {
+        return target ?? this.create();
+    }
+    internalBinaryWrite(message: MCPClient, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.MCPClient
+ */
+export const MCPClient = new MCPClient$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class UpstreamOAuth2$Type extends MessageType<UpstreamOAuth2> {
+    constructor() {
+        super("pomerium.dashboard.UpstreamOAuth2", [
+            { no: 1, name: "client_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "client_secret", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "oauth2_endpoint", kind: "message", T: () => OAuth2Endpoint },
+            { no: 4, name: "scopes", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<UpstreamOAuth2>): UpstreamOAuth2 {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.clientId = "";
+        message.clientSecret = "";
+        message.scopes = [];
+        if (value !== undefined)
+            reflectionMergePartial<UpstreamOAuth2>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: UpstreamOAuth2): UpstreamOAuth2 {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string client_id */ 1:
+                    message.clientId = reader.string();
+                    break;
+                case /* string client_secret */ 2:
+                    message.clientSecret = reader.string();
+                    break;
+                case /* pomerium.dashboard.OAuth2Endpoint oauth2_endpoint */ 3:
+                    message.oauth2Endpoint = OAuth2Endpoint.internalBinaryRead(reader, reader.uint32(), options, message.oauth2Endpoint);
+                    break;
+                case /* repeated string scopes */ 4:
+                    message.scopes.push(reader.string());
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: UpstreamOAuth2, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string client_id = 1; */
+        if (message.clientId !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.clientId);
+        /* string client_secret = 2; */
+        if (message.clientSecret !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.clientSecret);
+        /* pomerium.dashboard.OAuth2Endpoint oauth2_endpoint = 3; */
+        if (message.oauth2Endpoint)
+            OAuth2Endpoint.internalBinaryWrite(message.oauth2Endpoint, writer.tag(3, WireType.LengthDelimited).fork(), options).join();
+        /* repeated string scopes = 4; */
+        for (let i = 0; i < message.scopes.length; i++)
+            writer.tag(4, WireType.LengthDelimited).string(message.scopes[i]);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.UpstreamOAuth2
+ */
+export const UpstreamOAuth2 = new UpstreamOAuth2$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class OAuth2Endpoint$Type extends MessageType<OAuth2Endpoint> {
+    constructor() {
+        super("pomerium.dashboard.OAuth2Endpoint", [
+            { no: 1, name: "auth_url", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "token_url", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "auth_style", kind: "enum", opt: true, T: () => ["pomerium.dashboard.OAuth2AuthStyle", OAuth2AuthStyle] }
+        ]);
+    }
+    create(value?: PartialMessage<OAuth2Endpoint>): OAuth2Endpoint {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.authUrl = "";
+        message.tokenUrl = "";
+        if (value !== undefined)
+            reflectionMergePartial<OAuth2Endpoint>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: OAuth2Endpoint): OAuth2Endpoint {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string auth_url */ 1:
+                    message.authUrl = reader.string();
+                    break;
+                case /* string token_url */ 2:
+                    message.tokenUrl = reader.string();
+                    break;
+                case /* optional pomerium.dashboard.OAuth2AuthStyle auth_style */ 3:
+                    message.authStyle = reader.int32();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: OAuth2Endpoint, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string auth_url = 1; */
+        if (message.authUrl !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.authUrl);
+        /* string token_url = 2; */
+        if (message.tokenUrl !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.tokenUrl);
+        /* optional pomerium.dashboard.OAuth2AuthStyle auth_style = 3; */
+        if (message.authStyle !== undefined)
+            writer.tag(3, WireType.Varint).int32(message.authStyle);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.OAuth2Endpoint
+ */
+export const OAuth2Endpoint = new OAuth2Endpoint$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class Route$Type extends MessageType<Route> {
     constructor() {
         super("pomerium.dashboard.Route", [
@@ -991,7 +1388,9 @@ class Route$Type extends MessageType<Route> {
             { no: 69, name: "idp_access_token_allowed_audiences", kind: "message", T: () => Route_StringList },
             { no: 70, name: "load_balancing_policy", kind: "enum", opt: true, T: () => ["pomerium.dashboard.LoadBalancingPolicy", LoadBalancingPolicy, "LOAD_BALANCING_POLICY_"], options: { "validate.rules": { enum: { definedOnly: true } } } },
             { no: 71, name: "health_checks", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => HealthCheck },
-            { no: 73, name: "circuit_breaker_thresholds", kind: "message", T: () => CircuitBreakerThresholds }
+            { no: 73, name: "circuit_breaker_thresholds", kind: "message", T: () => CircuitBreakerThresholds },
+            { no: 74, name: "mcp", kind: "message", T: () => MCP },
+            { no: 75, name: "healthy_panic_threshold", kind: "scalar", opt: true, T: 5 /*ScalarType.INT32*/ }
         ]);
     }
     create(value?: PartialMessage<Route>): Route {
@@ -1207,6 +1606,12 @@ class Route$Type extends MessageType<Route> {
                     break;
                 case /* optional pomerium.dashboard.CircuitBreakerThresholds circuit_breaker_thresholds */ 73:
                     message.circuitBreakerThresholds = CircuitBreakerThresholds.internalBinaryRead(reader, reader.uint32(), options, message.circuitBreakerThresholds);
+                    break;
+                case /* optional pomerium.dashboard.MCP mcp */ 74:
+                    message.mcp = MCP.internalBinaryRead(reader, reader.uint32(), options, message.mcp);
+                    break;
+                case /* optional int32 healthy_panic_threshold */ 75:
+                    message.healthyPanicThreshold = reader.int32();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -1435,6 +1840,12 @@ class Route$Type extends MessageType<Route> {
         /* optional pomerium.dashboard.CircuitBreakerThresholds circuit_breaker_thresholds = 73; */
         if (message.circuitBreakerThresholds)
             CircuitBreakerThresholds.internalBinaryWrite(message.circuitBreakerThresholds, writer.tag(73, WireType.LengthDelimited).fork(), options).join();
+        /* optional pomerium.dashboard.MCP mcp = 74; */
+        if (message.mcp)
+            MCP.internalBinaryWrite(message.mcp, writer.tag(74, WireType.LengthDelimited).fork(), options).join();
+        /* optional int32 healthy_panic_threshold = 75; */
+        if (message.healthyPanicThreshold !== undefined)
+            writer.tag(75, WireType.Varint).int32(message.healthyPanicThreshold);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

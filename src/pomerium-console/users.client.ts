@@ -2,6 +2,8 @@
 // @generated from protobuf file "users.proto" (package "pomerium.dashboard", syntax proto3)
 // tslint:disable
 import { PomeriumSessionService } from "./users";
+import type { ListPomeriumSessionsForImpersonationResponse } from "./users";
+import type { ListPomeriumSessionsForImpersonationRequest } from "./users";
 import type { ListPomeriumSessionsResponse } from "./users";
 import type { ListPomeriumSessionsRequest } from "./users";
 import type { ImpersonateResponse } from "./users";
@@ -245,6 +247,13 @@ export interface IPomeriumSessionServiceClient {
      * @generated from protobuf rpc: ListPomeriumSessions(pomerium.dashboard.ListPomeriumSessionsRequest) returns (pomerium.dashboard.ListPomeriumSessionsResponse);
      */
     listPomeriumSessions(input: ListPomeriumSessionsRequest, options?: RpcOptions): UnaryCall<ListPomeriumSessionsRequest, ListPomeriumSessionsResponse>;
+    /**
+     * ListPomeriumSessionsForImpersonation lists existing sessions for
+     * impersonation.
+     *
+     * @generated from protobuf rpc: ListPomeriumSessionsForImpersonation(pomerium.dashboard.ListPomeriumSessionsForImpersonationRequest) returns (pomerium.dashboard.ListPomeriumSessionsForImpersonationResponse);
+     */
+    listPomeriumSessionsForImpersonation(input: ListPomeriumSessionsForImpersonationRequest, options?: RpcOptions): UnaryCall<ListPomeriumSessionsForImpersonationRequest, ListPomeriumSessionsForImpersonationResponse>;
 }
 /**
  * PomeriumSessionService manages user sessions inside the databroker
@@ -293,5 +302,15 @@ export class PomeriumSessionServiceClient implements IPomeriumSessionServiceClie
     listPomeriumSessions(input: ListPomeriumSessionsRequest, options?: RpcOptions): UnaryCall<ListPomeriumSessionsRequest, ListPomeriumSessionsResponse> {
         const method = this.methods[3], opt = this._transport.mergeOptions(options);
         return stackIntercept<ListPomeriumSessionsRequest, ListPomeriumSessionsResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * ListPomeriumSessionsForImpersonation lists existing sessions for
+     * impersonation.
+     *
+     * @generated from protobuf rpc: ListPomeriumSessionsForImpersonation(pomerium.dashboard.ListPomeriumSessionsForImpersonationRequest) returns (pomerium.dashboard.ListPomeriumSessionsForImpersonationResponse);
+     */
+    listPomeriumSessionsForImpersonation(input: ListPomeriumSessionsForImpersonationRequest, options?: RpcOptions): UnaryCall<ListPomeriumSessionsForImpersonationRequest, ListPomeriumSessionsForImpersonationResponse> {
+        const method = this.methods[4], opt = this._transport.mergeOptions(options);
+        return stackIntercept<ListPomeriumSessionsForImpersonationRequest, ListPomeriumSessionsForImpersonationResponse>("unary", this._transport, method, opt, input);
     }
 }

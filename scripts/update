@@ -6,7 +6,7 @@ _root_dir="$(dirname "$_scripts_dir")"
 _deps_dir="$_root_dir/deps"
 
 readonly _git_deps=(
-    "pomerium/enterprise-client|21c8df025e293fbb58628e02e086949fc3e77b28"
+    "pomerium/enterprise-client|6950db3e72cc20cceb172009941030cec8f18b9f"
     'envoyproxy/protoc-gen-validate|v1.2.1'
     'googleapis/googleapis|114a745b2841a044e98cdbb19358ed29fcf4a5f1'
 )
