@@ -33,7 +33,7 @@ export interface ConsoleSettings {
 }
 /**
  * Settings defines the global pomerium settings
- * Next id: 116.
+ * Next id: 120.
  *
  * @generated from protobuf message pomerium.dashboard.Settings
  */
@@ -79,9 +79,27 @@ export interface Settings {
      */
     insecureServer?: boolean;
     /**
+     * dns options
+     *
      * @generated from protobuf field: optional string dns_lookup_family = 60;
      */
     dnsLookupFamily?: string;
+    /**
+     * @generated from protobuf field: optional uint32 dns_udp_max_queries = 116;
+     */
+    dnsUdpMaxQueries?: number;
+    /**
+     * @generated from protobuf field: optional bool dns_use_tcp = 117;
+     */
+    dnsUseTcp?: boolean;
+    /**
+     * @generated from protobuf field: optional uint32 dns_query_tries = 118;
+     */
+    dnsQueryTries?: number;
+    /**
+     * @generated from protobuf field: optional google.protobuf.Duration dns_query_timeout = 119;
+     */
+    dnsQueryTimeout?: Duration;
     /**
      * @generated from protobuf field: repeated pomerium.dashboard.Settings.Certificate certificates = 9;
      */
@@ -600,6 +618,10 @@ class Settings$Type extends MessageType<Settings> {
             { no: 7, name: "address", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 8, name: "insecure_server", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ },
             { no: 60, name: "dns_lookup_family", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 116, name: "dns_udp_max_queries", kind: "scalar", opt: true, T: 13 /*ScalarType.UINT32*/ },
+            { no: 117, name: "dns_use_tcp", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ },
+            { no: 118, name: "dns_query_tries", kind: "scalar", opt: true, T: 13 /*ScalarType.UINT32*/ },
+            { no: 119, name: "dns_query_timeout", kind: "message", T: () => Duration },
             { no: 9, name: "certificates", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Settings_Certificate },
             { no: 10, name: "http_redirect_addr", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 11, name: "timeout_read", kind: "message", T: () => Duration },
@@ -740,6 +762,18 @@ class Settings$Type extends MessageType<Settings> {
                     break;
                 case /* optional string dns_lookup_family */ 60:
                     message.dnsLookupFamily = reader.string();
+                    break;
+                case /* optional uint32 dns_udp_max_queries */ 116:
+                    message.dnsUdpMaxQueries = reader.uint32();
+                    break;
+                case /* optional bool dns_use_tcp */ 117:
+                    message.dnsUseTcp = reader.bool();
+                    break;
+                case /* optional uint32 dns_query_tries */ 118:
+                    message.dnsQueryTries = reader.uint32();
+                    break;
+                case /* optional google.protobuf.Duration dns_query_timeout */ 119:
+                    message.dnsQueryTimeout = Duration.internalBinaryRead(reader, reader.uint32(), options, message.dnsQueryTimeout);
                     break;
                 case /* repeated pomerium.dashboard.Settings.Certificate certificates */ 9:
                     message.certificates.push(Settings_Certificate.internalBinaryRead(reader, reader.uint32(), options));
@@ -1089,6 +1123,18 @@ class Settings$Type extends MessageType<Settings> {
         /* optional string dns_lookup_family = 60; */
         if (message.dnsLookupFamily !== undefined)
             writer.tag(60, WireType.LengthDelimited).string(message.dnsLookupFamily);
+        /* optional uint32 dns_udp_max_queries = 116; */
+        if (message.dnsUdpMaxQueries !== undefined)
+            writer.tag(116, WireType.Varint).uint32(message.dnsUdpMaxQueries);
+        /* optional bool dns_use_tcp = 117; */
+        if (message.dnsUseTcp !== undefined)
+            writer.tag(117, WireType.Varint).bool(message.dnsUseTcp);
+        /* optional uint32 dns_query_tries = 118; */
+        if (message.dnsQueryTries !== undefined)
+            writer.tag(118, WireType.Varint).uint32(message.dnsQueryTries);
+        /* optional google.protobuf.Duration dns_query_timeout = 119; */
+        if (message.dnsQueryTimeout)
+            Duration.internalBinaryWrite(message.dnsQueryTimeout, writer.tag(119, WireType.LengthDelimited).fork(), options).join();
         /* repeated pomerium.dashboard.Settings.Certificate certificates = 9; */
         for (let i = 0; i < message.certificates.length; i++)
             Settings_Certificate.internalBinaryWrite(message.certificates[i], writer.tag(9, WireType.LengthDelimited).fork(), options).join();
