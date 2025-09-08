@@ -211,7 +211,7 @@ export interface OAuth2Endpoint {
 }
 /**
  * Route defines a proxy route's settings and policy associations
- * Next ID: 75
+ * Next ID: 77
  *
  * @generated from protobuf message pomerium.dashboard.Route
  */
@@ -484,6 +484,10 @@ export interface Route {
      * @generated from protobuf field: optional int32 healthy_panic_threshold = 75;
      */
     healthyPanicThreshold?: number;
+    /**
+     * @generated from protobuf field: optional pomerium.dashboard.UpstreamTunnel upstream_tunnel = 76;
+     */
+    upstreamTunnel?: UpstreamTunnel;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.Route.StringList
@@ -493,6 +497,11 @@ export interface Route_StringList {
      * @generated from protobuf field: repeated string values = 1;
      */
     values: string[];
+}
+/**
+ * @generated from protobuf message pomerium.dashboard.UpstreamTunnel
+ */
+export interface UpstreamTunnel {
 }
 /**
  * RouteWithPolicies contains automatically created routes and policies from a
@@ -1390,7 +1399,8 @@ class Route$Type extends MessageType<Route> {
             { no: 71, name: "health_checks", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => HealthCheck },
             { no: 73, name: "circuit_breaker_thresholds", kind: "message", T: () => CircuitBreakerThresholds },
             { no: 74, name: "mcp", kind: "message", T: () => MCP },
-            { no: 75, name: "healthy_panic_threshold", kind: "scalar", opt: true, T: 5 /*ScalarType.INT32*/ }
+            { no: 75, name: "healthy_panic_threshold", kind: "scalar", opt: true, T: 5 /*ScalarType.INT32*/ },
+            { no: 76, name: "upstream_tunnel", kind: "message", T: () => UpstreamTunnel }
         ]);
     }
     create(value?: PartialMessage<Route>): Route {
@@ -1612,6 +1622,9 @@ class Route$Type extends MessageType<Route> {
                     break;
                 case /* optional int32 healthy_panic_threshold */ 75:
                     message.healthyPanicThreshold = reader.int32();
+                    break;
+                case /* optional pomerium.dashboard.UpstreamTunnel upstream_tunnel */ 76:
+                    message.upstreamTunnel = UpstreamTunnel.internalBinaryRead(reader, reader.uint32(), options, message.upstreamTunnel);
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -1846,6 +1859,9 @@ class Route$Type extends MessageType<Route> {
         /* optional int32 healthy_panic_threshold = 75; */
         if (message.healthyPanicThreshold !== undefined)
             writer.tag(75, WireType.Varint).int32(message.healthyPanicThreshold);
+        /* optional pomerium.dashboard.UpstreamTunnel upstream_tunnel = 76; */
+        if (message.upstreamTunnel)
+            UpstreamTunnel.internalBinaryWrite(message.upstreamTunnel, writer.tag(76, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -1903,6 +1919,31 @@ class Route_StringList$Type extends MessageType<Route_StringList> {
  * @generated MessageType for protobuf message pomerium.dashboard.Route.StringList
  */
 export const Route_StringList = new Route_StringList$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class UpstreamTunnel$Type extends MessageType<UpstreamTunnel> {
+    constructor() {
+        super("pomerium.dashboard.UpstreamTunnel", []);
+    }
+    create(value?: PartialMessage<UpstreamTunnel>): UpstreamTunnel {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<UpstreamTunnel>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: UpstreamTunnel): UpstreamTunnel {
+        return target ?? this.create();
+    }
+    internalBinaryWrite(message: UpstreamTunnel, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.UpstreamTunnel
+ */
+export const UpstreamTunnel = new UpstreamTunnel$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class RouteWithPolicies$Type extends MessageType<RouteWithPolicies> {
     constructor() {
