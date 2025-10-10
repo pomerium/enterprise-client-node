@@ -18,4 +18,4 @@ clean:
 .PHONY: generate
 generate:
 	@echo "==> $@"
-	./scripts/update
+	./scripts/generate
