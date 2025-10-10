@@ -1,0 +1,21 @@
+#!/bin/bash
+set -euo pipefail
+
+_scripts_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+_root_dir="$(dirname "$_scripts_dir")"
+_deps_dir="$_root_dir/deps"
+
+for _f in "$_deps_dir/github.com/pomerium/enterprise-client/protos/pomerium-console/"*.proto; do
+	(
+		cd "$(dirname "$_f")"
+		mkdir -p "$_root_dir/src/pomerium-console"
+		npx protoc \
+			--ts_out="$_root_dir/src/pomerium-console" \
+			--ts_opt="generate_dependencies" \
+			--proto_path="$_deps_dir" \
+			--proto_path="$_deps_dir/github.com/envoyproxy/protoc-gen-validate" \
+			--proto_path="$_deps_dir/github.com/googleapis/googleapis" \
+			--proto_path="$_deps_dir/github.com/pomerium/enterprise-client/protos/pomerium-console" \
+			"$(basename "$_f")"
+	)
+done

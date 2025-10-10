@@ -8,8 +8,7 @@
     "build": "npm run clean && npm run build:esm && npm run build:cjs",
     "build:esm": "tsc -p ./configs/tsconfig.esm.json && mv lib/esm/index.js lib/esm/index.mjs",
     "build:cjs": "tsc -p ./configs/tsconfig.cjs.json",
-    "prepack": "npm run build",
-    "pretty": "prettier --write \"src/**/*.ts\""
+    "prepack": "npm run build"
   },
   "exports": {
     ".": {
@@ -30,6 +29,7 @@
       "main"
     ]
   },
+  "packageManager": "npm@11.6.0",
   "publishConfig": {
     "access": "public"
   },
@@ -47,6 +47,7 @@
     "@protobuf-ts/plugin": "^2.9.4",
     "@types/node": "^22.5.5",
     "prettier": "^3.3.3",
+    "protoc": "^32.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2"
   },
