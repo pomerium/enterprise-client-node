@@ -1,13 +1,13 @@
 .PHONY: build
-build:
+build: install
 	@echo "==> $@"
 	npm run build
 
-build-cjs:
+build-cjs: install
 	@echo "==> $@"
 	npm run build:cjs
 
-build-esm:
+build-esm: install
 	@echo "==> $@"
 	npm run build:esm
 
@@ -16,6 +16,11 @@ clean:
 	npm run clean
 
 .PHONY: generate
-generate:
+generate: install
 	@echo "==> $@"
 	./scripts/generate
+
+.PHONY: install
+install:
+	@echo "==> $0"
+	npm install
