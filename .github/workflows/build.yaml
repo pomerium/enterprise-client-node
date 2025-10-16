@@ -1,0 +1,16 @@
+name: Build
+
+on:
+  pull_request:
+    branches-ignore:
+      - "dependabot/**"
+  push:
+    branches:
+      - "main"
+
+jobs:
+  build:
+    name: Build
+    uses: ./.github/workflows/reusable-build.yaml
+    with:
+      ref: ${{ github.head_ref }}

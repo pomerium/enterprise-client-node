@@ -2,11 +2,12 @@ name: Dependabot
 
 on:
   pull_request:
-  #  branches:
-  #    - "dependabot/**"
+    branches:
+      - "dependabot/**"
 
 jobs:
   generate:
+    name: Generate
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,6 +27,7 @@ jobs:
           commit_message: "dependabot: generate"
 
   build:
+    name: Build
     needs: generate
     uses: ./.github/workflows/reusable-build.yaml
     with:
