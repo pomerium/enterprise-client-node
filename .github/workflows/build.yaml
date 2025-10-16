@@ -2,14 +2,13 @@ name: Build
 
 on:
   pull_request:
-    branches-ignore:
-      - "dependabot/**"
   push:
     branches:
       - "main"
 
 jobs:
   build:
+    if: ${{ github.actor != 'dependabot[bot]' }}
     name: Build
     uses: ./.github/workflows/reusable-build.yaml
     with:

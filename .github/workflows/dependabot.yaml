@@ -2,11 +2,10 @@ name: Dependabot
 
 on:
   pull_request:
-    branches:
-      - "dependabot/**"
 
 jobs:
   generate:
+    if: ${{ github.actor == 'dependabot[bot]' }}
     name: Generate
     runs-on: ubuntu-latest
     steps:
@@ -27,6 +26,7 @@ jobs:
           commit_message: "dependabot: generate"
 
   build:
+    if: ${{ github.actor == 'dependabot[bot]' }}
     name: Build
     needs: generate
     uses: ./.github/workflows/reusable-build.yaml
