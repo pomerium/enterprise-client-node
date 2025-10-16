@@ -283,9 +283,10 @@ export interface KeyPairRecord {
      */
     certInfo?: CertificateInfo;
     /**
-     * Key Pair has a private key attached
+     * Deprecated: This field will be removed in a future release. Use key_sha256 to verify presence of private key.
      *
-     * @generated from protobuf field: bool has_private_key = 8
+     * @deprecated
+     * @generated from protobuf field: bool has_private_key = 8 [deprecated = true]
      */
     hasPrivateKey: boolean;
     /**
@@ -298,6 +299,10 @@ export interface KeyPairRecord {
      * @generated from protobuf field: string originator_id = 10
      */
     originatorId: string;
+    /**
+     * @generated from protobuf field: optional string key_sha256 = 11
+     */
+    keySha256?: string;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.DeleteKeyPairRequest
@@ -401,10 +406,6 @@ export interface ListKeyPairsResponse {
  */
 export interface CreateKeyPairRequest {
     /**
-     * @generated from protobuf field: string originator_id = 6
-     */
-    originatorId: string;
-    /**
      * @generated from protobuf field: string name = 1
      */
     name: string;
@@ -430,6 +431,14 @@ export interface CreateKeyPairRequest {
      * @generated from protobuf field: bytes key = 5
      */
     key: Uint8Array;
+    /**
+     * @generated from protobuf field: string originator_id = 6
+     */
+    originatorId: string;
+    /**
+     * @generated from protobuf field: optional string id = 7
+     */
+    id?: string;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.CreateKeyPairResponse
@@ -1071,7 +1080,8 @@ class KeyPairRecord$Type extends MessageType<KeyPairRecord> {
             { no: 7, name: "cert_info", kind: "message", T: () => CertificateInfo },
             { no: 8, name: "has_private_key", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 9, name: "certificate", kind: "scalar", T: 12 /*ScalarType.BYTES*/ },
-            { no: 10, name: "originator_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 10, name: "originator_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 11, name: "key_sha256", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<KeyPairRecord>): KeyPairRecord {
@@ -1109,7 +1119,7 @@ class KeyPairRecord$Type extends MessageType<KeyPairRecord> {
                 case /* pomerium.dashboard.CertificateInfo cert_info */ 7:
                     message.certInfo = CertificateInfo.internalBinaryRead(reader, reader.uint32(), options, message.certInfo);
                     break;
-                case /* bool has_private_key */ 8:
+                case /* bool has_private_key = 8 [deprecated = true] */ 8:
                     message.hasPrivateKey = reader.bool();
                     break;
                 case /* bytes certificate */ 9:
@@ -1117,6 +1127,9 @@ class KeyPairRecord$Type extends MessageType<KeyPairRecord> {
                     break;
                 case /* string originator_id */ 10:
                     message.originatorId = reader.string();
+                    break;
+                case /* optional string key_sha256 */ 11:
+                    message.keySha256 = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -1148,7 +1161,7 @@ class KeyPairRecord$Type extends MessageType<KeyPairRecord> {
         /* pomerium.dashboard.CertificateInfo cert_info = 7; */
         if (message.certInfo)
             CertificateInfo.internalBinaryWrite(message.certInfo, writer.tag(7, WireType.LengthDelimited).fork(), options).join();
-        /* bool has_private_key = 8; */
+        /* bool has_private_key = 8 [deprecated = true]; */
         if (message.hasPrivateKey !== false)
             writer.tag(8, WireType.Varint).bool(message.hasPrivateKey);
         /* bytes certificate = 9; */
@@ -1157,6 +1170,9 @@ class KeyPairRecord$Type extends MessageType<KeyPairRecord> {
         /* string originator_id = 10; */
         if (message.originatorId !== "")
             writer.tag(10, WireType.LengthDelimited).string(message.originatorId);
+        /* optional string key_sha256 = 11; */
+        if (message.keySha256 !== undefined)
+            writer.tag(11, WireType.LengthDelimited).string(message.keySha256);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -1493,22 +1509,23 @@ export const ListKeyPairsResponse = new ListKeyPairsResponse$Type();
 class CreateKeyPairRequest$Type extends MessageType<CreateKeyPairRequest> {
     constructor() {
         super("pomerium.dashboard.CreateKeyPairRequest", [
-            { no: 6, name: "originator_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 1, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "namespace_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "format", kind: "enum", T: () => ["pomerium.dashboard.Format", Format] },
             { no: 4, name: "certificate", kind: "scalar", T: 12 /*ScalarType.BYTES*/ },
-            { no: 5, name: "key", kind: "scalar", T: 12 /*ScalarType.BYTES*/ }
+            { no: 5, name: "key", kind: "scalar", T: 12 /*ScalarType.BYTES*/ },
+            { no: 6, name: "originator_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 7, name: "id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<CreateKeyPairRequest>): CreateKeyPairRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
-        message.originatorId = "";
         message.name = "";
         message.namespaceId = "";
         message.format = 0;
         message.certificate = new Uint8Array(0);
         message.key = new Uint8Array(0);
+        message.originatorId = "";
         if (value !== undefined)
             reflectionMergePartial<CreateKeyPairRequest>(this, message, value);
         return message;
@@ -1518,9 +1535,6 @@ class CreateKeyPairRequest$Type extends MessageType<CreateKeyPairRequest> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* string originator_id */ 6:
-                    message.originatorId = reader.string();
-                    break;
                 case /* string name */ 1:
                     message.name = reader.string();
                     break;
@@ -1535,6 +1549,12 @@ class CreateKeyPairRequest$Type extends MessageType<CreateKeyPairRequest> {
                     break;
                 case /* bytes key */ 5:
                     message.key = reader.bytes();
+                    break;
+                case /* string originator_id */ 6:
+                    message.originatorId = reader.string();
+                    break;
+                case /* optional string id */ 7:
+                    message.id = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -1566,6 +1586,9 @@ class CreateKeyPairRequest$Type extends MessageType<CreateKeyPairRequest> {
         /* string originator_id = 6; */
         if (message.originatorId !== "")
             writer.tag(6, WireType.LengthDelimited).string(message.originatorId);
+        /* optional string id = 7; */
+        if (message.id !== undefined)
+            writer.tag(7, WireType.LengthDelimited).string(message.id);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
