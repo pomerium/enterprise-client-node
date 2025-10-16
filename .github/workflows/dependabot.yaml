@@ -27,6 +27,6 @@ jobs:
 
   build:
     needs: generate
-    uses: pomerium/enterprise-client-node/.github/workflows/build.yaml@main
+    uses: ./.github/workflows/build.yaml
     with:
       ref: ${{ github.head_ref }}
