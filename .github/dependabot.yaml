@@ -8,6 +8,8 @@ updates:
       gitsubmodule:
         patterns:
           - "*"
+        exclude-patterns:
+          - "deps/github.com/pomerium/*"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
