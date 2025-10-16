@@ -33,7 +33,7 @@ export interface ConsoleSettings {
 }
 /**
  * Settings defines the global pomerium settings
- * Next id: 120.
+ * Next id: 122.
  *
  * @generated from protobuf message pomerium.dashboard.Settings
  */
@@ -81,9 +81,25 @@ export interface Settings {
     /**
      * dns options
      *
+     * @generated from protobuf field: optional google.protobuf.Duration dns_failure_refresh_rate = 120
+     */
+    dnsFailureRefreshRate?: Duration;
+    /**
      * @generated from protobuf field: optional string dns_lookup_family = 60
      */
     dnsLookupFamily?: string;
+    /**
+     * @generated from protobuf field: optional google.protobuf.Duration dns_query_timeout = 119
+     */
+    dnsQueryTimeout?: Duration;
+    /**
+     * @generated from protobuf field: optional uint32 dns_query_tries = 118
+     */
+    dnsQueryTries?: number;
+    /**
+     * @generated from protobuf field: optional google.protobuf.Duration dns_refresh_rate = 121
+     */
+    dnsRefreshRate?: Duration;
     /**
      * @generated from protobuf field: optional uint32 dns_udp_max_queries = 116
      */
@@ -92,14 +108,6 @@ export interface Settings {
      * @generated from protobuf field: optional bool dns_use_tcp = 117
      */
     dnsUseTcp?: boolean;
-    /**
-     * @generated from protobuf field: optional uint32 dns_query_tries = 118
-     */
-    dnsQueryTries?: number;
-    /**
-     * @generated from protobuf field: optional google.protobuf.Duration dns_query_timeout = 119
-     */
-    dnsQueryTimeout?: Duration;
     /**
      * @generated from protobuf field: repeated pomerium.dashboard.Settings.Certificate certificates = 9
      */
@@ -617,11 +625,13 @@ class Settings$Type extends MessageType<Settings> {
             { no: 6, name: "services", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 7, name: "address", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 8, name: "insecure_server", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ },
+            { no: 120, name: "dns_failure_refresh_rate", kind: "message", T: () => Duration },
             { no: 60, name: "dns_lookup_family", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 119, name: "dns_query_timeout", kind: "message", T: () => Duration },
+            { no: 118, name: "dns_query_tries", kind: "scalar", opt: true, T: 13 /*ScalarType.UINT32*/ },
+            { no: 121, name: "dns_refresh_rate", kind: "message", T: () => Duration },
             { no: 116, name: "dns_udp_max_queries", kind: "scalar", opt: true, T: 13 /*ScalarType.UINT32*/ },
             { no: 117, name: "dns_use_tcp", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ },
-            { no: 118, name: "dns_query_tries", kind: "scalar", opt: true, T: 13 /*ScalarType.UINT32*/ },
-            { no: 119, name: "dns_query_timeout", kind: "message", T: () => Duration },
             { no: 9, name: "certificates", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => Settings_Certificate },
             { no: 10, name: "http_redirect_addr", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 11, name: "timeout_read", kind: "message", T: () => Duration },
@@ -760,20 +770,26 @@ class Settings$Type extends MessageType<Settings> {
                 case /* optional bool insecure_server */ 8:
                     message.insecureServer = reader.bool();
                     break;
+                case /* optional google.protobuf.Duration dns_failure_refresh_rate */ 120:
+                    message.dnsFailureRefreshRate = Duration.internalBinaryRead(reader, reader.uint32(), options, message.dnsFailureRefreshRate);
+                    break;
                 case /* optional string dns_lookup_family */ 60:
                     message.dnsLookupFamily = reader.string();
+                    break;
+                case /* optional google.protobuf.Duration dns_query_timeout */ 119:
+                    message.dnsQueryTimeout = Duration.internalBinaryRead(reader, reader.uint32(), options, message.dnsQueryTimeout);
+                    break;
+                case /* optional uint32 dns_query_tries */ 118:
+                    message.dnsQueryTries = reader.uint32();
+                    break;
+                case /* optional google.protobuf.Duration dns_refresh_rate */ 121:
+                    message.dnsRefreshRate = Duration.internalBinaryRead(reader, reader.uint32(), options, message.dnsRefreshRate);
                     break;
                 case /* optional uint32 dns_udp_max_queries */ 116:
                     message.dnsUdpMaxQueries = reader.uint32();
                     break;
                 case /* optional bool dns_use_tcp */ 117:
                     message.dnsUseTcp = reader.bool();
-                    break;
-                case /* optional uint32 dns_query_tries */ 118:
-                    message.dnsQueryTries = reader.uint32();
-                    break;
-                case /* optional google.protobuf.Duration dns_query_timeout */ 119:
-                    message.dnsQueryTimeout = Duration.internalBinaryRead(reader, reader.uint32(), options, message.dnsQueryTimeout);
                     break;
                 case /* repeated pomerium.dashboard.Settings.Certificate certificates */ 9:
                     message.certificates.push(Settings_Certificate.internalBinaryRead(reader, reader.uint32(), options));
@@ -1390,6 +1406,12 @@ class Settings$Type extends MessageType<Settings> {
         /* optional google.protobuf.Duration dns_query_timeout = 119; */
         if (message.dnsQueryTimeout)
             Duration.internalBinaryWrite(message.dnsQueryTimeout, writer.tag(119, WireType.LengthDelimited).fork(), options).join();
+        /* optional google.protobuf.Duration dns_failure_refresh_rate = 120; */
+        if (message.dnsFailureRefreshRate)
+            Duration.internalBinaryWrite(message.dnsFailureRefreshRate, writer.tag(120, WireType.LengthDelimited).fork(), options).join();
+        /* optional google.protobuf.Duration dns_refresh_rate = 121; */
+        if (message.dnsRefreshRate)
+            Duration.internalBinaryWrite(message.dnsRefreshRate, writer.tag(121, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
