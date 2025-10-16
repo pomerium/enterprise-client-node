@@ -30,3 +30,8 @@ generate: install
 install:
 	@echo "==> $0"
 	npm install
+
+.PHONY: update-pomerium
+update-pomerium:
+	@echo "==> $0"
+	git submodule update --remote deps/github.com/pomerium
