@@ -20,7 +20,7 @@ jobs:
         run: make generate
 
       - name: Commit
-        uses: devops-infra/action-commit-push@e6a24fad602d1f92e46432c89a7e0c7fdd45d62d
+        uses: devops-infra/action-commit-push@68b7fc222377cf66850ef50a6fd6a1be983d176d
         with:
           github_token: ${{ secrets.APPARITOR_GITHUB_TOKEN }}
           commit_message: "dependabot: generate"
