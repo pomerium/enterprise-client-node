@@ -133,10 +133,6 @@ export interface Settings {
      */
     authenticateServiceUrl?: string;
     /**
-     * @generated from protobuf field: optional string authenticate_callback_path = 15
-     */
-    authenticateCallbackPath?: string;
-    /**
      * @generated from protobuf field: optional string cookie_name = 16
      */
     cookieName?: string;
@@ -638,7 +634,6 @@ class Settings$Type extends MessageType<Settings> {
             { no: 12, name: "timeout_write", kind: "message", T: () => Duration },
             { no: 13, name: "timeout_idle", kind: "message", T: () => Duration },
             { no: 14, name: "authenticate_service_url", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
-            { no: 15, name: "authenticate_callback_path", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 16, name: "cookie_name", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 17, name: "cookie_secret", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 18, name: "cookie_domain", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
@@ -808,9 +803,6 @@ class Settings$Type extends MessageType<Settings> {
                     break;
                 case /* optional string authenticate_service_url */ 14:
                     message.authenticateServiceUrl = reader.string();
-                    break;
-                case /* optional string authenticate_callback_path */ 15:
-                    message.authenticateCallbackPath = reader.string();
                     break;
                 case /* optional string cookie_name */ 16:
                     message.cookieName = reader.string();
@@ -1145,9 +1137,6 @@ class Settings$Type extends MessageType<Settings> {
         /* optional string authenticate_service_url = 14; */
         if (message.authenticateServiceUrl !== undefined)
             writer.tag(14, WireType.LengthDelimited).string(message.authenticateServiceUrl);
-        /* optional string authenticate_callback_path = 15; */
-        if (message.authenticateCallbackPath !== undefined)
-            writer.tag(15, WireType.LengthDelimited).string(message.authenticateCallbackPath);
         /* optional string cookie_name = 16; */
         if (message.cookieName !== undefined)
             writer.tag(16, WireType.LengthDelimited).string(message.cookieName);
