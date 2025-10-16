@@ -1,0 +1,9 @@
+[submodule "deps/github.com/pomerium/enterprise-client"]
+	path = deps/github.com/pomerium/enterprise-client
+	url = git@github.com:pomerium/enterprise-client
+[submodule "deps/github.com/envoyproxy/protoc-gen-validate"]
+	path = deps/github.com/envoyproxy/protoc-gen-validate
+	url = git@github.com:envoyproxy/protoc-gen-validate
+[submodule "deps/github.com/googleapis/googleapis"]
+	path = deps/github.com/googleapis/googleapis
+	url = git@github.com:googleapis/googleapis

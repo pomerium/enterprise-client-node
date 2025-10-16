@@ -1,0 +1,42 @@
+name: Update Pomerium
+
+on:
+  schedule:
+    - cron: "40 1 * * *"
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+        with:
+          submodules: "true"
+          token: ${{ secrets.APPARITOR_GITHUB_TOKEN }}
+
+      - name: Update Pomerium
+        run: make update-pomerium
+
+      - name: Generate
+        run: make generate
+
+      - name: Check for changes
+        id: git-diff
+        run: |
+          git config --global user.email "apparitor@users.noreply.github.com"
+          git config --global user.name "GitHub Actions"
+          git add deps/github.com/pomerium/enterprise-client
+          git diff --cached --exit-code || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request
+        if: ${{ steps.git-diff.outputs.changed }} == 'true'
+        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e
+        with:
+          author: GitHub Actions <apparitor@users.noreply.github.com>
+          body: "This PR updates Pomerium Dependencies"
+          commit-message: "ci: update pomerium dependencies"
+          delete-branch: true
+          labels: ci
+          title: "ci: update pomerium dependencies"
+          token: ${{ secrets.APPARITOR_GITHUB_TOKEN }}

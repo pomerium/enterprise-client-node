@@ -1,0 +1,15 @@
+name: Build
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  build:
+    if: ${{ github.actor != 'dependabot[bot]' }}
+    name: Build
+    uses: ./.github/workflows/reusable-build.yaml
+    with:
+      ref: ${{ github.head_ref }}
