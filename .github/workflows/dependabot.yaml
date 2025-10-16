@@ -27,6 +27,6 @@ jobs:
 
   build:
     needs: generate
-    uses: ./.github/workflows/build.yaml
+    uses: ./.github/workflows/reusable-build.yaml
     with:
       ref: ${{ github.head_ref }}
