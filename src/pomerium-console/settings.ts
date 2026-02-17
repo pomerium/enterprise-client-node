@@ -33,7 +33,7 @@ export interface ConsoleSettings {
 }
 /**
  * Settings defines the global pomerium settings
- * Next id: 122.
+ * Next id: 123.
  *
  * @generated from protobuf message pomerium.dashboard.Settings
  */
@@ -450,6 +450,10 @@ export interface Settings {
      * @generated from protobuf field: optional string ssh_user_ca_key = 115
      */
     sshUserCaKey?: string;
+    /**
+     * @generated from protobuf field: optional pomerium.dashboard.Settings.StringList mcp_allowed_client_id_domains = 122
+     */
+    mcpAllowedClientIdDomains?: Settings_StringList;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.Settings.Certificate
@@ -711,7 +715,8 @@ class Settings$Type extends MessageType<Settings> {
             { no: 112, name: "ssh_host_key_files", kind: "message", T: () => Settings_StringList },
             { no: 113, name: "ssh_host_keys", kind: "message", T: () => Settings_StringList },
             { no: 114, name: "ssh_user_ca_key_file", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
-            { no: 115, name: "ssh_user_ca_key", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
+            { no: 115, name: "ssh_user_ca_key", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 122, name: "mcp_allowed_client_id_domains", kind: "message", T: () => Settings_StringList }
         ]);
     }
     create(value?: PartialMessage<Settings>): Settings {
@@ -1037,6 +1042,9 @@ class Settings$Type extends MessageType<Settings> {
                     break;
                 case /* optional string ssh_user_ca_key */ 115:
                     message.sshUserCaKey = reader.string();
+                    break;
+                case /* optional pomerium.dashboard.Settings.StringList mcp_allowed_client_id_domains */ 122:
+                    message.mcpAllowedClientIdDomains = Settings_StringList.internalBinaryRead(reader, reader.uint32(), options, message.mcpAllowedClientIdDomains);
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -1401,6 +1409,9 @@ class Settings$Type extends MessageType<Settings> {
         /* optional google.protobuf.Duration dns_refresh_rate = 121; */
         if (message.dnsRefreshRate)
             Duration.internalBinaryWrite(message.dnsRefreshRate, writer.tag(121, WireType.LengthDelimited).fork(), options).join();
+        /* optional pomerium.dashboard.Settings.StringList mcp_allowed_client_id_domains = 122; */
+        if (message.mcpAllowedClientIdDomains)
+            Settings_StringList.internalBinaryWrite(message.mcpAllowedClientIdDomains, writer.tag(122, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
