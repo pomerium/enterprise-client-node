@@ -1244,6 +1244,13 @@ export interface FieldOptions_FeatureSupport {
      * @generated from protobuf field: optional google.protobuf.Edition edition_removed = 4
      */
     editionRemoved?: Edition;
+    /**
+     * The removal error text if this feature is used after the edition it was
+     * removed in.
+     *
+     * @generated from protobuf field: optional string removal_error = 5
+     */
+    removalError?: string;
 }
 /**
  * @generated from protobuf enum google.protobuf.FieldOptions.CType
@@ -3810,7 +3817,8 @@ class FieldOptions_FeatureSupport$Type extends MessageType<FieldOptions_FeatureS
             { no: 1, name: "edition_introduced", kind: "enum", opt: true, T: () => ["google.protobuf.Edition", Edition] },
             { no: 2, name: "edition_deprecated", kind: "enum", opt: true, T: () => ["google.protobuf.Edition", Edition] },
             { no: 3, name: "deprecation_warning", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "edition_removed", kind: "enum", opt: true, T: () => ["google.protobuf.Edition", Edition] }
+            { no: 4, name: "edition_removed", kind: "enum", opt: true, T: () => ["google.protobuf.Edition", Edition] },
+            { no: 5, name: "removal_error", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<FieldOptions_FeatureSupport>): FieldOptions_FeatureSupport {
@@ -3836,6 +3844,9 @@ class FieldOptions_FeatureSupport$Type extends MessageType<FieldOptions_FeatureS
                 case /* optional google.protobuf.Edition edition_removed */ 4:
                     message.editionRemoved = reader.int32();
                     break;
+                case /* optional string removal_error */ 5:
+                    message.removalError = reader.string();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -3860,6 +3871,9 @@ class FieldOptions_FeatureSupport$Type extends MessageType<FieldOptions_FeatureS
         /* optional google.protobuf.Edition edition_removed = 4; */
         if (message.editionRemoved !== undefined)
             writer.tag(4, WireType.Varint).int32(message.editionRemoved);
+        /* optional string removal_error = 5; */
+        if (message.removalError !== undefined)
+            writer.tag(5, WireType.LengthDelimited).string(message.removalError);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
