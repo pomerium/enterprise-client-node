@@ -468,6 +468,14 @@ export interface DeletePomeriumSessionRequest {
      * @generated from protobuf field: optional string cluster_id = 2
      */
     clusterId?: string;
+    /**
+     * If set, in addition to revoking the session,
+     * revoke any other session associated with the session user id,
+     * and block the user from accessing any routes.
+     *
+     * @generated from protobuf field: optional bool block_user = 3
+     */
+    blockUser?: boolean;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.DeletePomeriumSessionResponse
@@ -2167,7 +2175,8 @@ class DeletePomeriumSessionRequest$Type extends MessageType<DeletePomeriumSessio
     constructor() {
         super("pomerium.dashboard.DeletePomeriumSessionRequest", [
             { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
+            { no: 2, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "block_user", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
     create(value?: PartialMessage<DeletePomeriumSessionRequest>): DeletePomeriumSessionRequest {
@@ -2188,6 +2197,9 @@ class DeletePomeriumSessionRequest$Type extends MessageType<DeletePomeriumSessio
                 case /* optional string cluster_id */ 2:
                     message.clusterId = reader.string();
                     break;
+                case /* optional bool block_user */ 3:
+                    message.blockUser = reader.bool();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -2206,6 +2218,9 @@ class DeletePomeriumSessionRequest$Type extends MessageType<DeletePomeriumSessio
         /* optional string cluster_id = 2; */
         if (message.clusterId !== undefined)
             writer.tag(2, WireType.LengthDelimited).string(message.clusterId);
+        /* optional bool block_user = 3; */
+        if (message.blockUser !== undefined)
+            writer.tag(3, WireType.Varint).bool(message.blockUser);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
