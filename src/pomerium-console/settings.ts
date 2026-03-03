@@ -33,7 +33,7 @@ export interface ConsoleSettings {
 }
 /**
  * Settings defines the global pomerium settings
- * Next id: 123.
+ * Next id: 125.
  *
  * @generated from protobuf message pomerium.dashboard.Settings
  */
@@ -454,6 +454,14 @@ export interface Settings {
      * @generated from protobuf field: optional pomerium.dashboard.Settings.StringList mcp_allowed_client_id_domains = 122
      */
     mcpAllowedClientIdDomains?: Settings_StringList;
+    /**
+     * @generated from protobuf field: optional bool session_recording_enabled = 123
+     */
+    sessionRecordingEnabled?: boolean;
+    /**
+     * @generated from protobuf field: optional pomerium.dashboard.BlobStorageSettings blob_storage = 124
+     */
+    blobStorage?: BlobStorageSettings;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.Settings.Certificate
@@ -480,6 +488,15 @@ export interface Settings_StringList {
      * @generated from protobuf field: repeated string values = 1
      */
     values: string[];
+}
+/**
+ * @generated from protobuf message pomerium.dashboard.BlobStorageSettings
+ */
+export interface BlobStorageSettings {
+    /**
+     * @generated from protobuf field: optional string bucket_uri = 1
+     */
+    bucketUri?: string;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.GetConsoleSettingsRequest
@@ -716,7 +733,9 @@ class Settings$Type extends MessageType<Settings> {
             { no: 113, name: "ssh_host_keys", kind: "message", T: () => Settings_StringList },
             { no: 114, name: "ssh_user_ca_key_file", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 115, name: "ssh_user_ca_key", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
-            { no: 122, name: "mcp_allowed_client_id_domains", kind: "message", T: () => Settings_StringList }
+            { no: 122, name: "mcp_allowed_client_id_domains", kind: "message", T: () => Settings_StringList },
+            { no: 123, name: "session_recording_enabled", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ },
+            { no: 124, name: "blob_storage", kind: "message", T: () => BlobStorageSettings }
         ]);
     }
     create(value?: PartialMessage<Settings>): Settings {
@@ -1045,6 +1064,12 @@ class Settings$Type extends MessageType<Settings> {
                     break;
                 case /* optional pomerium.dashboard.Settings.StringList mcp_allowed_client_id_domains */ 122:
                     message.mcpAllowedClientIdDomains = Settings_StringList.internalBinaryRead(reader, reader.uint32(), options, message.mcpAllowedClientIdDomains);
+                    break;
+                case /* optional bool session_recording_enabled */ 123:
+                    message.sessionRecordingEnabled = reader.bool();
+                    break;
+                case /* optional pomerium.dashboard.BlobStorageSettings blob_storage */ 124:
+                    message.blobStorage = BlobStorageSettings.internalBinaryRead(reader, reader.uint32(), options, message.blobStorage);
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -1412,6 +1437,12 @@ class Settings$Type extends MessageType<Settings> {
         /* optional pomerium.dashboard.Settings.StringList mcp_allowed_client_id_domains = 122; */
         if (message.mcpAllowedClientIdDomains)
             Settings_StringList.internalBinaryWrite(message.mcpAllowedClientIdDomains, writer.tag(122, WireType.LengthDelimited).fork(), options).join();
+        /* optional bool session_recording_enabled = 123; */
+        if (message.sessionRecordingEnabled !== undefined)
+            writer.tag(123, WireType.Varint).bool(message.sessionRecordingEnabled);
+        /* optional pomerium.dashboard.BlobStorageSettings blob_storage = 124; */
+        if (message.blobStorage)
+            BlobStorageSettings.internalBinaryWrite(message.blobStorage, writer.tag(124, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -1532,6 +1563,52 @@ class Settings_StringList$Type extends MessageType<Settings_StringList> {
  * @generated MessageType for protobuf message pomerium.dashboard.Settings.StringList
  */
 export const Settings_StringList = new Settings_StringList$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class BlobStorageSettings$Type extends MessageType<BlobStorageSettings> {
+    constructor() {
+        super("pomerium.dashboard.BlobStorageSettings", [
+            { no: 1, name: "bucket_uri", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<BlobStorageSettings>): BlobStorageSettings {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<BlobStorageSettings>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: BlobStorageSettings): BlobStorageSettings {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* optional string bucket_uri */ 1:
+                    message.bucketUri = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: BlobStorageSettings, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* optional string bucket_uri = 1; */
+        if (message.bucketUri !== undefined)
+            writer.tag(1, WireType.LengthDelimited).string(message.bucketUri);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.BlobStorageSettings
+ */
+export const BlobStorageSettings = new BlobStorageSettings$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class GetConsoleSettingsRequest$Type extends MessageType<GetConsoleSettingsRequest> {
     constructor() {
