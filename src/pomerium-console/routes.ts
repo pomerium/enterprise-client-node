@@ -159,6 +159,10 @@ export interface MCPServer {
      * @generated from protobuf field: optional string path = 3
      */
     path?: string;
+    /**
+     * @generated from protobuf field: optional string authorization_server_url = 4
+     */
+    authorizationServerUrl?: string;
 }
 /**
  * MCPClient holds configuration for an MCP client route
@@ -1122,7 +1126,8 @@ class MCPServer$Type extends MessageType<MCPServer> {
         super("pomerium.dashboard.MCPServer", [
             { no: 1, name: "upstream_oauth2", kind: "message", T: () => UpstreamOAuth2 },
             { no: 2, name: "max_request_bytes", kind: "scalar", opt: true, T: 13 /*ScalarType.UINT32*/ },
-            { no: 3, name: "path", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
+            { no: 3, name: "path", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "authorization_server_url", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<MCPServer>): MCPServer {
@@ -1145,6 +1150,9 @@ class MCPServer$Type extends MessageType<MCPServer> {
                 case /* optional string path */ 3:
                     message.path = reader.string();
                     break;
+                case /* optional string authorization_server_url */ 4:
+                    message.authorizationServerUrl = reader.string();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -1166,6 +1174,9 @@ class MCPServer$Type extends MessageType<MCPServer> {
         /* optional string path = 3; */
         if (message.path !== undefined)
             writer.tag(3, WireType.LengthDelimited).string(message.path);
+        /* optional string authorization_server_url = 4; */
+        if (message.authorizationServerUrl !== undefined)
+            writer.tag(4, WireType.LengthDelimited).string(message.authorizationServerUrl);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
