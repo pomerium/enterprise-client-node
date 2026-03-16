@@ -506,6 +506,10 @@ export interface Route_StringList {
  * @generated from protobuf message pomerium.dashboard.UpstreamTunnel
  */
 export interface UpstreamTunnel {
+    /**
+     * @generated from protobuf field: optional string ssh_policy_id = 1
+     */
+    sshPolicyId?: string;
 }
 /**
  * RouteWithPolicies contains automatically created routes and policies from a
@@ -1946,7 +1950,9 @@ export const Route_StringList = new Route_StringList$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpstreamTunnel$Type extends MessageType<UpstreamTunnel> {
     constructor() {
-        super("pomerium.dashboard.UpstreamTunnel", []);
+        super("pomerium.dashboard.UpstreamTunnel", [
+            { no: 1, name: "ssh_policy_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
+        ]);
     }
     create(value?: PartialMessage<UpstreamTunnel>): UpstreamTunnel {
         const message = globalThis.Object.create((this.messagePrototype!));
@@ -1959,6 +1965,9 @@ class UpstreamTunnel$Type extends MessageType<UpstreamTunnel> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
+                case /* optional string ssh_policy_id */ 1:
+                    message.sshPolicyId = reader.string();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -1971,6 +1980,9 @@ class UpstreamTunnel$Type extends MessageType<UpstreamTunnel> {
         return message;
     }
     internalBinaryWrite(message: UpstreamTunnel, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* optional string ssh_policy_id = 1; */
+        if (message.sshPolicyId !== undefined)
+            writer.tag(1, WireType.LengthDelimited).string(message.sshPolicyId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
