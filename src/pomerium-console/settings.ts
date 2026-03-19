@@ -33,7 +33,7 @@ export interface ConsoleSettings {
 }
 /**
  * Settings defines the global pomerium settings
- * Next id: 125.
+ * Next id: 126.
  *
  * @generated from protobuf message pomerium.dashboard.Settings
  */
@@ -462,6 +462,10 @@ export interface Settings {
      * @generated from protobuf field: optional pomerium.dashboard.BlobStorageSettings blob_storage = 124
      */
     blobStorage?: BlobStorageSettings;
+    /**
+     * @generated from protobuf field: optional bool auto_apply_changesets = 125
+     */
+    autoApplyChangesets?: boolean;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.Settings.Certificate
@@ -735,7 +739,8 @@ class Settings$Type extends MessageType<Settings> {
             { no: 115, name: "ssh_user_ca_key", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 122, name: "mcp_allowed_client_id_domains", kind: "message", T: () => Settings_StringList },
             { no: 123, name: "session_recording_enabled", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ },
-            { no: 124, name: "blob_storage", kind: "message", T: () => BlobStorageSettings }
+            { no: 124, name: "blob_storage", kind: "message", T: () => BlobStorageSettings },
+            { no: 125, name: "auto_apply_changesets", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
     create(value?: PartialMessage<Settings>): Settings {
@@ -1070,6 +1075,9 @@ class Settings$Type extends MessageType<Settings> {
                     break;
                 case /* optional pomerium.dashboard.BlobStorageSettings blob_storage */ 124:
                     message.blobStorage = BlobStorageSettings.internalBinaryRead(reader, reader.uint32(), options, message.blobStorage);
+                    break;
+                case /* optional bool auto_apply_changesets */ 125:
+                    message.autoApplyChangesets = reader.bool();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -1443,6 +1451,9 @@ class Settings$Type extends MessageType<Settings> {
         /* optional pomerium.dashboard.BlobStorageSettings blob_storage = 124; */
         if (message.blobStorage)
             BlobStorageSettings.internalBinaryWrite(message.blobStorage, writer.tag(124, WireType.LengthDelimited).fork(), options).join();
+        /* optional bool auto_apply_changesets = 125; */
+        if (message.autoApplyChangesets !== undefined)
+            writer.tag(125, WireType.Varint).bool(message.autoApplyChangesets);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

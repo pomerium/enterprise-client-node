@@ -193,6 +193,12 @@ export interface UpstreamOAuth2 {
      * @generated from protobuf field: repeated string scopes = 4
      */
     scopes: string[];
+    /**
+     * @generated from protobuf field: map<string, string> authorization_url_params = 5
+     */
+    authorizationUrlParams: {
+        [key: string]: string;
+    };
 }
 /**
  * OAuth2Endpoint defines OAuth2 provider endpoints
@@ -1236,7 +1242,8 @@ class UpstreamOAuth2$Type extends MessageType<UpstreamOAuth2> {
             { no: 1, name: "client_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "client_secret", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "oauth2_endpoint", kind: "message", T: () => OAuth2Endpoint },
-            { no: 4, name: "scopes", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ }
+            { no: 4, name: "scopes", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "authorization_url_params", kind: "map", K: 9 /*ScalarType.STRING*/, V: { kind: "scalar", T: 9 /*ScalarType.STRING*/ } }
         ]);
     }
     create(value?: PartialMessage<UpstreamOAuth2>): UpstreamOAuth2 {
@@ -1244,6 +1251,7 @@ class UpstreamOAuth2$Type extends MessageType<UpstreamOAuth2> {
         message.clientId = "";
         message.clientSecret = "";
         message.scopes = [];
+        message.authorizationUrlParams = {};
         if (value !== undefined)
             reflectionMergePartial<UpstreamOAuth2>(this, message, value);
         return message;
@@ -1265,6 +1273,9 @@ class UpstreamOAuth2$Type extends MessageType<UpstreamOAuth2> {
                 case /* repeated string scopes */ 4:
                     message.scopes.push(reader.string());
                     break;
+                case /* map<string, string> authorization_url_params */ 5:
+                    this.binaryReadMap5(message.authorizationUrlParams, reader, options);
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -1275,6 +1286,22 @@ class UpstreamOAuth2$Type extends MessageType<UpstreamOAuth2> {
             }
         }
         return message;
+    }
+    private binaryReadMap5(map: UpstreamOAuth2["authorizationUrlParams"], reader: IBinaryReader, options: BinaryReadOptions): void {
+        let len = reader.uint32(), end = reader.pos + len, key: keyof UpstreamOAuth2["authorizationUrlParams"] | undefined, val: UpstreamOAuth2["authorizationUrlParams"][any] | undefined;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case 1:
+                    key = reader.string();
+                    break;
+                case 2:
+                    val = reader.string();
+                    break;
+                default: throw new globalThis.Error("unknown map entry field for pomerium.dashboard.UpstreamOAuth2.authorization_url_params");
+            }
+        }
+        map[key ?? ""] = val ?? "";
     }
     internalBinaryWrite(message: UpstreamOAuth2, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
         /* string client_id = 1; */
@@ -1289,6 +1316,9 @@ class UpstreamOAuth2$Type extends MessageType<UpstreamOAuth2> {
         /* repeated string scopes = 4; */
         for (let i = 0; i < message.scopes.length; i++)
             writer.tag(4, WireType.LengthDelimited).string(message.scopes[i]);
+        /* map<string, string> authorization_url_params = 5; */
+        for (let k of globalThis.Object.keys(message.authorizationUrlParams))
+            writer.tag(5, WireType.LengthDelimited).fork().tag(1, WireType.LengthDelimited).string(k).tag(2, WireType.LengthDelimited).string(message.authorizationUrlParams[k]).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
