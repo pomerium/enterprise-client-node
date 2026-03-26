@@ -33,7 +33,7 @@ export interface ConsoleSettings {
 }
 /**
  * Settings defines the global pomerium settings
- * Next id: 126.
+ * Next id: 127.
  *
  * @generated from protobuf message pomerium.dashboard.Settings
  */
@@ -451,6 +451,10 @@ export interface Settings {
      */
     sshUserCaKey?: string;
     /**
+     * @generated from protobuf field: optional pomerium.dashboard.Settings.StringList mcp_allowed_as_metadata_domains = 126
+     */
+    mcpAllowedAsMetadataDomains?: Settings_StringList;
+    /**
      * @generated from protobuf field: optional pomerium.dashboard.Settings.StringList mcp_allowed_client_id_domains = 122
      */
     mcpAllowedClientIdDomains?: Settings_StringList;
@@ -737,6 +741,7 @@ class Settings$Type extends MessageType<Settings> {
             { no: 113, name: "ssh_host_keys", kind: "message", T: () => Settings_StringList },
             { no: 114, name: "ssh_user_ca_key_file", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 115, name: "ssh_user_ca_key", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 126, name: "mcp_allowed_as_metadata_domains", kind: "message", T: () => Settings_StringList },
             { no: 122, name: "mcp_allowed_client_id_domains", kind: "message", T: () => Settings_StringList },
             { no: 123, name: "session_recording_enabled", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ },
             { no: 124, name: "blob_storage", kind: "message", T: () => BlobStorageSettings },
@@ -1066,6 +1071,9 @@ class Settings$Type extends MessageType<Settings> {
                     break;
                 case /* optional string ssh_user_ca_key */ 115:
                     message.sshUserCaKey = reader.string();
+                    break;
+                case /* optional pomerium.dashboard.Settings.StringList mcp_allowed_as_metadata_domains */ 126:
+                    message.mcpAllowedAsMetadataDomains = Settings_StringList.internalBinaryRead(reader, reader.uint32(), options, message.mcpAllowedAsMetadataDomains);
                     break;
                 case /* optional pomerium.dashboard.Settings.StringList mcp_allowed_client_id_domains */ 122:
                     message.mcpAllowedClientIdDomains = Settings_StringList.internalBinaryRead(reader, reader.uint32(), options, message.mcpAllowedClientIdDomains);
@@ -1454,6 +1462,9 @@ class Settings$Type extends MessageType<Settings> {
         /* optional bool auto_apply_changesets = 125; */
         if (message.autoApplyChangesets !== undefined)
             writer.tag(125, WireType.Varint).bool(message.autoApplyChangesets);
+        /* optional pomerium.dashboard.Settings.StringList mcp_allowed_as_metadata_domains = 126; */
+        if (message.mcpAllowedAsMetadataDomains)
+            Settings_StringList.internalBinaryWrite(message.mcpAllowedAsMetadataDomains, writer.tag(126, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
