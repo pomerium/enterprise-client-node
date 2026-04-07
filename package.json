@@ -45,11 +45,11 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "@protobuf-ts/plugin": "^2.9.4",
-    "@types/node": "^25.3.3",
+    "@types/node": "^25.5.0",
     "prettier": "^3.8.1",
     "protoc": "^34.0.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.6.2"
+    "typescript": "^6.0.2"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.14.3",
