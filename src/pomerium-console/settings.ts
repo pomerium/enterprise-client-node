@@ -33,7 +33,7 @@ export interface ConsoleSettings {
 }
 /**
  * Settings defines the global pomerium settings
- * Next id: 127.
+ * Next id: 128.
  *
  * @generated from protobuf message pomerium.dashboard.Settings
  */
@@ -470,6 +470,10 @@ export interface Settings {
      * @generated from protobuf field: optional bool auto_apply_changesets = 125
      */
     autoApplyChangesets?: boolean;
+    /**
+     * @generated from protobuf field: optional pomerium.dashboard.Settings.StringList allow_upgrades = 127
+     */
+    allowUpgrades?: Settings_StringList;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.Settings.Certificate
@@ -505,6 +509,10 @@ export interface BlobStorageSettings {
      * @generated from protobuf field: optional string bucket_uri = 1
      */
     bucketUri?: string;
+    /**
+     * @generated from protobuf field: optional string managed_prefix = 2
+     */
+    managedPrefix?: string;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.GetConsoleSettingsRequest
@@ -745,7 +753,8 @@ class Settings$Type extends MessageType<Settings> {
             { no: 122, name: "mcp_allowed_client_id_domains", kind: "message", T: () => Settings_StringList },
             { no: 123, name: "session_recording_enabled", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ },
             { no: 124, name: "blob_storage", kind: "message", T: () => BlobStorageSettings },
-            { no: 125, name: "auto_apply_changesets", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ }
+            { no: 125, name: "auto_apply_changesets", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ },
+            { no: 127, name: "allow_upgrades", kind: "message", T: () => Settings_StringList }
         ]);
     }
     create(value?: PartialMessage<Settings>): Settings {
@@ -1086,6 +1095,9 @@ class Settings$Type extends MessageType<Settings> {
                     break;
                 case /* optional bool auto_apply_changesets */ 125:
                     message.autoApplyChangesets = reader.bool();
+                    break;
+                case /* optional pomerium.dashboard.Settings.StringList allow_upgrades */ 127:
+                    message.allowUpgrades = Settings_StringList.internalBinaryRead(reader, reader.uint32(), options, message.allowUpgrades);
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -1465,6 +1477,9 @@ class Settings$Type extends MessageType<Settings> {
         /* optional pomerium.dashboard.Settings.StringList mcp_allowed_as_metadata_domains = 126; */
         if (message.mcpAllowedAsMetadataDomains)
             Settings_StringList.internalBinaryWrite(message.mcpAllowedAsMetadataDomains, writer.tag(126, WireType.LengthDelimited).fork(), options).join();
+        /* optional pomerium.dashboard.Settings.StringList allow_upgrades = 127; */
+        if (message.allowUpgrades)
+            Settings_StringList.internalBinaryWrite(message.allowUpgrades, writer.tag(127, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -1589,7 +1604,8 @@ export const Settings_StringList = new Settings_StringList$Type();
 class BlobStorageSettings$Type extends MessageType<BlobStorageSettings> {
     constructor() {
         super("pomerium.dashboard.BlobStorageSettings", [
-            { no: 1, name: "bucket_uri", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "bucket_uri", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "managed_prefix", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<BlobStorageSettings>): BlobStorageSettings {
@@ -1606,6 +1622,9 @@ class BlobStorageSettings$Type extends MessageType<BlobStorageSettings> {
                 case /* optional string bucket_uri */ 1:
                     message.bucketUri = reader.string();
                     break;
+                case /* optional string managed_prefix */ 2:
+                    message.managedPrefix = reader.string();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -1621,6 +1640,9 @@ class BlobStorageSettings$Type extends MessageType<BlobStorageSettings> {
         /* optional string bucket_uri = 1; */
         if (message.bucketUri !== undefined)
             writer.tag(1, WireType.LengthDelimited).string(message.bucketUri);
+        /* optional string managed_prefix = 2; */
+        if (message.managedPrefix !== undefined)
+            writer.tag(2, WireType.LengthDelimited).string(message.managedPrefix);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

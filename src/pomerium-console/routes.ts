@@ -221,7 +221,7 @@ export interface OAuth2Endpoint {
 }
 /**
  * Route defines a proxy route's settings and policy associations
- * Next ID: 77
+ * Next ID: 78
  *
  * @generated from protobuf message pomerium.dashboard.Route
  */
@@ -498,6 +498,10 @@ export interface Route {
      * @generated from protobuf field: optional pomerium.dashboard.UpstreamTunnel upstream_tunnel = 76
      */
     upstreamTunnel?: UpstreamTunnel;
+    /**
+     * @generated from protobuf field: optional pomerium.dashboard.Route.StringList allow_upgrades = 77
+     */
+    allowUpgrades?: Route_StringList;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.Route.StringList
@@ -1458,7 +1462,8 @@ class Route$Type extends MessageType<Route> {
             { no: 73, name: "circuit_breaker_thresholds", kind: "message", T: () => CircuitBreakerThresholds },
             { no: 74, name: "mcp", kind: "message", T: () => MCP },
             { no: 75, name: "healthy_panic_threshold", kind: "scalar", opt: true, T: 5 /*ScalarType.INT32*/ },
-            { no: 76, name: "upstream_tunnel", kind: "message", T: () => UpstreamTunnel }
+            { no: 76, name: "upstream_tunnel", kind: "message", T: () => UpstreamTunnel },
+            { no: 77, name: "allow_upgrades", kind: "message", T: () => Route_StringList }
         ]);
     }
     create(value?: PartialMessage<Route>): Route {
@@ -1683,6 +1688,9 @@ class Route$Type extends MessageType<Route> {
                     break;
                 case /* optional pomerium.dashboard.UpstreamTunnel upstream_tunnel */ 76:
                     message.upstreamTunnel = UpstreamTunnel.internalBinaryRead(reader, reader.uint32(), options, message.upstreamTunnel);
+                    break;
+                case /* optional pomerium.dashboard.Route.StringList allow_upgrades */ 77:
+                    message.allowUpgrades = Route_StringList.internalBinaryRead(reader, reader.uint32(), options, message.allowUpgrades);
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -1920,6 +1928,9 @@ class Route$Type extends MessageType<Route> {
         /* optional pomerium.dashboard.UpstreamTunnel upstream_tunnel = 76; */
         if (message.upstreamTunnel)
             UpstreamTunnel.internalBinaryWrite(message.upstreamTunnel, writer.tag(76, WireType.LengthDelimited).fork(), options).join();
+        /* optional pomerium.dashboard.Route.StringList allow_upgrades = 77; */
+        if (message.allowUpgrades)
+            Route_StringList.internalBinaryWrite(message.allowUpgrades, writer.tag(77, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
