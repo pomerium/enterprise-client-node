@@ -376,6 +376,10 @@ export interface SetPomeriumServiceAccountResponse {
      * @generated from protobuf field: pomerium.dashboard.PomeriumServiceAccount service_account = 1
      */
     serviceAccount?: PomeriumServiceAccount;
+    /**
+     * @generated from protobuf field: string jwt = 2
+     */
+    jwt: string;
 }
 /**
  * PomeriumSession defines a user session from the databroker
@@ -1875,11 +1879,13 @@ export const SetPomeriumServiceAccountRequest = new SetPomeriumServiceAccountReq
 class SetPomeriumServiceAccountResponse$Type extends MessageType<SetPomeriumServiceAccountResponse> {
     constructor() {
         super("pomerium.dashboard.SetPomeriumServiceAccountResponse", [
-            { no: 1, name: "service_account", kind: "message", T: () => PomeriumServiceAccount }
+            { no: 1, name: "service_account", kind: "message", T: () => PomeriumServiceAccount },
+            { no: 2, name: "jwt", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<SetPomeriumServiceAccountResponse>): SetPomeriumServiceAccountResponse {
         const message = globalThis.Object.create((this.messagePrototype!));
+        message.jwt = "";
         if (value !== undefined)
             reflectionMergePartial<SetPomeriumServiceAccountResponse>(this, message, value);
         return message;
@@ -1891,6 +1897,9 @@ class SetPomeriumServiceAccountResponse$Type extends MessageType<SetPomeriumServ
             switch (fieldNo) {
                 case /* pomerium.dashboard.PomeriumServiceAccount service_account */ 1:
                     message.serviceAccount = PomeriumServiceAccount.internalBinaryRead(reader, reader.uint32(), options, message.serviceAccount);
+                    break;
+                case /* string jwt */ 2:
+                    message.jwt = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -1907,6 +1916,9 @@ class SetPomeriumServiceAccountResponse$Type extends MessageType<SetPomeriumServ
         /* pomerium.dashboard.PomeriumServiceAccount service_account = 1; */
         if (message.serviceAccount)
             PomeriumServiceAccount.internalBinaryWrite(message.serviceAccount, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* string jwt = 2; */
+        if (message.jwt !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.jwt);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
