@@ -4,6 +4,8 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { ActivityLogService } from "./activity_log";
+import type { ListEntityTypesResponse } from "./activity_log";
+import type { ListEntityTypesRequest } from "./activity_log";
 import type { ListActivityLogEntriesResponse } from "./activity_log";
 import type { ListActivityLogEntriesRequest } from "./activity_log";
 import { stackIntercept } from "@protobuf-ts/runtime-rpc";
@@ -31,6 +33,12 @@ export interface IActivityLogServiceClient {
      * @generated from protobuf rpc: ListActivityLogEntries
      */
     listActivityLogEntries(input: ListActivityLogEntriesRequest, options?: RpcOptions): UnaryCall<ListActivityLogEntriesRequest, ListActivityLogEntriesResponse>;
+    /**
+     * Lists all the known entity types.
+     *
+     * @generated from protobuf rpc: ListEntityTypes
+     */
+    listEntityTypes(input: ListEntityTypesRequest, options?: RpcOptions): UnaryCall<ListEntityTypesRequest, ListEntityTypesResponse>;
 }
 /**
  * ActivityLogService tracks historical changes to configuration made through
@@ -62,5 +70,14 @@ export class ActivityLogServiceClient implements IActivityLogServiceClient, Serv
     listActivityLogEntries(input: ListActivityLogEntriesRequest, options?: RpcOptions): UnaryCall<ListActivityLogEntriesRequest, ListActivityLogEntriesResponse> {
         const method = this.methods[1], opt = this._transport.mergeOptions(options);
         return stackIntercept<ListActivityLogEntriesRequest, ListActivityLogEntriesResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * Lists all the known entity types.
+     *
+     * @generated from protobuf rpc: ListEntityTypes
+     */
+    listEntityTypes(input: ListEntityTypesRequest, options?: RpcOptions): UnaryCall<ListEntityTypesRequest, ListEntityTypesResponse> {
+        const method = this.methods[2], opt = this._transport.mergeOptions(options);
+        return stackIntercept<ListEntityTypesRequest, ListEntityTypesResponse>("unary", this._transport, method, opt, input);
     }
 }
