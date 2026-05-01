@@ -324,6 +324,20 @@ export interface ListActivityLogEntriesResponse {
      */
     totalCount: bigint;
 }
+/**
+ * @generated from protobuf message pomerium.dashboard.ListEntityTypesRequest
+ */
+export interface ListEntityTypesRequest {
+}
+/**
+ * @generated from protobuf message pomerium.dashboard.ListEntityTypesResponse
+ */
+export interface ListEntityTypesResponse {
+    /**
+     * @generated from protobuf field: repeated string entity_types = 1
+     */
+    entityTypes: string[];
+}
 // @generated message type with reflection information, may provide speed optimized methods
 class ActivityLogEntry$Type extends MessageType<ActivityLogEntry> {
     constructor() {
@@ -1119,10 +1133,96 @@ class ListActivityLogEntriesResponse$Type extends MessageType<ListActivityLogEnt
  * @generated MessageType for protobuf message pomerium.dashboard.ListActivityLogEntriesResponse
  */
 export const ListActivityLogEntriesResponse = new ListActivityLogEntriesResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ListEntityTypesRequest$Type extends MessageType<ListEntityTypesRequest> {
+    constructor() {
+        super("pomerium.dashboard.ListEntityTypesRequest", []);
+    }
+    create(value?: PartialMessage<ListEntityTypesRequest>): ListEntityTypesRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<ListEntityTypesRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ListEntityTypesRequest): ListEntityTypesRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: ListEntityTypesRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.ListEntityTypesRequest
+ */
+export const ListEntityTypesRequest = new ListEntityTypesRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ListEntityTypesResponse$Type extends MessageType<ListEntityTypesResponse> {
+    constructor() {
+        super("pomerium.dashboard.ListEntityTypesResponse", [
+            { no: 1, name: "entity_types", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<ListEntityTypesResponse>): ListEntityTypesResponse {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.entityTypes = [];
+        if (value !== undefined)
+            reflectionMergePartial<ListEntityTypesResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ListEntityTypesResponse): ListEntityTypesResponse {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* repeated string entity_types */ 1:
+                    message.entityTypes.push(reader.string());
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: ListEntityTypesResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* repeated string entity_types = 1; */
+        for (let i = 0; i < message.entityTypes.length; i++)
+            writer.tag(1, WireType.LengthDelimited).string(message.entityTypes[i]);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.ListEntityTypesResponse
+ */
+export const ListEntityTypesResponse = new ListEntityTypesResponse$Type();
 /**
  * @generated ServiceType for protobuf service pomerium.dashboard.ActivityLogService
  */
 export const ActivityLogService = new ServiceType("pomerium.dashboard.ActivityLogService", [
     { name: "GetActivityLogEntry", options: {}, I: GetActivityLogEntryRequest, O: GetActivityLogEntryResponse },
-    { name: "ListActivityLogEntries", options: {}, I: ListActivityLogEntriesRequest, O: ListActivityLogEntriesResponse }
+    { name: "ListActivityLogEntries", options: {}, I: ListActivityLogEntriesRequest, O: ListActivityLogEntriesResponse },
+    { name: "ListEntityTypes", options: {}, I: ListEntityTypesRequest, O: ListEntityTypesResponse }
 ]);
