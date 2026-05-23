@@ -502,6 +502,10 @@ export interface Route {
      * @generated from protobuf field: optional pomerium.dashboard.Route.StringList allow_upgrades = 77
      */
     allowUpgrades?: Route_StringList;
+    /**
+     * @generated from protobuf field: pomerium.dashboard.SessionRecording session_recording = 78
+     */
+    sessionRecording?: SessionRecording;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.Route.StringList
@@ -511,6 +515,15 @@ export interface Route_StringList {
      * @generated from protobuf field: repeated string values = 1
      */
     values: string[];
+}
+/**
+ * @generated from protobuf message pomerium.dashboard.SessionRecording
+ */
+export interface SessionRecording {
+    /**
+     * @generated from protobuf field: optional bool enabled = 1
+     */
+    enabled?: boolean;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.UpstreamTunnel
@@ -1463,7 +1476,8 @@ class Route$Type extends MessageType<Route> {
             { no: 74, name: "mcp", kind: "message", T: () => MCP },
             { no: 75, name: "healthy_panic_threshold", kind: "scalar", opt: true, T: 5 /*ScalarType.INT32*/ },
             { no: 76, name: "upstream_tunnel", kind: "message", T: () => UpstreamTunnel },
-            { no: 77, name: "allow_upgrades", kind: "message", T: () => Route_StringList }
+            { no: 77, name: "allow_upgrades", kind: "message", T: () => Route_StringList },
+            { no: 78, name: "session_recording", kind: "message", T: () => SessionRecording }
         ]);
     }
     create(value?: PartialMessage<Route>): Route {
@@ -1691,6 +1705,9 @@ class Route$Type extends MessageType<Route> {
                     break;
                 case /* optional pomerium.dashboard.Route.StringList allow_upgrades */ 77:
                     message.allowUpgrades = Route_StringList.internalBinaryRead(reader, reader.uint32(), options, message.allowUpgrades);
+                    break;
+                case /* pomerium.dashboard.SessionRecording session_recording */ 78:
+                    message.sessionRecording = SessionRecording.internalBinaryRead(reader, reader.uint32(), options, message.sessionRecording);
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -1931,6 +1948,9 @@ class Route$Type extends MessageType<Route> {
         /* optional pomerium.dashboard.Route.StringList allow_upgrades = 77; */
         if (message.allowUpgrades)
             Route_StringList.internalBinaryWrite(message.allowUpgrades, writer.tag(77, WireType.LengthDelimited).fork(), options).join();
+        /* pomerium.dashboard.SessionRecording session_recording = 78; */
+        if (message.sessionRecording)
+            SessionRecording.internalBinaryWrite(message.sessionRecording, writer.tag(78, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -1988,6 +2008,52 @@ class Route_StringList$Type extends MessageType<Route_StringList> {
  * @generated MessageType for protobuf message pomerium.dashboard.Route.StringList
  */
 export const Route_StringList = new Route_StringList$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class SessionRecording$Type extends MessageType<SessionRecording> {
+    constructor() {
+        super("pomerium.dashboard.SessionRecording", [
+            { no: 1, name: "enabled", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ }
+        ]);
+    }
+    create(value?: PartialMessage<SessionRecording>): SessionRecording {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<SessionRecording>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: SessionRecording): SessionRecording {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* optional bool enabled */ 1:
+                    message.enabled = reader.bool();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: SessionRecording, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* optional bool enabled = 1; */
+        if (message.enabled !== undefined)
+            writer.tag(1, WireType.Varint).bool(message.enabled);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.SessionRecording
+ */
+export const SessionRecording = new SessionRecording$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpstreamTunnel$Type extends MessageType<UpstreamTunnel> {
     constructor() {

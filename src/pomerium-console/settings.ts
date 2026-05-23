@@ -474,6 +474,14 @@ export interface Settings {
      * @generated from protobuf field: optional pomerium.dashboard.Settings.StringList allow_upgrades = 127
      */
     allowUpgrades?: Settings_StringList;
+    /**
+     * @generated from protobuf field: optional pomerium.dashboard.Settings.StringList envoy_dynamic_extensions = 128
+     */
+    envoyDynamicExtensions?: Settings_StringList;
+    /**
+     * @generated from protobuf field: optional uint32 session_recording_concurrency = 129
+     */
+    sessionRecordingConcurrency?: number;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.Settings.Certificate
@@ -754,7 +762,9 @@ class Settings$Type extends MessageType<Settings> {
             { no: 123, name: "session_recording_enabled", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ },
             { no: 124, name: "blob_storage", kind: "message", T: () => BlobStorageSettings },
             { no: 125, name: "auto_apply_changesets", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ },
-            { no: 127, name: "allow_upgrades", kind: "message", T: () => Settings_StringList }
+            { no: 127, name: "allow_upgrades", kind: "message", T: () => Settings_StringList },
+            { no: 128, name: "envoy_dynamic_extensions", kind: "message", T: () => Settings_StringList },
+            { no: 129, name: "session_recording_concurrency", kind: "scalar", opt: true, T: 13 /*ScalarType.UINT32*/ }
         ]);
     }
     create(value?: PartialMessage<Settings>): Settings {
@@ -1098,6 +1108,12 @@ class Settings$Type extends MessageType<Settings> {
                     break;
                 case /* optional pomerium.dashboard.Settings.StringList allow_upgrades */ 127:
                     message.allowUpgrades = Settings_StringList.internalBinaryRead(reader, reader.uint32(), options, message.allowUpgrades);
+                    break;
+                case /* optional pomerium.dashboard.Settings.StringList envoy_dynamic_extensions */ 128:
+                    message.envoyDynamicExtensions = Settings_StringList.internalBinaryRead(reader, reader.uint32(), options, message.envoyDynamicExtensions);
+                    break;
+                case /* optional uint32 session_recording_concurrency */ 129:
+                    message.sessionRecordingConcurrency = reader.uint32();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -1480,6 +1496,12 @@ class Settings$Type extends MessageType<Settings> {
         /* optional pomerium.dashboard.Settings.StringList allow_upgrades = 127; */
         if (message.allowUpgrades)
             Settings_StringList.internalBinaryWrite(message.allowUpgrades, writer.tag(127, WireType.LengthDelimited).fork(), options).join();
+        /* optional pomerium.dashboard.Settings.StringList envoy_dynamic_extensions = 128; */
+        if (message.envoyDynamicExtensions)
+            Settings_StringList.internalBinaryWrite(message.envoyDynamicExtensions, writer.tag(128, WireType.LengthDelimited).fork(), options).join();
+        /* optional uint32 session_recording_concurrency = 129; */
+        if (message.sessionRecordingConcurrency !== undefined)
+            writer.tag(129, WireType.Varint).uint32(message.sessionRecordingConcurrency);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
