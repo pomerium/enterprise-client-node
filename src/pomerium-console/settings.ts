@@ -33,7 +33,7 @@ export interface ConsoleSettings {
 }
 /**
  * Settings defines the global pomerium settings
- * Next id: 128.
+ * Next id: 134.
  *
  * @generated from protobuf message pomerium.dashboard.Settings
  */
@@ -482,6 +482,34 @@ export interface Settings {
      * @generated from protobuf field: optional uint32 session_recording_concurrency = 129
      */
     sessionRecordingConcurrency?: number;
+    /**
+     * Should paths be normalized according to RFC 3986 before any processing of
+     * requests by HTTP filters or routing? Defaults to true.
+     *
+     * @generated from protobuf field: optional bool normalize_path = 130
+     */
+    normalizePath?: boolean;
+    /**
+     * Determines if adjacent slashes in the path are merged into one before any
+     * processing of requests by HTTP filters or routing. Defaults to true.
+     *
+     * @generated from protobuf field: optional bool merge_slashes = 131
+     */
+    mergeSlashes?: boolean;
+    /**
+     * Action to take when request URL path contains escaped slash sequences
+     * (%2F, %2f, %5C and %5c). Defaults to rejecting requests.
+     *
+     * @generated from protobuf field: optional pomerium.dashboard.PathWithEscapedSlashesAction path_with_escaped_slashes_action = 132
+     */
+    pathWithEscapedSlashesAction?: PathWithEscapedSlashesAction;
+    /**
+     * Action to take when a client request with a header name containing
+     * underscore characters is received. Defaults to rejecting the request.
+     *
+     * @generated from protobuf field: optional pomerium.dashboard.HeadersWithUnderscoresAction headers_with_underscores_action = 133
+     */
+    headersWithUnderscoresAction?: HeadersWithUnderscoresAction;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.Settings.Certificate
@@ -596,6 +624,72 @@ export enum CodecType {
      * @generated from protobuf enum value: CODEC_TYPE_HTTP3 = 4;
      */
     HTTP3 = 4
+}
+/**
+ * Action to take when Envoy receives client request with header names containing underscore characters.
+ *
+ * @generated from protobuf enum pomerium.dashboard.HeadersWithUnderscoresAction
+ */
+export enum HeadersWithUnderscoresAction {
+    /**
+     * @generated from protobuf enum value: HEADERS_WITH_UNDERSCORES_ACTION_UNKNOWN = 0;
+     */
+    UNKNOWN = 0,
+    /**
+     * Allow headers with underscores.
+     *
+     * @generated from protobuf enum value: HEADERS_WITH_UNDERSCORES_ACTION_ALLOW = 1;
+     */
+    ALLOW = 1,
+    /**
+     * ⁣Reject client request. This is the default behavior.
+     *
+     * @generated from protobuf enum value: HEADERS_WITH_UNDERSCORES_ACTION_REJECT_REQUEST = 2;
+     */
+    REJECT_REQUEST = 2,
+    /**
+     * Drop the client header with name containing underscores.
+     *
+     * @generated from protobuf enum value: HEADERS_WITH_UNDERSCORES_ACTION_DROP_HEADER = 3;
+     */
+    DROP_HEADER = 3
+}
+/**
+ * PathWithEscapedSlashesAction determines the action for request that contain
+ * %2F, %2f, %5C or %5c sequences in the URI path.
+ *
+ * @generated from protobuf enum pomerium.dashboard.PathWithEscapedSlashesAction
+ */
+export enum PathWithEscapedSlashesAction {
+    /**
+     * @generated from protobuf enum value: PATH_WITH_ESCAPED_SLASHES_ACTION_UNKNOWN = 0;
+     */
+    UNKNOWN = 0,
+    /**
+     * ⁣Keep escaped slashes.
+     *
+     * @generated from protobuf enum value: PATH_WITH_ESCAPED_SLASHES_ACTION_KEEP_UNCHANGED = 1;
+     */
+    KEEP_UNCHANGED = 1,
+    /**
+     * ⁣Reject client request with the 400 status. This is the default behavior.
+     *
+     * @generated from protobuf enum value: PATH_WITH_ESCAPED_SLASHES_ACTION_REJECT_REQUEST = 2;
+     */
+    REJECT_REQUEST = 2,
+    /**
+     * Unescape %2F and %5C sequences and redirect request to the new path if
+     * these sequences were present.
+     *
+     * @generated from protobuf enum value: PATH_WITH_ESCAPED_SLASHES_ACTION_UNESCAPE_AND_REDIRECT = 3;
+     */
+    UNESCAPE_AND_REDIRECT = 3,
+    /**
+     * ⁣Unescape %2F and %5C sequences.
+     *
+     * @generated from protobuf enum value: PATH_WITH_ESCAPED_SLASHES_ACTION_UNESCAPE_AND_FORWARD = 4;
+     */
+    UNESCAPE_AND_FORWARD = 4
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class ConsoleSettings$Type extends MessageType<ConsoleSettings> {
@@ -764,7 +858,11 @@ class Settings$Type extends MessageType<Settings> {
             { no: 125, name: "auto_apply_changesets", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ },
             { no: 127, name: "allow_upgrades", kind: "message", T: () => Settings_StringList },
             { no: 128, name: "envoy_dynamic_extensions", kind: "message", T: () => Settings_StringList },
-            { no: 129, name: "session_recording_concurrency", kind: "scalar", opt: true, T: 13 /*ScalarType.UINT32*/ }
+            { no: 129, name: "session_recording_concurrency", kind: "scalar", opt: true, T: 13 /*ScalarType.UINT32*/ },
+            { no: 130, name: "normalize_path", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ },
+            { no: 131, name: "merge_slashes", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ },
+            { no: 132, name: "path_with_escaped_slashes_action", kind: "enum", opt: true, T: () => ["pomerium.dashboard.PathWithEscapedSlashesAction", PathWithEscapedSlashesAction, "PATH_WITH_ESCAPED_SLASHES_ACTION_"] },
+            { no: 133, name: "headers_with_underscores_action", kind: "enum", opt: true, T: () => ["pomerium.dashboard.HeadersWithUnderscoresAction", HeadersWithUnderscoresAction, "HEADERS_WITH_UNDERSCORES_ACTION_"] }
         ]);
     }
     create(value?: PartialMessage<Settings>): Settings {
@@ -1114,6 +1212,18 @@ class Settings$Type extends MessageType<Settings> {
                     break;
                 case /* optional uint32 session_recording_concurrency */ 129:
                     message.sessionRecordingConcurrency = reader.uint32();
+                    break;
+                case /* optional bool normalize_path */ 130:
+                    message.normalizePath = reader.bool();
+                    break;
+                case /* optional bool merge_slashes */ 131:
+                    message.mergeSlashes = reader.bool();
+                    break;
+                case /* optional pomerium.dashboard.PathWithEscapedSlashesAction path_with_escaped_slashes_action */ 132:
+                    message.pathWithEscapedSlashesAction = reader.int32();
+                    break;
+                case /* optional pomerium.dashboard.HeadersWithUnderscoresAction headers_with_underscores_action */ 133:
+                    message.headersWithUnderscoresAction = reader.int32();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -1502,6 +1612,18 @@ class Settings$Type extends MessageType<Settings> {
         /* optional uint32 session_recording_concurrency = 129; */
         if (message.sessionRecordingConcurrency !== undefined)
             writer.tag(129, WireType.Varint).uint32(message.sessionRecordingConcurrency);
+        /* optional bool normalize_path = 130; */
+        if (message.normalizePath !== undefined)
+            writer.tag(130, WireType.Varint).bool(message.normalizePath);
+        /* optional bool merge_slashes = 131; */
+        if (message.mergeSlashes !== undefined)
+            writer.tag(131, WireType.Varint).bool(message.mergeSlashes);
+        /* optional pomerium.dashboard.PathWithEscapedSlashesAction path_with_escaped_slashes_action = 132; */
+        if (message.pathWithEscapedSlashesAction !== undefined)
+            writer.tag(132, WireType.Varint).int32(message.pathWithEscapedSlashesAction);
+        /* optional pomerium.dashboard.HeadersWithUnderscoresAction headers_with_underscores_action = 133; */
+        if (message.headersWithUnderscoresAction !== undefined)
+            writer.tag(133, WireType.Varint).int32(message.headersWithUnderscoresAction);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
