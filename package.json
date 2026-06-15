@@ -24,6 +24,11 @@
   },
   "types": "./lib/cjs/types/index.d.ts",
   "main": "./lib/cjs/index.js",
+  "files": [
+    "lib/",
+    "README.md",
+    "LICENSE"
+  ],
   "release": {
     "branches": [
       "main"
