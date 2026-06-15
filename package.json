@@ -48,6 +48,9 @@
     "enterprise"
   ],
   "license": "Apache-2.0",
+  "engines": {
+    "node": ">=20"
+  },
   "devDependencies": {
     "@protobuf-ts/plugin": "^2.9.4",
     "@types/node": "^25.9.1",
