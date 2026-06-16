@@ -1,0 +1,50 @@
+name: Publish to npm
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: npm-publish
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          submodules: recursive
+          persist-credentials: false
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version-file: '.tool-versions'
+          registry-url: 'https://registry.npmjs.org'
+          scope: '@pomerium'
+          package-manager-cache: false
+
+      - name: Install npm from packageManager
+        run: |
+          NPM_VERSION=$(node -p "require('./package.json').packageManager.split('@')[1]")
+          npm install -g npm@"${NPM_VERSION}"
+
+      - name: Verify version matches tag
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          TAG=${GITHUB_REF#refs/tags/v}
+          if [ "$VERSION" != "$TAG" ]; then
+            echo "Error: package.json version ($VERSION) does not match tag ($TAG)"
+            exit 1
+          fi
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Publish
+        run: npm publish

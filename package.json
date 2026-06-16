@@ -24,6 +24,11 @@
   },
   "types": "./lib/cjs/types/index.d.ts",
   "main": "./lib/cjs/index.js",
+  "files": [
+    "lib/",
+    "README.md",
+    "LICENSE"
+  ],
   "release": {
     "branches": [
       "main"
@@ -35,7 +40,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pomerium/enterprise-client-node.git"
+    "url": "git+https://github.com/pomerium/enterprise-client-node.git"
   },
   "keywords": [
     "zero trust",
@@ -43,6 +48,9 @@
     "enterprise"
   ],
   "license": "Apache-2.0",
+  "engines": {
+    "node": ">=22"
+  },
   "devDependencies": {
     "@protobuf-ts/plugin": "^2.9.4",
     "@types/node": "^25.9.1",
