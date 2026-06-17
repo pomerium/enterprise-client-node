@@ -128,7 +128,9 @@ listPolicies();
 
 ## Releasing
 
-This package is published automatically to npm via GitHub Actions when a version tag is pushed.
+This package is published automatically to npm via GitHub Actions.
+
+[Release](.github/workflows/release.yaml) manages versioning by creating release PRs when changes are merged to `main`. When a release PR is merged, it creates a version tag and GitHub release, which triggers the [Publish to npm](.github/workflows/publish.yml) workflow.
 
 ### Prerequisites
 
@@ -136,18 +138,6 @@ This package is published automatically to npm via GitHub Actions when a version
    - Select **GitHub Actions** as the trusted publisher.
    - Set **Organization** to `pomerium`, **Repository** to `enterprise-client-node`, and **Workflow** to `publish.yml`.
 2. **GitHub Environment** (`npm-publish`) should be created in the repository settings with required reviewers if you want a manual approval gate before publishing.
-
-### Creating a release
-
-1. Update `package.json` `version` to match the intended release (e.g., `0.32.0`).
-2. Commit the version bump and create a tag:
-   ```bash
-   git add package.json
-   git commit -m "chore: bump version to 0.32.0"
-   git tag v0.32.0
-   git push origin main --tags
-   ```
-3. The [Publish to npm](.github/workflows/publish.yml) workflow will trigger, verify the tag matches `package.json`, build the package, and publish it to the `@pomerium` namespace with provenance attestation.
 
 ## Contributing
 
