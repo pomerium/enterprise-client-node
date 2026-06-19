@@ -1,9 +1,12 @@
 name: Publish to npm
 
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Git ref to publish (e.g., v0.32.1)'
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -18,6 +21,7 @@ jobs:
         with:
           submodules: recursive
           persist-credentials: false
+          ref: ${{ github.event.inputs.tag }}
 
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
@@ -34,7 +38,8 @@ jobs:
       - name: Verify version matches tag
         run: |
           VERSION=$(node -p "require('./package.json').version")
-          TAG=${GITHUB_REF#refs/tags/v}
+          TAG="${{ github.event.inputs.tag }}"
+          TAG="${TAG#v}"
           if [ "$VERSION" != "$TAG" ]; then
             echo "Error: package.json version ($VERSION) does not match tag ($TAG)"
             exit 1
@@ -46,5 +51,5 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Publish
-        run: npm publish
+      - name: Publish to npm
+        run: npm publish --provenance
