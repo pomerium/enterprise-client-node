@@ -1,6 +1,6 @@
 {
   "name": "@pomerium/enterprise-client-node",
-  "version": "0.32.0",
+  "version": "0.32.1",
   "author": "Caleb Doxsey <cdoxsey@pomerium.com>",
   "description": "NodeJS client for the Pomerium Enterprise Console",
   "scripts": {
