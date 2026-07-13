@@ -116,6 +116,10 @@ export interface DeletePolicyRequest {
      * @generated from protobuf field: string id = 1
      */
     id: string;
+    /**
+     * @generated from protobuf field: bool remove_from_any_assigned_routes = 2
+     */
+    removeFromAnyAssignedRoutes: boolean;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.DeletePolicyResponse
@@ -434,12 +438,14 @@ export const Policy = new Policy$Type();
 class DeletePolicyRequest$Type extends MessageType<DeletePolicyRequest> {
     constructor() {
         super("pomerium.dashboard.DeletePolicyRequest", [
-            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "remove_from_any_assigned_routes", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
     create(value?: PartialMessage<DeletePolicyRequest>): DeletePolicyRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
         message.id = "";
+        message.removeFromAnyAssignedRoutes = false;
         if (value !== undefined)
             reflectionMergePartial<DeletePolicyRequest>(this, message, value);
         return message;
@@ -451,6 +457,9 @@ class DeletePolicyRequest$Type extends MessageType<DeletePolicyRequest> {
             switch (fieldNo) {
                 case /* string id */ 1:
                     message.id = reader.string();
+                    break;
+                case /* bool remove_from_any_assigned_routes */ 2:
+                    message.removeFromAnyAssignedRoutes = reader.bool();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -467,6 +476,9 @@ class DeletePolicyRequest$Type extends MessageType<DeletePolicyRequest> {
         /* string id = 1; */
         if (message.id !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.id);
+        /* bool remove_from_any_assigned_routes = 2; */
+        if (message.removeFromAnyAssignedRoutes !== false)
+            writer.tag(2, WireType.Varint).bool(message.removeFromAnyAssignedRoutes);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
