@@ -1,0 +1,13 @@
+repos:
+  - repo: local
+    hooks:
+      - id: format
+        name: format
+        language: system
+        entry: bash -c 'npm install && npm run format'
+        pass_filenames: false
+      - id: lint
+        name: lint
+        language: system
+        entry: bash -c 'npm install && npm run lint'
+        pass_filenames: false

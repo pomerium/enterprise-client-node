@@ -5,16 +5,16 @@ Welcome to the Pomerium Enterprise API Node client! This repository provides the
 ## Table of Contents
 
 - [Pomerium Enterprise API Node Client](#pomerium-enterprise-api-node-client)
-	- [Table of Contents](#table-of-contents)
-	- [Installation](#installation)
-	- [Usage](#usage)
-	- [API Overview](#api-overview)
-	- [Examples](#examples)
-		- [List Namespaces](#list-namespaces)
-		- [Create a Route](#create-a-route)
-		- [List Policies](#list-policies)
-	- [Best Practices](#best-practices)
-	- [Contributing](#contributing)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [API Overview](#api-overview)
+  - [Examples](#examples)
+    - [List Namespaces](#list-namespaces)
+    - [Create a Route](#create-a-route)
+    - [List Policies](#list-policies)
+  - [Best Practices](#best-practices)
+  - [Contributing](#contributing)
 
 ## Installation
 
@@ -117,7 +117,6 @@ async function listPolicies(): Promise<void> {
 
 listPolicies();
 ```
-
 
 ## Best Practices
 
