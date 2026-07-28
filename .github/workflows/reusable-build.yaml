@@ -39,10 +39,10 @@ jobs:
           node-version-file: .tool-versions
 
       - name: Install
-        run: cd internal/firebase/ui && npm ci
+        run: npm ci
 
       - name: Format
-        run: cd internal/firebase/ui && npm run format:check
+        run: npm run format:check
 
   lint:
     runs-on: ubuntu-latest
@@ -58,7 +58,7 @@ jobs:
           node-version-file: .tool-versions
 
       - name: Install
-        run: cd internal/firebase/ui && npm ci
+        run: npm ci
 
       - name: Lint
-        run: cd internal/firebase/ui && npm run lint
+        run: npm run lint
