@@ -1,15 +1,25 @@
 {
   "name": "@pomerium/enterprise-client-node",
   "version": "0.32.1",
-  "author": "Caleb Doxsey <cdoxsey@pomerium.com>",
   "description": "NodeJS client for the Pomerium Enterprise Console",
-  "scripts": {
-    "clean": "rm -rf ./lib",
-    "build": "npm run clean && npm run build:esm && npm run build:cjs",
-    "build:esm": "tsc -p ./configs/tsconfig.esm.json && mv lib/esm/index.js lib/esm/index.mjs",
-    "build:cjs": "tsc -p ./configs/tsconfig.cjs.json",
-    "prepack": "npm run build"
+  "keywords": [
+    "enterprise",
+    "pomerium",
+    "zero trust"
+  ],
+  "license": "Apache-2.0",
+  "author": "Caleb Doxsey <cdoxsey@pomerium.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pomerium/enterprise-client-node.git"
   },
+  "files": [
+    "lib/",
+    "README.md",
+    "LICENSE"
+  ],
+  "main": "./lib/cjs/index.js",
+  "types": "./lib/cjs/types/index.d.ts",
   "exports": {
     ".": {
       "import": {
@@ -22,47 +32,40 @@
       }
     }
   },
-  "types": "./lib/cjs/types/index.d.ts",
-  "main": "./lib/cjs/index.js",
-  "files": [
-    "lib/",
-    "README.md",
-    "LICENSE"
-  ],
-  "release": {
-    "branches": [
-      "main"
-    ]
-  },
-  "packageManager": "npm@11.6.0",
   "publishConfig": {
     "access": "public"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/pomerium/enterprise-client-node.git"
-  },
-  "keywords": [
-    "zero trust",
-    "pomerium",
-    "enterprise"
-  ],
-  "license": "Apache-2.0",
-  "engines": {
-    "node": ">=22"
-  },
-  "devDependencies": {
-    "@protobuf-ts/plugin": "^2.9.4",
-    "@types/node": "^26.1.0",
-    "prettier": "^3.8.3",
-    "protoc": "^35.1.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^6.0.3"
+  "scripts": {
+    "clean": "rm -rf ./lib",
+    "build": "npm run clean && npm run build:esm && npm run build:cjs",
+    "build:esm": "tsc -p ./configs/tsconfig.esm.json && mv lib/esm/index.js lib/esm/index.mjs",
+    "build:cjs": "tsc -p ./configs/tsconfig.cjs.json",
+    "format": "oxfmt .",
+    "format:check": "oxfmt --check .",
+    "lint": "oxlint .",
+    "prepack": "npm run build"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.14.4",
     "@protobuf-ts/grpc-transport": "^2.9.4",
     "@protobuf-ts/runtime": "^2.9.4",
     "@protobuf-ts/runtime-rpc": "^2.9.4"
-  }
+  },
+  "devDependencies": {
+    "@protobuf-ts/plugin": "^2.9.4",
+    "@types/node": "^26.1.0",
+    "oxfmt": "^0.61.0",
+    "oxlint": "^1.76.0",
+    "protoc": "^35.1.0",
+    "typescript": "^6.0.3"
+  },
+  "release": {
+    "branches": [
+      "main"
+    ]
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "npm@11.6.0"
 }

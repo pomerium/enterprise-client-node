@@ -1,12 +1,12 @@
 {
   "name": "@pomerium/enterprise-client-node-example",
   "version": "0.1.0",
-  "description": "",
   "private": true,
-  "devDependencies": {
-    "ts-node": "^10.9.1"
-  },
+  "description": "",
   "dependencies": {
     "@pomerium/enterprise-client-node": "file:../"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1"
   }
 }
