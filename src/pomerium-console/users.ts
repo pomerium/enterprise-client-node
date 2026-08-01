@@ -67,6 +67,10 @@ export interface GroupInfo {
  */
 export interface UserInfo {
     /**
+     * @generated from protobuf field: string issuer = 8
+     */
+    issuer: string;
+    /**
      * @generated from protobuf field: string id = 1
      */
     id: string;
@@ -769,6 +773,7 @@ export const GroupInfo = new GroupInfo$Type();
 class UserInfo$Type extends MessageType<UserInfo> {
     constructor() {
         super("pomerium.dashboard.UserInfo", [
+            { no: 8, name: "issuer", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
@@ -780,6 +785,7 @@ class UserInfo$Type extends MessageType<UserInfo> {
     }
     create(value?: PartialMessage<UserInfo>): UserInfo {
         const message = globalThis.Object.create((this.messagePrototype!));
+        message.issuer = "";
         message.id = "";
         message.name = "";
         message.email = "";
@@ -796,6 +802,9 @@ class UserInfo$Type extends MessageType<UserInfo> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
+                case /* string issuer */ 8:
+                    message.issuer = reader.string();
+                    break;
                 case /* string id */ 1:
                     message.id = reader.string();
                     break;
@@ -866,6 +875,9 @@ class UserInfo$Type extends MessageType<UserInfo> {
         /* bool is_impersonated = 7; */
         if (message.isImpersonated !== false)
             writer.tag(7, WireType.Varint).bool(message.isImpersonated);
+        /* string issuer = 8; */
+        if (message.issuer !== "")
+            writer.tag(8, WireType.LengthDelimited).string(message.issuer);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
