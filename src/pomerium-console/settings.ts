@@ -30,6 +30,14 @@ export interface ConsoleSettings {
      * @generated from protobuf field: bool use_changesets = 2
      */
     useChangesets: boolean;
+    /**
+     * @generated from protobuf field: bool enable_remote_diagnostics = 3
+     */
+    enableRemoteDiagnostics: boolean;
+    /**
+     * @generated from protobuf field: string installation_id = 4
+     */
+    installationId: string;
 }
 /**
  * Settings defines the global pomerium settings
@@ -696,13 +704,17 @@ class ConsoleSettings$Type extends MessageType<ConsoleSettings> {
     constructor() {
         super("pomerium.dashboard.ConsoleSettings", [
             { no: 1, name: "enable_feedback_widget", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 2, name: "use_changesets", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+            { no: 2, name: "use_changesets", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 3, name: "enable_remote_diagnostics", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 4, name: "installation_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<ConsoleSettings>): ConsoleSettings {
         const message = globalThis.Object.create((this.messagePrototype!));
         message.enableFeedbackWidget = false;
         message.useChangesets = false;
+        message.enableRemoteDiagnostics = false;
+        message.installationId = "";
         if (value !== undefined)
             reflectionMergePartial<ConsoleSettings>(this, message, value);
         return message;
@@ -717,6 +729,12 @@ class ConsoleSettings$Type extends MessageType<ConsoleSettings> {
                     break;
                 case /* bool use_changesets */ 2:
                     message.useChangesets = reader.bool();
+                    break;
+                case /* bool enable_remote_diagnostics */ 3:
+                    message.enableRemoteDiagnostics = reader.bool();
+                    break;
+                case /* string installation_id */ 4:
+                    message.installationId = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -736,6 +754,12 @@ class ConsoleSettings$Type extends MessageType<ConsoleSettings> {
         /* bool use_changesets = 2; */
         if (message.useChangesets !== false)
             writer.tag(2, WireType.Varint).bool(message.useChangesets);
+        /* bool enable_remote_diagnostics = 3; */
+        if (message.enableRemoteDiagnostics !== false)
+            writer.tag(3, WireType.Varint).bool(message.enableRemoteDiagnostics);
+        /* string installation_id = 4; */
+        if (message.installationId !== "")
+            writer.tag(4, WireType.LengthDelimited).string(message.installationId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
