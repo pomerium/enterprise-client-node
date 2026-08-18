@@ -221,7 +221,7 @@ export interface OAuth2Endpoint {
 }
 /**
  * Route defines a proxy route's settings and policy associations
- * Next ID: 78
+ * Next ID: 80
  *
  * @generated from protobuf message pomerium.dashboard.Route
  */
@@ -506,6 +506,15 @@ export interface Route {
      * @generated from protobuf field: pomerium.dashboard.SessionRecording session_recording = 78
      */
     sessionRecording?: SessionRecording;
+    /**
+     * Names of the identity_providers whose JWT bearer tokens this route accepts
+     * (when bearer_token_format is BEARER_TOKEN_FORMAT_JWT). Each entry must be a
+     * key in Settings.identity_providers. When empty, all configured providers
+     * are accepted.
+     *
+     * @generated from protobuf field: repeated string identity_providers = 79
+     */
+    identityProviders: string[];
 }
 /**
  * @generated from protobuf message pomerium.dashboard.Route.StringList
@@ -773,7 +782,11 @@ export enum BearerTokenFormat {
     /**
      * @generated from protobuf enum value: BEARER_TOKEN_FORMAT_IDP_IDENTITY_TOKEN = 3;
      */
-    IDP_IDENTITY_TOKEN = 3
+    IDP_IDENTITY_TOKEN = 3,
+    /**
+     * @generated from protobuf enum value: BEARER_TOKEN_FORMAT_JWT = 4;
+     */
+    JWT = 4
 }
 /**
  * LoadBalancingPolicy defines the strategy used to balance requests across
@@ -1477,7 +1490,8 @@ class Route$Type extends MessageType<Route> {
             { no: 75, name: "healthy_panic_threshold", kind: "scalar", opt: true, T: 5 /*ScalarType.INT32*/ },
             { no: 76, name: "upstream_tunnel", kind: "message", T: () => UpstreamTunnel },
             { no: 77, name: "allow_upgrades", kind: "message", T: () => Route_StringList },
-            { no: 78, name: "session_recording", kind: "message", T: () => SessionRecording }
+            { no: 78, name: "session_recording", kind: "message", T: () => SessionRecording },
+            { no: 79, name: "identity_providers", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<Route>): Route {
@@ -1502,6 +1516,7 @@ class Route$Type extends MessageType<Route> {
         message.enforcedPolicyIds = [];
         message.enforcedPolicyNames = [];
         message.healthChecks = [];
+        message.identityProviders = [];
         if (value !== undefined)
             reflectionMergePartial<Route>(this, message, value);
         return message;
@@ -1708,6 +1723,9 @@ class Route$Type extends MessageType<Route> {
                     break;
                 case /* pomerium.dashboard.SessionRecording session_recording */ 78:
                     message.sessionRecording = SessionRecording.internalBinaryRead(reader, reader.uint32(), options, message.sessionRecording);
+                    break;
+                case /* repeated string identity_providers */ 79:
+                    message.identityProviders.push(reader.string());
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -1951,6 +1969,9 @@ class Route$Type extends MessageType<Route> {
         /* pomerium.dashboard.SessionRecording session_recording = 78; */
         if (message.sessionRecording)
             SessionRecording.internalBinaryWrite(message.sessionRecording, writer.tag(78, WireType.LengthDelimited).fork(), options).join();
+        /* repeated string identity_providers = 79; */
+        for (let i = 0; i < message.identityProviders.length; i++)
+            writer.tag(79, WireType.LengthDelimited).string(message.identityProviders[i]);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

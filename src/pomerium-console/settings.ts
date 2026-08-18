@@ -40,8 +40,54 @@ export interface ConsoleSettings {
     installationId: string;
 }
 /**
+ * IdentityProvider declares an additional identity provider. Today it is
+ * usable only to verify JWT bearer tokens issued by non-interactive workloads
+ * (Kubernetes projected service-account tokens, GitHub Actions OIDC, SPIFFE
+ * JWT-SVIDs, …) on routes whose bearer_token_format is BEARER_TOKEN_FORMAT_JWT.
+ * It does not replace the interactive SSO identity provider (the idp_* fields).
+ *
+ * Providers are declared as a map in Settings; the map key is the provider
+ * name, referenced from Route.identity_providers. Authorization on the verified
+ * claims is left to PPL (claim/...).
+ *
+ * @generated from protobuf message pomerium.dashboard.IdentityProvider
+ */
+export interface IdentityProvider {
+    /**
+     * The `iss` claim tokens must carry. Required, and unique across providers.
+     * Used both to select the matching provider for an incoming token and (with
+     * OIDC discovery) to fetch the signing keys.
+     *
+     * @generated from protobuf field: string issuer = 1
+     */
+    issuer: string;
+    /**
+     * Optional explicit JWKS URL. When set, OIDC discovery is skipped and keys
+     * are fetched directly from this URL. Useful when the issuer URL is not
+     * externally routable (e.g. Kubernetes' `kubernetes.default.svc.cluster.local`).
+     *
+     * @generated from protobuf field: string jwks_url = 2
+     */
+    jwksUrl: string;
+    /**
+     * Allowed JWT signing algorithms. When empty, defaults to {RS256, ES256,
+     * EdDSA}. `none` and HMAC (HS*) algorithms are rejected.
+     *
+     * @generated from protobuf field: repeated string supported_algs = 3
+     */
+    supportedAlgs: string[];
+    /**
+     * Audiences accepted on tokens from this provider. Required and non-empty:
+     * at least one must intersect the token's `aud` claim. Fail-closed — an
+     * empty set rejects all tokens.
+     *
+     * @generated from protobuf field: repeated string audiences = 4
+     */
+    audiences: string[];
+}
+/**
  * Settings defines the global pomerium settings
- * Next id: 134.
+ * Next id: 135.
  *
  * @generated from protobuf message pomerium.dashboard.Settings
  */
@@ -518,6 +564,17 @@ export interface Settings {
      * @generated from protobuf field: optional pomerium.dashboard.HeadersWithUnderscoresAction headers_with_underscores_action = 133
      */
     headersWithUnderscoresAction?: HeadersWithUnderscoresAction;
+    /**
+     * Additional identity providers, keyed by provider name. Currently usable
+     * only to verify JWT bearer tokens from non-interactive workloads on routes
+     * whose bearer_token_format is BEARER_TOKEN_FORMAT_JWT; the interactive SSO
+     * provider is still configured via the idp_* fields.
+     *
+     * @generated from protobuf field: map<string, pomerium.dashboard.IdentityProvider> identity_providers = 134
+     */
+    identityProviders: {
+        [key: string]: IdentityProvider;
+    };
 }
 /**
  * @generated from protobuf message pomerium.dashboard.Settings.Certificate
@@ -771,6 +828,77 @@ class ConsoleSettings$Type extends MessageType<ConsoleSettings> {
  */
 export const ConsoleSettings = new ConsoleSettings$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class IdentityProvider$Type extends MessageType<IdentityProvider> {
+    constructor() {
+        super("pomerium.dashboard.IdentityProvider", [
+            { no: 1, name: "issuer", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "jwks_url", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "supported_algs", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "audiences", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<IdentityProvider>): IdentityProvider {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.issuer = "";
+        message.jwksUrl = "";
+        message.supportedAlgs = [];
+        message.audiences = [];
+        if (value !== undefined)
+            reflectionMergePartial<IdentityProvider>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: IdentityProvider): IdentityProvider {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string issuer */ 1:
+                    message.issuer = reader.string();
+                    break;
+                case /* string jwks_url */ 2:
+                    message.jwksUrl = reader.string();
+                    break;
+                case /* repeated string supported_algs */ 3:
+                    message.supportedAlgs.push(reader.string());
+                    break;
+                case /* repeated string audiences */ 4:
+                    message.audiences.push(reader.string());
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: IdentityProvider, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string issuer = 1; */
+        if (message.issuer !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.issuer);
+        /* string jwks_url = 2; */
+        if (message.jwksUrl !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.jwksUrl);
+        /* repeated string supported_algs = 3; */
+        for (let i = 0; i < message.supportedAlgs.length; i++)
+            writer.tag(3, WireType.LengthDelimited).string(message.supportedAlgs[i]);
+        /* repeated string audiences = 4; */
+        for (let i = 0; i < message.audiences.length; i++)
+            writer.tag(4, WireType.LengthDelimited).string(message.audiences[i]);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.IdentityProvider
+ */
+export const IdentityProvider = new IdentityProvider$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class Settings$Type extends MessageType<Settings> {
     constructor() {
         super("pomerium.dashboard.Settings", [
@@ -886,7 +1014,8 @@ class Settings$Type extends MessageType<Settings> {
             { no: 130, name: "normalize_path", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ },
             { no: 131, name: "merge_slashes", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ },
             { no: 132, name: "path_with_escaped_slashes_action", kind: "enum", opt: true, T: () => ["pomerium.dashboard.PathWithEscapedSlashesAction", PathWithEscapedSlashesAction, "PATH_WITH_ESCAPED_SLASHES_ACTION_"] },
-            { no: 133, name: "headers_with_underscores_action", kind: "enum", opt: true, T: () => ["pomerium.dashboard.HeadersWithUnderscoresAction", HeadersWithUnderscoresAction, "HEADERS_WITH_UNDERSCORES_ACTION_"] }
+            { no: 133, name: "headers_with_underscores_action", kind: "enum", opt: true, T: () => ["pomerium.dashboard.HeadersWithUnderscoresAction", HeadersWithUnderscoresAction, "HEADERS_WITH_UNDERSCORES_ACTION_"] },
+            { no: 134, name: "identity_providers", kind: "map", K: 9 /*ScalarType.STRING*/, V: { kind: "message", T: () => IdentityProvider } }
         ]);
     }
     create(value?: PartialMessage<Settings>): Settings {
@@ -901,6 +1030,7 @@ class Settings$Type extends MessageType<Settings> {
         message.otelExporterOtlpHeaders = [];
         message.otelExporterOtlpTracesHeaders = [];
         message.originatorId = "";
+        message.identityProviders = {};
         if (value !== undefined)
             reflectionMergePartial<Settings>(this, message, value);
         return message;
@@ -1249,6 +1379,9 @@ class Settings$Type extends MessageType<Settings> {
                 case /* optional pomerium.dashboard.HeadersWithUnderscoresAction headers_with_underscores_action */ 133:
                     message.headersWithUnderscoresAction = reader.int32();
                     break;
+                case /* map<string, pomerium.dashboard.IdentityProvider> identity_providers */ 134:
+                    this.binaryReadMap134(message.identityProviders, reader, options);
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -1307,6 +1440,22 @@ class Settings$Type extends MessageType<Settings> {
             }
         }
         map[key ?? ""] = val ?? "";
+    }
+    private binaryReadMap134(map: Settings["identityProviders"], reader: IBinaryReader, options: BinaryReadOptions): void {
+        let len = reader.uint32(), end = reader.pos + len, key: keyof Settings["identityProviders"] | undefined, val: Settings["identityProviders"][any] | undefined;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case 1:
+                    key = reader.string();
+                    break;
+                case 2:
+                    val = IdentityProvider.internalBinaryRead(reader, reader.uint32(), options);
+                    break;
+                default: throw new globalThis.Error("unknown map entry field for pomerium.dashboard.Settings.identity_providers");
+            }
+        }
+        map[key ?? ""] = val ?? IdentityProvider.create();
     }
     internalBinaryWrite(message: Settings, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
         /* google.protobuf.Timestamp modified_at = 1; */
@@ -1648,6 +1797,13 @@ class Settings$Type extends MessageType<Settings> {
         /* optional pomerium.dashboard.HeadersWithUnderscoresAction headers_with_underscores_action = 133; */
         if (message.headersWithUnderscoresAction !== undefined)
             writer.tag(133, WireType.Varint).int32(message.headersWithUnderscoresAction);
+        /* map<string, pomerium.dashboard.IdentityProvider> identity_providers = 134; */
+        for (let k of globalThis.Object.keys(message.identityProviders)) {
+            writer.tag(134, WireType.LengthDelimited).fork().tag(1, WireType.LengthDelimited).string(k);
+            writer.tag(2, WireType.LengthDelimited).fork();
+            IdentityProvider.internalBinaryWrite(message.identityProviders[k], writer, options);
+            writer.join().join();
+        }
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
