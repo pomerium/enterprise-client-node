@@ -1662,6 +1662,10 @@ export interface FeatureSet {
      * @generated from protobuf field: optional google.protobuf.FeatureSet.VisibilityFeature.DefaultSymbolVisibility default_symbol_visibility = 8
      */
     defaultSymbolVisibility?: FeatureSet_VisibilityFeature_DefaultSymbolVisibility;
+    /**
+     * @generated from protobuf field: optional google.protobuf.FeatureSet.ProtoLimitsFeature.EnforceProtoLimits enforce_proto_limits = 9
+     */
+    enforceProtoLimits?: FeatureSet_ProtoLimitsFeature_EnforceProtoLimits;
 }
 /**
  * @generated from protobuf message google.protobuf.FeatureSet.VisibilityFeature
@@ -1702,6 +1706,36 @@ export enum FeatureSet_VisibilityFeature_DefaultSymbolVisibility {
      * @generated from protobuf enum value: STRICT = 4;
      */
     STRICT = 4
+}
+/**
+ * @generated from protobuf message google.protobuf.FeatureSet.ProtoLimitsFeature
+ */
+export interface FeatureSet_ProtoLimitsFeature {
+}
+/**
+ * @generated from protobuf enum google.protobuf.FeatureSet.ProtoLimitsFeature.EnforceProtoLimits
+ */
+export enum FeatureSet_ProtoLimitsFeature_EnforceProtoLimits {
+    /**
+     * @generated from protobuf enum value: PROTO_LIMITS_UNKNOWN = 0;
+     */
+    PROTO_LIMITS_UNKNOWN = 0,
+    /**
+     * Default pre-EDITION_2026: there are no limit enforcement at the protoc
+     * level. Practical limits still exist, but they will tend to fail while
+     * compiling protoc-generated code, and these limits tend to be language
+     * or toolchain specific.
+     *
+     * @generated from protobuf enum value: LEGACY_NO_EXPLICIT_LIMITS = 1;
+     */
+    LEGACY_NO_EXPLICIT_LIMITS = 1,
+    /**
+     * A set of limits enforced by Edition 2026 by default. For a detailed
+     * list of all the limits please consult the Edition 2026 documentation.
+     *
+     * @generated from protobuf enum value: PROTO_LIMITS2026 = 2;
+     */
+    PROTO_LIMITS2026 = 2
 }
 /**
  * @generated from protobuf enum google.protobuf.FeatureSet.FieldPresence
@@ -1971,6 +2005,23 @@ export interface SourceCodeInfo_Location {
      *   [ 4, 3, 2, 7 ]
      * this path refers to the whole field declaration (from the beginning
      * of the label to the terminating semicolon).
+     *
+     * For options, the path refers to the interpreted option in the descriptor.
+     * E.g., for a custom option `(my_opt) = "foo"` on a message using extension
+     * number 10101, the path is:
+     *   [ 4, 3, 7, 10101 ]
+     * refers to:
+     *   file.message_type(3)     // 4, 3
+     *       .options()           // 7
+     *       .my_opt()            // 10101
+     *
+     * Sub-locations corresponding to the interpreted option's corresponding
+     * `UninterpretedOption` are also appended to the interpreted option, which
+     * deviates from the actual FileDescriptorProto path. E.g.:
+     *   [ 4, 3, 7, 10101, 2 ]
+     * refers to the option name `(my_opt)`, and:
+     *   [ 4, 3, 7, 10101, 7 ]
+     * refers to the "foo" string value of the option.
      *
      * @generated from protobuf field: repeated int32 path = 1 [packed = true]
      */
@@ -4357,7 +4408,8 @@ class FeatureSet$Type extends MessageType<FeatureSet> {
             { no: 5, name: "message_encoding", kind: "enum", opt: true, T: () => ["google.protobuf.FeatureSet.MessageEncoding", FeatureSet_MessageEncoding] },
             { no: 6, name: "json_format", kind: "enum", opt: true, T: () => ["google.protobuf.FeatureSet.JsonFormat", FeatureSet_JsonFormat] },
             { no: 7, name: "enforce_naming_style", kind: "enum", opt: true, T: () => ["google.protobuf.FeatureSet.EnforceNamingStyle", FeatureSet_EnforceNamingStyle] },
-            { no: 8, name: "default_symbol_visibility", kind: "enum", opt: true, T: () => ["google.protobuf.FeatureSet.VisibilityFeature.DefaultSymbolVisibility", FeatureSet_VisibilityFeature_DefaultSymbolVisibility] }
+            { no: 8, name: "default_symbol_visibility", kind: "enum", opt: true, T: () => ["google.protobuf.FeatureSet.VisibilityFeature.DefaultSymbolVisibility", FeatureSet_VisibilityFeature_DefaultSymbolVisibility] },
+            { no: 9, name: "enforce_proto_limits", kind: "enum", opt: true, T: () => ["google.protobuf.FeatureSet.ProtoLimitsFeature.EnforceProtoLimits", FeatureSet_ProtoLimitsFeature_EnforceProtoLimits] }
         ]);
     }
     create(value?: PartialMessage<FeatureSet>): FeatureSet {
@@ -4395,6 +4447,9 @@ class FeatureSet$Type extends MessageType<FeatureSet> {
                 case /* optional google.protobuf.FeatureSet.VisibilityFeature.DefaultSymbolVisibility default_symbol_visibility */ 8:
                     message.defaultSymbolVisibility = reader.int32();
                     break;
+                case /* optional google.protobuf.FeatureSet.ProtoLimitsFeature.EnforceProtoLimits enforce_proto_limits */ 9:
+                    message.enforceProtoLimits = reader.int32();
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -4431,6 +4486,9 @@ class FeatureSet$Type extends MessageType<FeatureSet> {
         /* optional google.protobuf.FeatureSet.VisibilityFeature.DefaultSymbolVisibility default_symbol_visibility = 8; */
         if (message.defaultSymbolVisibility !== undefined)
             writer.tag(8, WireType.Varint).int32(message.defaultSymbolVisibility);
+        /* optional google.protobuf.FeatureSet.ProtoLimitsFeature.EnforceProtoLimits enforce_proto_limits = 9; */
+        if (message.enforceProtoLimits !== undefined)
+            writer.tag(9, WireType.Varint).int32(message.enforceProtoLimits);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -4479,6 +4537,44 @@ class FeatureSet_VisibilityFeature$Type extends MessageType<FeatureSet_Visibilit
  * @generated MessageType for protobuf message google.protobuf.FeatureSet.VisibilityFeature
  */
 export const FeatureSet_VisibilityFeature = new FeatureSet_VisibilityFeature$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class FeatureSet_ProtoLimitsFeature$Type extends MessageType<FeatureSet_ProtoLimitsFeature> {
+    constructor() {
+        super("google.protobuf.FeatureSet.ProtoLimitsFeature", []);
+    }
+    create(value?: PartialMessage<FeatureSet_ProtoLimitsFeature>): FeatureSet_ProtoLimitsFeature {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<FeatureSet_ProtoLimitsFeature>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: FeatureSet_ProtoLimitsFeature): FeatureSet_ProtoLimitsFeature {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: FeatureSet_ProtoLimitsFeature, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message google.protobuf.FeatureSet.ProtoLimitsFeature
+ */
+export const FeatureSet_ProtoLimitsFeature = new FeatureSet_ProtoLimitsFeature$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class FeatureSetDefaults$Type extends MessageType<FeatureSetDefaults> {
     constructor() {
