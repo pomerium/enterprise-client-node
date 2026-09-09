@@ -19,6 +19,77 @@ import { JwtGroupsFilter } from "./routes";
 import { Duration } from "./google/protobuf/duration";
 import { Timestamp } from "./google/protobuf/timestamp";
 /**
+ * @generated from protobuf message pomerium.dashboard.LicenseOptions
+ */
+export interface LicenseOptions {
+    /**
+     * @generated from protobuf field: bool readonly_after_expiry = 1
+     */
+    readonlyAfterExpiry: boolean;
+    /**
+     * @generated from protobuf field: bool allow_offline_verification = 2
+     */
+    allowOfflineVerification: boolean;
+    /**
+     * @generated from protobuf field: bool can_disable_remote_diagnostics = 3
+     */
+    canDisableRemoteDiagnostics: boolean;
+    /**
+     * @generated from protobuf field: uint64 mau = 4
+     */
+    mau: bigint;
+}
+/**
+ * @generated from protobuf message pomerium.dashboard.License
+ */
+export interface License {
+    /**
+     * @generated from protobuf field: string id = 1
+     */
+    id: string;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp created_at = 2
+     */
+    createdAt?: Timestamp;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp modified_at = 3
+     */
+    modifiedAt?: Timestamp;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp deleted_at = 4
+     */
+    deletedAt?: Timestamp;
+    /**
+     * @generated from protobuf field: bool active = 5
+     */
+    active: boolean;
+    /**
+     * @generated from protobuf field: string key = 6
+     */
+    key: string;
+}
+/**
+ * @generated from protobuf message pomerium.dashboard.LicenseInfo
+ */
+export interface LicenseInfo {
+    /**
+     * @generated from protobuf field: pomerium.dashboard.LicenseStatus status = 1
+     */
+    status: LicenseStatus;
+    /**
+     * @generated from protobuf field: optional string status_reason = 2
+     */
+    statusReason?: string;
+    /**
+     * @generated from protobuf field: pomerium.dashboard.LicenseOptions options = 3
+     */
+    options?: LicenseOptions;
+    /**
+     * @generated from protobuf field: optional google.protobuf.Timestamp expiry = 4
+     */
+    expiry?: Timestamp;
+}
+/**
  * @generated from protobuf message pomerium.dashboard.ConsoleSettings
  */
 export interface ConsoleSettings {
@@ -38,6 +109,14 @@ export interface ConsoleSettings {
      * @generated from protobuf field: string installation_id = 4
      */
     installationId: string;
+    /**
+     * @generated from protobuf field: pomerium.dashboard.LicenseInfo license_info = 5
+     */
+    licenseInfo?: LicenseInfo;
+    /**
+     * @generated from protobuf field: string zero_base_url = 6
+     */
+    zeroBaseUrl: string;
 }
 /**
  * IdentityProvider declares an additional identity provider. Today it is
@@ -616,6 +695,52 @@ export interface BlobStorageSettings {
     managedPrefix?: string;
 }
 /**
+ * @generated from protobuf message pomerium.dashboard.ActivateLicenseRequest
+ */
+export interface ActivateLicenseRequest {
+    /**
+     * @generated from protobuf field: string license_id = 1
+     */
+    licenseId: string;
+}
+/**
+ * @generated from protobuf message pomerium.dashboard.ActivateLicenseResponse
+ */
+export interface ActivateLicenseResponse {
+}
+/**
+ * @generated from protobuf message pomerium.dashboard.AddLicenseRequest
+ */
+export interface AddLicenseRequest {
+    /**
+     * @generated from protobuf field: pomerium.dashboard.License license = 1
+     */
+    license?: License;
+}
+/**
+ * @generated from protobuf message pomerium.dashboard.AddLicenseResponse
+ */
+export interface AddLicenseResponse {
+    /**
+     * @generated from protobuf field: pomerium.dashboard.License license = 2
+     */
+    license?: License;
+}
+/**
+ * @generated from protobuf message pomerium.dashboard.DeleteLicenseRequest
+ */
+export interface DeleteLicenseRequest {
+    /**
+     * @generated from protobuf field: string license_id = 1
+     */
+    licenseId: string;
+}
+/**
+ * @generated from protobuf message pomerium.dashboard.DeleteLicenseResponse
+ */
+export interface DeleteLicenseResponse {
+}
+/**
  * @generated from protobuf message pomerium.dashboard.GetConsoleSettingsRequest
  */
 export interface GetConsoleSettingsRequest {
@@ -648,6 +773,20 @@ export interface GetSettingsResponse {
     settings?: Settings;
 }
 /**
+ * @generated from protobuf message pomerium.dashboard.ListLicensesRequest
+ */
+export interface ListLicensesRequest {
+}
+/**
+ * @generated from protobuf message pomerium.dashboard.ListLicensesResponse
+ */
+export interface ListLicensesResponse {
+    /**
+     * @generated from protobuf field: repeated pomerium.dashboard.License licenses = 1
+     */
+    licenses: License[];
+}
+/**
  * @generated from protobuf message pomerium.dashboard.SetSettingsRequest
  */
 export interface SetSettingsRequest {
@@ -664,6 +803,31 @@ export interface SetSettingsResponse {
      * @generated from protobuf field: pomerium.dashboard.Settings settings = 1
      */
     settings?: Settings;
+}
+/**
+ * @generated from protobuf enum pomerium.dashboard.LicenseStatus
+ */
+export enum LicenseStatus {
+    /**
+     * @generated from protobuf enum value: LICENSE_STATUS_UNKNOWN = 0;
+     */
+    UNKNOWN = 0,
+    /**
+     * @generated from protobuf enum value: LICENSE_STATUS_OK = 1;
+     */
+    OK = 1,
+    /**
+     * @generated from protobuf enum value: LICENSE_STATUS_MISSING = 2;
+     */
+    MISSING = 2,
+    /**
+     * @generated from protobuf enum value: LICENSE_STATUS_EXPIRED = 3;
+     */
+    EXPIRED = 3,
+    /**
+     * @generated from protobuf enum value: LICENSE_STATUS_INVALID = 4;
+     */
+    INVALID = 4
 }
 /**
  * @generated from protobuf enum pomerium.dashboard.CodecType
@@ -757,13 +921,238 @@ export enum PathWithEscapedSlashesAction {
     UNESCAPE_AND_FORWARD = 4
 }
 // @generated message type with reflection information, may provide speed optimized methods
+class LicenseOptions$Type extends MessageType<LicenseOptions> {
+    constructor() {
+        super("pomerium.dashboard.LicenseOptions", [
+            { no: 1, name: "readonly_after_expiry", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 2, name: "allow_offline_verification", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 3, name: "can_disable_remote_diagnostics", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 4, name: "mau", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ }
+        ]);
+    }
+    create(value?: PartialMessage<LicenseOptions>): LicenseOptions {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.readonlyAfterExpiry = false;
+        message.allowOfflineVerification = false;
+        message.canDisableRemoteDiagnostics = false;
+        message.mau = 0n;
+        if (value !== undefined)
+            reflectionMergePartial<LicenseOptions>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: LicenseOptions): LicenseOptions {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* bool readonly_after_expiry */ 1:
+                    message.readonlyAfterExpiry = reader.bool();
+                    break;
+                case /* bool allow_offline_verification */ 2:
+                    message.allowOfflineVerification = reader.bool();
+                    break;
+                case /* bool can_disable_remote_diagnostics */ 3:
+                    message.canDisableRemoteDiagnostics = reader.bool();
+                    break;
+                case /* uint64 mau */ 4:
+                    message.mau = reader.uint64().toBigInt();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: LicenseOptions, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* bool readonly_after_expiry = 1; */
+        if (message.readonlyAfterExpiry !== false)
+            writer.tag(1, WireType.Varint).bool(message.readonlyAfterExpiry);
+        /* bool allow_offline_verification = 2; */
+        if (message.allowOfflineVerification !== false)
+            writer.tag(2, WireType.Varint).bool(message.allowOfflineVerification);
+        /* bool can_disable_remote_diagnostics = 3; */
+        if (message.canDisableRemoteDiagnostics !== false)
+            writer.tag(3, WireType.Varint).bool(message.canDisableRemoteDiagnostics);
+        /* uint64 mau = 4; */
+        if (message.mau !== 0n)
+            writer.tag(4, WireType.Varint).uint64(message.mau);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.LicenseOptions
+ */
+export const LicenseOptions = new LicenseOptions$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class License$Type extends MessageType<License> {
+    constructor() {
+        super("pomerium.dashboard.License", [
+            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "created_at", kind: "message", T: () => Timestamp },
+            { no: 3, name: "modified_at", kind: "message", T: () => Timestamp },
+            { no: 4, name: "deleted_at", kind: "message", T: () => Timestamp },
+            { no: 5, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 6, name: "key", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<License>): License {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.id = "";
+        message.active = false;
+        message.key = "";
+        if (value !== undefined)
+            reflectionMergePartial<License>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: License): License {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string id */ 1:
+                    message.id = reader.string();
+                    break;
+                case /* google.protobuf.Timestamp created_at */ 2:
+                    message.createdAt = Timestamp.internalBinaryRead(reader, reader.uint32(), options, message.createdAt);
+                    break;
+                case /* google.protobuf.Timestamp modified_at */ 3:
+                    message.modifiedAt = Timestamp.internalBinaryRead(reader, reader.uint32(), options, message.modifiedAt);
+                    break;
+                case /* google.protobuf.Timestamp deleted_at */ 4:
+                    message.deletedAt = Timestamp.internalBinaryRead(reader, reader.uint32(), options, message.deletedAt);
+                    break;
+                case /* bool active */ 5:
+                    message.active = reader.bool();
+                    break;
+                case /* string key */ 6:
+                    message.key = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: License, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string id = 1; */
+        if (message.id !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.id);
+        /* google.protobuf.Timestamp created_at = 2; */
+        if (message.createdAt)
+            Timestamp.internalBinaryWrite(message.createdAt, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        /* google.protobuf.Timestamp modified_at = 3; */
+        if (message.modifiedAt)
+            Timestamp.internalBinaryWrite(message.modifiedAt, writer.tag(3, WireType.LengthDelimited).fork(), options).join();
+        /* google.protobuf.Timestamp deleted_at = 4; */
+        if (message.deletedAt)
+            Timestamp.internalBinaryWrite(message.deletedAt, writer.tag(4, WireType.LengthDelimited).fork(), options).join();
+        /* bool active = 5; */
+        if (message.active !== false)
+            writer.tag(5, WireType.Varint).bool(message.active);
+        /* string key = 6; */
+        if (message.key !== "")
+            writer.tag(6, WireType.LengthDelimited).string(message.key);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.License
+ */
+export const License = new License$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class LicenseInfo$Type extends MessageType<LicenseInfo> {
+    constructor() {
+        super("pomerium.dashboard.LicenseInfo", [
+            { no: 1, name: "status", kind: "enum", T: () => ["pomerium.dashboard.LicenseStatus", LicenseStatus, "LICENSE_STATUS_"] },
+            { no: 2, name: "status_reason", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "options", kind: "message", T: () => LicenseOptions },
+            { no: 4, name: "expiry", kind: "message", T: () => Timestamp }
+        ]);
+    }
+    create(value?: PartialMessage<LicenseInfo>): LicenseInfo {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.status = 0;
+        if (value !== undefined)
+            reflectionMergePartial<LicenseInfo>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: LicenseInfo): LicenseInfo {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* pomerium.dashboard.LicenseStatus status */ 1:
+                    message.status = reader.int32();
+                    break;
+                case /* optional string status_reason */ 2:
+                    message.statusReason = reader.string();
+                    break;
+                case /* pomerium.dashboard.LicenseOptions options */ 3:
+                    message.options = LicenseOptions.internalBinaryRead(reader, reader.uint32(), options, message.options);
+                    break;
+                case /* optional google.protobuf.Timestamp expiry */ 4:
+                    message.expiry = Timestamp.internalBinaryRead(reader, reader.uint32(), options, message.expiry);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: LicenseInfo, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* pomerium.dashboard.LicenseStatus status = 1; */
+        if (message.status !== 0)
+            writer.tag(1, WireType.Varint).int32(message.status);
+        /* optional string status_reason = 2; */
+        if (message.statusReason !== undefined)
+            writer.tag(2, WireType.LengthDelimited).string(message.statusReason);
+        /* pomerium.dashboard.LicenseOptions options = 3; */
+        if (message.options)
+            LicenseOptions.internalBinaryWrite(message.options, writer.tag(3, WireType.LengthDelimited).fork(), options).join();
+        /* optional google.protobuf.Timestamp expiry = 4; */
+        if (message.expiry)
+            Timestamp.internalBinaryWrite(message.expiry, writer.tag(4, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.LicenseInfo
+ */
+export const LicenseInfo = new LicenseInfo$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class ConsoleSettings$Type extends MessageType<ConsoleSettings> {
     constructor() {
         super("pomerium.dashboard.ConsoleSettings", [
             { no: 1, name: "enable_feedback_widget", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 2, name: "use_changesets", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 3, name: "enable_remote_diagnostics", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 4, name: "installation_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 4, name: "installation_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "license_info", kind: "message", T: () => LicenseInfo },
+            { no: 6, name: "zero_base_url", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<ConsoleSettings>): ConsoleSettings {
@@ -772,6 +1161,7 @@ class ConsoleSettings$Type extends MessageType<ConsoleSettings> {
         message.useChangesets = false;
         message.enableRemoteDiagnostics = false;
         message.installationId = "";
+        message.zeroBaseUrl = "";
         if (value !== undefined)
             reflectionMergePartial<ConsoleSettings>(this, message, value);
         return message;
@@ -792,6 +1182,12 @@ class ConsoleSettings$Type extends MessageType<ConsoleSettings> {
                     break;
                 case /* string installation_id */ 4:
                     message.installationId = reader.string();
+                    break;
+                case /* pomerium.dashboard.LicenseInfo license_info */ 5:
+                    message.licenseInfo = LicenseInfo.internalBinaryRead(reader, reader.uint32(), options, message.licenseInfo);
+                    break;
+                case /* string zero_base_url */ 6:
+                    message.zeroBaseUrl = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -817,6 +1213,12 @@ class ConsoleSettings$Type extends MessageType<ConsoleSettings> {
         /* string installation_id = 4; */
         if (message.installationId !== "")
             writer.tag(4, WireType.LengthDelimited).string(message.installationId);
+        /* pomerium.dashboard.LicenseInfo license_info = 5; */
+        if (message.licenseInfo)
+            LicenseInfo.internalBinaryWrite(message.licenseInfo, writer.tag(5, WireType.LengthDelimited).fork(), options).join();
+        /* string zero_base_url = 6; */
+        if (message.zeroBaseUrl !== "")
+            writer.tag(6, WireType.LengthDelimited).string(message.zeroBaseUrl);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -1978,6 +2380,268 @@ class BlobStorageSettings$Type extends MessageType<BlobStorageSettings> {
  */
 export const BlobStorageSettings = new BlobStorageSettings$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class ActivateLicenseRequest$Type extends MessageType<ActivateLicenseRequest> {
+    constructor() {
+        super("pomerium.dashboard.ActivateLicenseRequest", [
+            { no: 1, name: "license_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<ActivateLicenseRequest>): ActivateLicenseRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.licenseId = "";
+        if (value !== undefined)
+            reflectionMergePartial<ActivateLicenseRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ActivateLicenseRequest): ActivateLicenseRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string license_id */ 1:
+                    message.licenseId = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: ActivateLicenseRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string license_id = 1; */
+        if (message.licenseId !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.licenseId);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.ActivateLicenseRequest
+ */
+export const ActivateLicenseRequest = new ActivateLicenseRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ActivateLicenseResponse$Type extends MessageType<ActivateLicenseResponse> {
+    constructor() {
+        super("pomerium.dashboard.ActivateLicenseResponse", []);
+    }
+    create(value?: PartialMessage<ActivateLicenseResponse>): ActivateLicenseResponse {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<ActivateLicenseResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ActivateLicenseResponse): ActivateLicenseResponse {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: ActivateLicenseResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.ActivateLicenseResponse
+ */
+export const ActivateLicenseResponse = new ActivateLicenseResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class AddLicenseRequest$Type extends MessageType<AddLicenseRequest> {
+    constructor() {
+        super("pomerium.dashboard.AddLicenseRequest", [
+            { no: 1, name: "license", kind: "message", T: () => License }
+        ]);
+    }
+    create(value?: PartialMessage<AddLicenseRequest>): AddLicenseRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<AddLicenseRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: AddLicenseRequest): AddLicenseRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* pomerium.dashboard.License license */ 1:
+                    message.license = License.internalBinaryRead(reader, reader.uint32(), options, message.license);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: AddLicenseRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* pomerium.dashboard.License license = 1; */
+        if (message.license)
+            License.internalBinaryWrite(message.license, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.AddLicenseRequest
+ */
+export const AddLicenseRequest = new AddLicenseRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class AddLicenseResponse$Type extends MessageType<AddLicenseResponse> {
+    constructor() {
+        super("pomerium.dashboard.AddLicenseResponse", [
+            { no: 2, name: "license", kind: "message", T: () => License }
+        ]);
+    }
+    create(value?: PartialMessage<AddLicenseResponse>): AddLicenseResponse {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<AddLicenseResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: AddLicenseResponse): AddLicenseResponse {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* pomerium.dashboard.License license */ 2:
+                    message.license = License.internalBinaryRead(reader, reader.uint32(), options, message.license);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: AddLicenseResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* pomerium.dashboard.License license = 2; */
+        if (message.license)
+            License.internalBinaryWrite(message.license, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.AddLicenseResponse
+ */
+export const AddLicenseResponse = new AddLicenseResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class DeleteLicenseRequest$Type extends MessageType<DeleteLicenseRequest> {
+    constructor() {
+        super("pomerium.dashboard.DeleteLicenseRequest", [
+            { no: 1, name: "license_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<DeleteLicenseRequest>): DeleteLicenseRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.licenseId = "";
+        if (value !== undefined)
+            reflectionMergePartial<DeleteLicenseRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: DeleteLicenseRequest): DeleteLicenseRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string license_id */ 1:
+                    message.licenseId = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: DeleteLicenseRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string license_id = 1; */
+        if (message.licenseId !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.licenseId);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.DeleteLicenseRequest
+ */
+export const DeleteLicenseRequest = new DeleteLicenseRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class DeleteLicenseResponse$Type extends MessageType<DeleteLicenseResponse> {
+    constructor() {
+        super("pomerium.dashboard.DeleteLicenseResponse", []);
+    }
+    create(value?: PartialMessage<DeleteLicenseResponse>): DeleteLicenseResponse {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<DeleteLicenseResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: DeleteLicenseResponse): DeleteLicenseResponse {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: DeleteLicenseResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.DeleteLicenseResponse
+ */
+export const DeleteLicenseResponse = new DeleteLicenseResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class GetConsoleSettingsRequest$Type extends MessageType<GetConsoleSettingsRequest> {
     constructor() {
         super("pomerium.dashboard.GetConsoleSettingsRequest", []);
@@ -2154,6 +2818,91 @@ class GetSettingsResponse$Type extends MessageType<GetSettingsResponse> {
  */
 export const GetSettingsResponse = new GetSettingsResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class ListLicensesRequest$Type extends MessageType<ListLicensesRequest> {
+    constructor() {
+        super("pomerium.dashboard.ListLicensesRequest", []);
+    }
+    create(value?: PartialMessage<ListLicensesRequest>): ListLicensesRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<ListLicensesRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ListLicensesRequest): ListLicensesRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: ListLicensesRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.ListLicensesRequest
+ */
+export const ListLicensesRequest = new ListLicensesRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ListLicensesResponse$Type extends MessageType<ListLicensesResponse> {
+    constructor() {
+        super("pomerium.dashboard.ListLicensesResponse", [
+            { no: 1, name: "licenses", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => License }
+        ]);
+    }
+    create(value?: PartialMessage<ListLicensesResponse>): ListLicensesResponse {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.licenses = [];
+        if (value !== undefined)
+            reflectionMergePartial<ListLicensesResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ListLicensesResponse): ListLicensesResponse {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* repeated pomerium.dashboard.License licenses */ 1:
+                    message.licenses.push(License.internalBinaryRead(reader, reader.uint32(), options));
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: ListLicensesResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* repeated pomerium.dashboard.License licenses = 1; */
+        for (let i = 0; i < message.licenses.length; i++)
+            License.internalBinaryWrite(message.licenses[i], writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.ListLicensesResponse
+ */
+export const ListLicensesResponse = new ListLicensesResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class SetSettingsRequest$Type extends MessageType<SetSettingsRequest> {
     constructor() {
         super("pomerium.dashboard.SetSettingsRequest", [
@@ -2249,8 +2998,12 @@ export const SetSettingsResponse = new SetSettingsResponse$Type();
  * @generated ServiceType for protobuf service pomerium.dashboard.SettingsService
  */
 export const SettingsService = new ServiceType("pomerium.dashboard.SettingsService", [
-    { name: "GetSettings", options: {}, I: GetSettingsRequest, O: GetSettingsResponse },
-    { name: "SetSettings", options: {}, I: SetSettingsRequest, O: SetSettingsResponse },
+    { name: "ActivateLicense", options: {}, I: ActivateLicenseRequest, O: ActivateLicenseResponse },
+    { name: "AddLicense", options: {}, I: AddLicenseRequest, O: AddLicenseResponse },
+    { name: "DeleteLicense", options: {}, I: DeleteLicenseRequest, O: DeleteLicenseResponse },
     { name: "GetBrandingSettings", options: {}, I: GetSettingsRequest, O: GetSettingsResponse },
-    { name: "GetConsoleSettings", options: {}, I: GetConsoleSettingsRequest, O: GetConsoleSettingsResponse }
+    { name: "GetConsoleSettings", options: {}, I: GetConsoleSettingsRequest, O: GetConsoleSettingsResponse },
+    { name: "GetSettings", options: {}, I: GetSettingsRequest, O: GetSettingsResponse },
+    { name: "ListLicenses", options: {}, I: ListLicensesRequest, O: ListLicensesResponse },
+    { name: "SetSettings", options: {}, I: SetSettingsRequest, O: SetSettingsResponse }
 ]);

@@ -4,13 +4,21 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { SettingsService } from "./settings";
-import type { GetConsoleSettingsResponse } from "./settings";
-import type { GetConsoleSettingsRequest } from "./settings";
 import type { SetSettingsResponse } from "./settings";
 import type { SetSettingsRequest } from "./settings";
-import { stackIntercept } from "@protobuf-ts/runtime-rpc";
+import type { ListLicensesResponse } from "./settings";
+import type { ListLicensesRequest } from "./settings";
+import type { GetConsoleSettingsResponse } from "./settings";
+import type { GetConsoleSettingsRequest } from "./settings";
 import type { GetSettingsResponse } from "./settings";
 import type { GetSettingsRequest } from "./settings";
+import type { DeleteLicenseResponse } from "./settings";
+import type { DeleteLicenseRequest } from "./settings";
+import type { AddLicenseResponse } from "./settings";
+import type { AddLicenseRequest } from "./settings";
+import { stackIntercept } from "@protobuf-ts/runtime-rpc";
+import type { ActivateLicenseResponse } from "./settings";
+import type { ActivateLicenseRequest } from "./settings";
 import type { UnaryCall } from "@protobuf-ts/runtime-rpc";
 import type { RpcOptions } from "@protobuf-ts/runtime-rpc";
 /**
@@ -20,17 +28,23 @@ import type { RpcOptions } from "@protobuf-ts/runtime-rpc";
  */
 export interface ISettingsServiceClient {
     /**
-     * GetSettings retrieves the currently applied settings
+     * ActivateLicense activates a license.
      *
-     * @generated from protobuf rpc: GetSettings
+     * @generated from protobuf rpc: ActivateLicense
      */
-    getSettings(input: GetSettingsRequest, options?: RpcOptions): UnaryCall<GetSettingsRequest, GetSettingsResponse>;
+    activateLicense(input: ActivateLicenseRequest, options?: RpcOptions): UnaryCall<ActivateLicenseRequest, ActivateLicenseResponse>;
     /**
-     * SetSettings applies new global settings
+     * AddLicense adds a license.
      *
-     * @generated from protobuf rpc: SetSettings
+     * @generated from protobuf rpc: AddLicense
      */
-    setSettings(input: SetSettingsRequest, options?: RpcOptions): UnaryCall<SetSettingsRequest, SetSettingsResponse>;
+    addLicense(input: AddLicenseRequest, options?: RpcOptions): UnaryCall<AddLicenseRequest, AddLicenseResponse>;
+    /**
+     * DeleteLicense deletes a license.
+     *
+     * @generated from protobuf rpc: DeleteLicense
+     */
+    deleteLicense(input: DeleteLicenseRequest, options?: RpcOptions): UnaryCall<DeleteLicenseRequest, DeleteLicenseResponse>;
     /**
      * GetBrandingSettings retrieves just the branding part of the settings
      *
@@ -43,6 +57,24 @@ export interface ISettingsServiceClient {
      * @generated from protobuf rpc: GetConsoleSettings
      */
     getConsoleSettings(input: GetConsoleSettingsRequest, options?: RpcOptions): UnaryCall<GetConsoleSettingsRequest, GetConsoleSettingsResponse>;
+    /**
+     * GetSettings retrieves the currently applied settings
+     *
+     * @generated from protobuf rpc: GetSettings
+     */
+    getSettings(input: GetSettingsRequest, options?: RpcOptions): UnaryCall<GetSettingsRequest, GetSettingsResponse>;
+    /**
+     * ListLicenses lists all the licenses.
+     *
+     * @generated from protobuf rpc: ListLicenses
+     */
+    listLicenses(input: ListLicensesRequest, options?: RpcOptions): UnaryCall<ListLicensesRequest, ListLicensesResponse>;
+    /**
+     * SetSettings applies new global settings
+     *
+     * @generated from protobuf rpc: SetSettings
+     */
+    setSettings(input: SetSettingsRequest, options?: RpcOptions): UnaryCall<SetSettingsRequest, SetSettingsResponse>;
 }
 /**
  * SettingsService manages global pomerium settings
@@ -56,22 +88,31 @@ export class SettingsServiceClient implements ISettingsServiceClient, ServiceInf
     constructor(private readonly _transport: RpcTransport) {
     }
     /**
-     * GetSettings retrieves the currently applied settings
+     * ActivateLicense activates a license.
      *
-     * @generated from protobuf rpc: GetSettings
+     * @generated from protobuf rpc: ActivateLicense
      */
-    getSettings(input: GetSettingsRequest, options?: RpcOptions): UnaryCall<GetSettingsRequest, GetSettingsResponse> {
+    activateLicense(input: ActivateLicenseRequest, options?: RpcOptions): UnaryCall<ActivateLicenseRequest, ActivateLicenseResponse> {
         const method = this.methods[0], opt = this._transport.mergeOptions(options);
-        return stackIntercept<GetSettingsRequest, GetSettingsResponse>("unary", this._transport, method, opt, input);
+        return stackIntercept<ActivateLicenseRequest, ActivateLicenseResponse>("unary", this._transport, method, opt, input);
     }
     /**
-     * SetSettings applies new global settings
+     * AddLicense adds a license.
      *
-     * @generated from protobuf rpc: SetSettings
+     * @generated from protobuf rpc: AddLicense
      */
-    setSettings(input: SetSettingsRequest, options?: RpcOptions): UnaryCall<SetSettingsRequest, SetSettingsResponse> {
+    addLicense(input: AddLicenseRequest, options?: RpcOptions): UnaryCall<AddLicenseRequest, AddLicenseResponse> {
         const method = this.methods[1], opt = this._transport.mergeOptions(options);
-        return stackIntercept<SetSettingsRequest, SetSettingsResponse>("unary", this._transport, method, opt, input);
+        return stackIntercept<AddLicenseRequest, AddLicenseResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * DeleteLicense deletes a license.
+     *
+     * @generated from protobuf rpc: DeleteLicense
+     */
+    deleteLicense(input: DeleteLicenseRequest, options?: RpcOptions): UnaryCall<DeleteLicenseRequest, DeleteLicenseResponse> {
+        const method = this.methods[2], opt = this._transport.mergeOptions(options);
+        return stackIntercept<DeleteLicenseRequest, DeleteLicenseResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * GetBrandingSettings retrieves just the branding part of the settings
@@ -79,7 +120,7 @@ export class SettingsServiceClient implements ISettingsServiceClient, ServiceInf
      * @generated from protobuf rpc: GetBrandingSettings
      */
     getBrandingSettings(input: GetSettingsRequest, options?: RpcOptions): UnaryCall<GetSettingsRequest, GetSettingsResponse> {
-        const method = this.methods[2], opt = this._transport.mergeOptions(options);
+        const method = this.methods[3], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetSettingsRequest, GetSettingsResponse>("unary", this._transport, method, opt, input);
     }
     /**
@@ -88,7 +129,34 @@ export class SettingsServiceClient implements ISettingsServiceClient, ServiceInf
      * @generated from protobuf rpc: GetConsoleSettings
      */
     getConsoleSettings(input: GetConsoleSettingsRequest, options?: RpcOptions): UnaryCall<GetConsoleSettingsRequest, GetConsoleSettingsResponse> {
-        const method = this.methods[3], opt = this._transport.mergeOptions(options);
+        const method = this.methods[4], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetConsoleSettingsRequest, GetConsoleSettingsResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * GetSettings retrieves the currently applied settings
+     *
+     * @generated from protobuf rpc: GetSettings
+     */
+    getSettings(input: GetSettingsRequest, options?: RpcOptions): UnaryCall<GetSettingsRequest, GetSettingsResponse> {
+        const method = this.methods[5], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetSettingsRequest, GetSettingsResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * ListLicenses lists all the licenses.
+     *
+     * @generated from protobuf rpc: ListLicenses
+     */
+    listLicenses(input: ListLicensesRequest, options?: RpcOptions): UnaryCall<ListLicensesRequest, ListLicensesResponse> {
+        const method = this.methods[6], opt = this._transport.mergeOptions(options);
+        return stackIntercept<ListLicensesRequest, ListLicensesResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * SetSettings applies new global settings
+     *
+     * @generated from protobuf rpc: SetSettings
+     */
+    setSettings(input: SetSettingsRequest, options?: RpcOptions): UnaryCall<SetSettingsRequest, SetSettingsResponse> {
+        const method = this.methods[7], opt = this._transport.mergeOptions(options);
+        return stackIntercept<SetSettingsRequest, SetSettingsResponse>("unary", this._transport, method, opt, input);
     }
 }
