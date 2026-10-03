@@ -773,6 +773,28 @@ export interface GetSettingsResponse {
     settings?: Settings;
 }
 /**
+ * @generated from protobuf message pomerium.dashboard.GetUnmanagedSettingsRequest
+ */
+export interface GetUnmanagedSettingsRequest {
+    /**
+     * @generated from protobuf field: optional string cluster_id = 1
+     */
+    clusterId?: string;
+    /**
+     * @generated from protobuf field: string id = 2
+     */
+    id: string;
+}
+/**
+ * @generated from protobuf message pomerium.dashboard.GetUnmanagedSettingsResponse
+ */
+export interface GetUnmanagedSettingsResponse {
+    /**
+     * @generated from protobuf field: pomerium.dashboard.Settings settings = 1
+     */
+    settings?: Settings;
+}
+/**
  * @generated from protobuf message pomerium.dashboard.ListLicensesRequest
  */
 export interface ListLicensesRequest {
@@ -785,6 +807,40 @@ export interface ListLicensesResponse {
      * @generated from protobuf field: repeated pomerium.dashboard.License licenses = 1
      */
     licenses: License[];
+}
+/**
+ * @generated from protobuf message pomerium.dashboard.ListUnmanagedSettingsRequest
+ */
+export interface ListUnmanagedSettingsRequest {
+    /**
+     * @generated from protobuf field: optional string cluster_id = 1
+     */
+    clusterId?: string;
+    /**
+     * @generated from protobuf field: optional uint64 offset = 2
+     */
+    offset?: bigint;
+    /**
+     * @generated from protobuf field: optional uint64 limit = 3
+     */
+    limit?: bigint;
+    /**
+     * @generated from protobuf field: optional string order_by = 4
+     */
+    orderBy?: string;
+}
+/**
+ * @generated from protobuf message pomerium.dashboard.ListUnmanagedSettingsResponse
+ */
+export interface ListUnmanagedSettingsResponse {
+    /**
+     * @generated from protobuf field: repeated pomerium.dashboard.Settings settings = 1
+     */
+    settings: Settings[];
+    /**
+     * @generated from protobuf field: uint64 total_count = 2
+     */
+    totalCount: bigint;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.SetSettingsRequest
@@ -2818,6 +2874,106 @@ class GetSettingsResponse$Type extends MessageType<GetSettingsResponse> {
  */
 export const GetSettingsResponse = new GetSettingsResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class GetUnmanagedSettingsRequest$Type extends MessageType<GetUnmanagedSettingsRequest> {
+    constructor() {
+        super("pomerium.dashboard.GetUnmanagedSettingsRequest", [
+            { no: 1, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<GetUnmanagedSettingsRequest>): GetUnmanagedSettingsRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.id = "";
+        if (value !== undefined)
+            reflectionMergePartial<GetUnmanagedSettingsRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetUnmanagedSettingsRequest): GetUnmanagedSettingsRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* optional string cluster_id */ 1:
+                    message.clusterId = reader.string();
+                    break;
+                case /* string id */ 2:
+                    message.id = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetUnmanagedSettingsRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* optional string cluster_id = 1; */
+        if (message.clusterId !== undefined)
+            writer.tag(1, WireType.LengthDelimited).string(message.clusterId);
+        /* string id = 2; */
+        if (message.id !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.id);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.GetUnmanagedSettingsRequest
+ */
+export const GetUnmanagedSettingsRequest = new GetUnmanagedSettingsRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetUnmanagedSettingsResponse$Type extends MessageType<GetUnmanagedSettingsResponse> {
+    constructor() {
+        super("pomerium.dashboard.GetUnmanagedSettingsResponse", [
+            { no: 1, name: "settings", kind: "message", T: () => Settings }
+        ]);
+    }
+    create(value?: PartialMessage<GetUnmanagedSettingsResponse>): GetUnmanagedSettingsResponse {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<GetUnmanagedSettingsResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetUnmanagedSettingsResponse): GetUnmanagedSettingsResponse {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* pomerium.dashboard.Settings settings */ 1:
+                    message.settings = Settings.internalBinaryRead(reader, reader.uint32(), options, message.settings);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetUnmanagedSettingsResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* pomerium.dashboard.Settings settings = 1; */
+        if (message.settings)
+            Settings.internalBinaryWrite(message.settings, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.GetUnmanagedSettingsResponse
+ */
+export const GetUnmanagedSettingsResponse = new GetUnmanagedSettingsResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class ListLicensesRequest$Type extends MessageType<ListLicensesRequest> {
     constructor() {
         super("pomerium.dashboard.ListLicensesRequest", []);
@@ -2902,6 +3058,128 @@ class ListLicensesResponse$Type extends MessageType<ListLicensesResponse> {
  * @generated MessageType for protobuf message pomerium.dashboard.ListLicensesResponse
  */
 export const ListLicensesResponse = new ListLicensesResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ListUnmanagedSettingsRequest$Type extends MessageType<ListUnmanagedSettingsRequest> {
+    constructor() {
+        super("pomerium.dashboard.ListUnmanagedSettingsRequest", [
+            { no: 1, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "offset", kind: "scalar", opt: true, T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ },
+            { no: 3, name: "limit", kind: "scalar", opt: true, T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ },
+            { no: 4, name: "order_by", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<ListUnmanagedSettingsRequest>): ListUnmanagedSettingsRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<ListUnmanagedSettingsRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ListUnmanagedSettingsRequest): ListUnmanagedSettingsRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* optional string cluster_id */ 1:
+                    message.clusterId = reader.string();
+                    break;
+                case /* optional uint64 offset */ 2:
+                    message.offset = reader.uint64().toBigInt();
+                    break;
+                case /* optional uint64 limit */ 3:
+                    message.limit = reader.uint64().toBigInt();
+                    break;
+                case /* optional string order_by */ 4:
+                    message.orderBy = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: ListUnmanagedSettingsRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* optional string cluster_id = 1; */
+        if (message.clusterId !== undefined)
+            writer.tag(1, WireType.LengthDelimited).string(message.clusterId);
+        /* optional uint64 offset = 2; */
+        if (message.offset !== undefined)
+            writer.tag(2, WireType.Varint).uint64(message.offset);
+        /* optional uint64 limit = 3; */
+        if (message.limit !== undefined)
+            writer.tag(3, WireType.Varint).uint64(message.limit);
+        /* optional string order_by = 4; */
+        if (message.orderBy !== undefined)
+            writer.tag(4, WireType.LengthDelimited).string(message.orderBy);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.ListUnmanagedSettingsRequest
+ */
+export const ListUnmanagedSettingsRequest = new ListUnmanagedSettingsRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ListUnmanagedSettingsResponse$Type extends MessageType<ListUnmanagedSettingsResponse> {
+    constructor() {
+        super("pomerium.dashboard.ListUnmanagedSettingsResponse", [
+            { no: 1, name: "settings", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => Settings },
+            { no: 2, name: "total_count", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ }
+        ]);
+    }
+    create(value?: PartialMessage<ListUnmanagedSettingsResponse>): ListUnmanagedSettingsResponse {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.settings = [];
+        message.totalCount = 0n;
+        if (value !== undefined)
+            reflectionMergePartial<ListUnmanagedSettingsResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ListUnmanagedSettingsResponse): ListUnmanagedSettingsResponse {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* repeated pomerium.dashboard.Settings settings */ 1:
+                    message.settings.push(Settings.internalBinaryRead(reader, reader.uint32(), options));
+                    break;
+                case /* uint64 total_count */ 2:
+                    message.totalCount = reader.uint64().toBigInt();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: ListUnmanagedSettingsResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* repeated pomerium.dashboard.Settings settings = 1; */
+        for (let i = 0; i < message.settings.length; i++)
+            Settings.internalBinaryWrite(message.settings[i], writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* uint64 total_count = 2; */
+        if (message.totalCount !== 0n)
+            writer.tag(2, WireType.Varint).uint64(message.totalCount);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.ListUnmanagedSettingsResponse
+ */
+export const ListUnmanagedSettingsResponse = new ListUnmanagedSettingsResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class SetSettingsRequest$Type extends MessageType<SetSettingsRequest> {
     constructor() {
@@ -3004,6 +3282,8 @@ export const SettingsService = new ServiceType("pomerium.dashboard.SettingsServi
     { name: "GetBrandingSettings", options: {}, I: GetSettingsRequest, O: GetSettingsResponse },
     { name: "GetConsoleSettings", options: {}, I: GetConsoleSettingsRequest, O: GetConsoleSettingsResponse },
     { name: "GetSettings", options: {}, I: GetSettingsRequest, O: GetSettingsResponse },
+    { name: "GetUnmanagedSettings", options: {}, I: GetUnmanagedSettingsRequest, O: GetUnmanagedSettingsResponse },
     { name: "ListLicenses", options: {}, I: ListLicensesRequest, O: ListLicensesResponse },
+    { name: "ListUnmanagedSettings", options: {}, I: ListUnmanagedSettingsRequest, O: ListUnmanagedSettingsResponse },
     { name: "SetSettings", options: {}, I: SetSettingsRequest, O: SetSettingsResponse }
 ]);

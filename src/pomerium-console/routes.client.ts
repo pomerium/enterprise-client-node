@@ -12,8 +12,12 @@ import type { SetRouteResponse } from "./routes";
 import type { SetRouteRequest } from "./routes";
 import type { LoadRoutesResponse } from "./routes";
 import type { LoadRoutesRequest } from "./routes";
+import type { ListUnmanagedRoutesResponse } from "./routes";
+import type { ListUnmanagedRoutesRequest } from "./routes";
 import type { ListRoutesResponse } from "./routes";
 import type { ListRoutesRequest } from "./routes";
+import type { GetUnmanagedRouteResponse } from "./routes";
+import type { GetUnmanagedRouteRequest } from "./routes";
 import type { GetRouteResponse } from "./routes";
 import type { GetRouteRequest } from "./routes";
 import type { DeleteRoutesResponse } from "./routes";
@@ -48,11 +52,23 @@ export interface IRouteServiceClient {
      */
     getRoute(input: GetRouteRequest, options?: RpcOptions): UnaryCall<GetRouteRequest, GetRouteResponse>;
     /**
+     * GetUnmanagedRoute retrieves an unmanaged route.
+     *
+     * @generated from protobuf rpc: GetUnmanagedRoute
+     */
+    getUnmanagedRoute(input: GetUnmanagedRouteRequest, options?: RpcOptions): UnaryCall<GetUnmanagedRouteRequest, GetUnmanagedRouteResponse>;
+    /**
      * ListRoutes lists routes based on ListRoutesRequest
      *
      * @generated from protobuf rpc: ListRoutes
      */
     listRoutes(input: ListRoutesRequest, options?: RpcOptions): UnaryCall<ListRoutesRequest, ListRoutesResponse>;
+    /**
+     * ListUnmanagedRoutes lists routes based on ListUnmanagedRoutesRequest
+     *
+     * @generated from protobuf rpc: ListUnmanagedRoutes
+     */
+    listUnmanagedRoutes(input: ListUnmanagedRoutesRequest, options?: RpcOptions): UnaryCall<ListUnmanagedRoutesRequest, ListUnmanagedRoutesResponse>;
     /**
      * LoadRoutes imports routes from an existing OSS configuration
      *
@@ -117,13 +133,31 @@ export class RouteServiceClient implements IRouteServiceClient, ServiceInfo {
         return stackIntercept<GetRouteRequest, GetRouteResponse>("unary", this._transport, method, opt, input);
     }
     /**
+     * GetUnmanagedRoute retrieves an unmanaged route.
+     *
+     * @generated from protobuf rpc: GetUnmanagedRoute
+     */
+    getUnmanagedRoute(input: GetUnmanagedRouteRequest, options?: RpcOptions): UnaryCall<GetUnmanagedRouteRequest, GetUnmanagedRouteResponse> {
+        const method = this.methods[3], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetUnmanagedRouteRequest, GetUnmanagedRouteResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
      * ListRoutes lists routes based on ListRoutesRequest
      *
      * @generated from protobuf rpc: ListRoutes
      */
     listRoutes(input: ListRoutesRequest, options?: RpcOptions): UnaryCall<ListRoutesRequest, ListRoutesResponse> {
-        const method = this.methods[3], opt = this._transport.mergeOptions(options);
+        const method = this.methods[4], opt = this._transport.mergeOptions(options);
         return stackIntercept<ListRoutesRequest, ListRoutesResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * ListUnmanagedRoutes lists routes based on ListUnmanagedRoutesRequest
+     *
+     * @generated from protobuf rpc: ListUnmanagedRoutes
+     */
+    listUnmanagedRoutes(input: ListUnmanagedRoutesRequest, options?: RpcOptions): UnaryCall<ListUnmanagedRoutesRequest, ListUnmanagedRoutesResponse> {
+        const method = this.methods[5], opt = this._transport.mergeOptions(options);
+        return stackIntercept<ListUnmanagedRoutesRequest, ListUnmanagedRoutesResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * LoadRoutes imports routes from an existing OSS configuration
@@ -131,7 +165,7 @@ export class RouteServiceClient implements IRouteServiceClient, ServiceInfo {
      * @generated from protobuf rpc: LoadRoutes
      */
     loadRoutes(input: LoadRoutesRequest, options?: RpcOptions): UnaryCall<LoadRoutesRequest, LoadRoutesResponse> {
-        const method = this.methods[4], opt = this._transport.mergeOptions(options);
+        const method = this.methods[6], opt = this._transport.mergeOptions(options);
         return stackIntercept<LoadRoutesRequest, LoadRoutesResponse>("unary", this._transport, method, opt, input);
     }
     /**
@@ -140,7 +174,7 @@ export class RouteServiceClient implements IRouteServiceClient, ServiceInfo {
      * @generated from protobuf rpc: SetRoute
      */
     setRoute(input: SetRouteRequest, options?: RpcOptions): UnaryCall<SetRouteRequest, SetRouteResponse> {
-        const method = this.methods[5], opt = this._transport.mergeOptions(options);
+        const method = this.methods[7], opt = this._transport.mergeOptions(options);
         return stackIntercept<SetRouteRequest, SetRouteResponse>("unary", this._transport, method, opt, input);
     }
     /**
@@ -149,7 +183,7 @@ export class RouteServiceClient implements IRouteServiceClient, ServiceInfo {
      * @generated from protobuf rpc: SetRoutes
      */
     setRoutes(input: SetRoutesRequest, options?: RpcOptions): UnaryCall<SetRoutesRequest, SetRoutesResponse> {
-        const method = this.methods[6], opt = this._transport.mergeOptions(options);
+        const method = this.methods[8], opt = this._transport.mergeOptions(options);
         return stackIntercept<SetRoutesRequest, SetRoutesResponse>("unary", this._transport, method, opt, input);
     }
     /**
@@ -158,7 +192,7 @@ export class RouteServiceClient implements IRouteServiceClient, ServiceInfo {
      * @generated from protobuf rpc: MoveRoutes
      */
     moveRoutes(input: MoveRoutesRequest, options?: RpcOptions): UnaryCall<MoveRoutesRequest, MoveRoutesResponse> {
-        const method = this.methods[7], opt = this._transport.mergeOptions(options);
+        const method = this.methods[9], opt = this._transport.mergeOptions(options);
         return stackIntercept<MoveRoutesRequest, MoveRoutesResponse>("unary", this._transport, method, opt, input);
     }
 }
