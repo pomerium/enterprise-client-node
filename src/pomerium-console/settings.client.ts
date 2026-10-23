@@ -6,8 +6,12 @@ import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { SettingsService } from "./settings";
 import type { SetSettingsResponse } from "./settings";
 import type { SetSettingsRequest } from "./settings";
+import type { ListUnmanagedSettingsResponse } from "./settings";
+import type { ListUnmanagedSettingsRequest } from "./settings";
 import type { ListLicensesResponse } from "./settings";
 import type { ListLicensesRequest } from "./settings";
+import type { GetUnmanagedSettingsResponse } from "./settings";
+import type { GetUnmanagedSettingsRequest } from "./settings";
 import type { GetConsoleSettingsResponse } from "./settings";
 import type { GetConsoleSettingsRequest } from "./settings";
 import type { GetSettingsResponse } from "./settings";
@@ -64,11 +68,23 @@ export interface ISettingsServiceClient {
      */
     getSettings(input: GetSettingsRequest, options?: RpcOptions): UnaryCall<GetSettingsRequest, GetSettingsResponse>;
     /**
+     * GetUnmanagedSettings retrieves the unmanaged settings for a cluster.
+     *
+     * @generated from protobuf rpc: GetUnmanagedSettings
+     */
+    getUnmanagedSettings(input: GetUnmanagedSettingsRequest, options?: RpcOptions): UnaryCall<GetUnmanagedSettingsRequest, GetUnmanagedSettingsResponse>;
+    /**
      * ListLicenses lists all the licenses.
      *
      * @generated from protobuf rpc: ListLicenses
      */
     listLicenses(input: ListLicensesRequest, options?: RpcOptions): UnaryCall<ListLicensesRequest, ListLicensesResponse>;
+    /**
+     * ListUnmanagedSettings lists all the unmanaged settings for a cluster.
+     *
+     * @generated from protobuf rpc: ListUnmanagedSettings
+     */
+    listUnmanagedSettings(input: ListUnmanagedSettingsRequest, options?: RpcOptions): UnaryCall<ListUnmanagedSettingsRequest, ListUnmanagedSettingsResponse>;
     /**
      * SetSettings applies new global settings
      *
@@ -142,13 +158,31 @@ export class SettingsServiceClient implements ISettingsServiceClient, ServiceInf
         return stackIntercept<GetSettingsRequest, GetSettingsResponse>("unary", this._transport, method, opt, input);
     }
     /**
+     * GetUnmanagedSettings retrieves the unmanaged settings for a cluster.
+     *
+     * @generated from protobuf rpc: GetUnmanagedSettings
+     */
+    getUnmanagedSettings(input: GetUnmanagedSettingsRequest, options?: RpcOptions): UnaryCall<GetUnmanagedSettingsRequest, GetUnmanagedSettingsResponse> {
+        const method = this.methods[6], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetUnmanagedSettingsRequest, GetUnmanagedSettingsResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
      * ListLicenses lists all the licenses.
      *
      * @generated from protobuf rpc: ListLicenses
      */
     listLicenses(input: ListLicensesRequest, options?: RpcOptions): UnaryCall<ListLicensesRequest, ListLicensesResponse> {
-        const method = this.methods[6], opt = this._transport.mergeOptions(options);
+        const method = this.methods[7], opt = this._transport.mergeOptions(options);
         return stackIntercept<ListLicensesRequest, ListLicensesResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * ListUnmanagedSettings lists all the unmanaged settings for a cluster.
+     *
+     * @generated from protobuf rpc: ListUnmanagedSettings
+     */
+    listUnmanagedSettings(input: ListUnmanagedSettingsRequest, options?: RpcOptions): UnaryCall<ListUnmanagedSettingsRequest, ListUnmanagedSettingsResponse> {
+        const method = this.methods[8], opt = this._transport.mergeOptions(options);
+        return stackIntercept<ListUnmanagedSettingsRequest, ListUnmanagedSettingsResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * SetSettings applies new global settings
@@ -156,7 +190,7 @@ export class SettingsServiceClient implements ISettingsServiceClient, ServiceInf
      * @generated from protobuf rpc: SetSettings
      */
     setSettings(input: SetSettingsRequest, options?: RpcOptions): UnaryCall<SetSettingsRequest, SetSettingsResponse> {
-        const method = this.methods[7], opt = this._transport.mergeOptions(options);
+        const method = this.methods[9], opt = this._transport.mergeOptions(options);
         return stackIntercept<SetSettingsRequest, SetSettingsResponse>("unary", this._transport, method, opt, input);
     }
 }

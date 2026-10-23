@@ -606,6 +606,28 @@ export interface GetRouteResponse {
     route?: Route;
 }
 /**
+ * @generated from protobuf message pomerium.dashboard.GetUnmanagedRouteRequest
+ */
+export interface GetUnmanagedRouteRequest {
+    /**
+     * @generated from protobuf field: optional string cluster_id = 1
+     */
+    clusterId?: string;
+    /**
+     * @generated from protobuf field: string id = 2
+     */
+    id: string;
+}
+/**
+ * @generated from protobuf message pomerium.dashboard.GetUnmanagedRouteResponse
+ */
+export interface GetUnmanagedRouteResponse {
+    /**
+     * @generated from protobuf field: pomerium.dashboard.Route route = 1
+     */
+    route?: Route;
+}
+/**
  * ListRoutesRequest defines the routes to list
  *
  * @generated from protobuf message pomerium.dashboard.ListRoutesRequest
@@ -658,6 +680,40 @@ export interface ListRoutesResponse {
     routes: Route[];
     /**
      * @generated from protobuf field: int64 total_count = 2
+     */
+    totalCount: bigint;
+}
+/**
+ * @generated from protobuf message pomerium.dashboard.ListUnmanagedRoutesRequest
+ */
+export interface ListUnmanagedRoutesRequest {
+    /**
+     * @generated from protobuf field: optional string cluster_id = 1
+     */
+    clusterId?: string;
+    /**
+     * @generated from protobuf field: optional uint64 offset = 2
+     */
+    offset?: bigint;
+    /**
+     * @generated from protobuf field: optional uint64 limit = 3
+     */
+    limit?: bigint;
+    /**
+     * @generated from protobuf field: optional string order_by = 4
+     */
+    orderBy?: string;
+}
+/**
+ * @generated from protobuf message pomerium.dashboard.ListUnmanagedRoutesResponse
+ */
+export interface ListUnmanagedRoutesResponse {
+    /**
+     * @generated from protobuf field: repeated pomerium.dashboard.Route routes = 1
+     */
+    routes: Route[];
+    /**
+     * @generated from protobuf field: uint64 total_count = 2
      */
     totalCount: bigint;
 }
@@ -2439,6 +2495,106 @@ class GetRouteResponse$Type extends MessageType<GetRouteResponse> {
  */
 export const GetRouteResponse = new GetRouteResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class GetUnmanagedRouteRequest$Type extends MessageType<GetUnmanagedRouteRequest> {
+    constructor() {
+        super("pomerium.dashboard.GetUnmanagedRouteRequest", [
+            { no: 1, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<GetUnmanagedRouteRequest>): GetUnmanagedRouteRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.id = "";
+        if (value !== undefined)
+            reflectionMergePartial<GetUnmanagedRouteRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetUnmanagedRouteRequest): GetUnmanagedRouteRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* optional string cluster_id */ 1:
+                    message.clusterId = reader.string();
+                    break;
+                case /* string id */ 2:
+                    message.id = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetUnmanagedRouteRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* optional string cluster_id = 1; */
+        if (message.clusterId !== undefined)
+            writer.tag(1, WireType.LengthDelimited).string(message.clusterId);
+        /* string id = 2; */
+        if (message.id !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.id);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.GetUnmanagedRouteRequest
+ */
+export const GetUnmanagedRouteRequest = new GetUnmanagedRouteRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetUnmanagedRouteResponse$Type extends MessageType<GetUnmanagedRouteResponse> {
+    constructor() {
+        super("pomerium.dashboard.GetUnmanagedRouteResponse", [
+            { no: 1, name: "route", kind: "message", T: () => Route }
+        ]);
+    }
+    create(value?: PartialMessage<GetUnmanagedRouteResponse>): GetUnmanagedRouteResponse {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<GetUnmanagedRouteResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetUnmanagedRouteResponse): GetUnmanagedRouteResponse {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* pomerium.dashboard.Route route */ 1:
+                    message.route = Route.internalBinaryRead(reader, reader.uint32(), options, message.route);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetUnmanagedRouteResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* pomerium.dashboard.Route route = 1; */
+        if (message.route)
+            Route.internalBinaryWrite(message.route, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.GetUnmanagedRouteResponse
+ */
+export const GetUnmanagedRouteResponse = new GetUnmanagedRouteResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class ListRoutesRequest$Type extends MessageType<ListRoutesRequest> {
     constructor() {
         super("pomerium.dashboard.ListRoutesRequest", [
@@ -2575,6 +2731,128 @@ class ListRoutesResponse$Type extends MessageType<ListRoutesResponse> {
  * @generated MessageType for protobuf message pomerium.dashboard.ListRoutesResponse
  */
 export const ListRoutesResponse = new ListRoutesResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ListUnmanagedRoutesRequest$Type extends MessageType<ListUnmanagedRoutesRequest> {
+    constructor() {
+        super("pomerium.dashboard.ListUnmanagedRoutesRequest", [
+            { no: 1, name: "cluster_id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "offset", kind: "scalar", opt: true, T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ },
+            { no: 3, name: "limit", kind: "scalar", opt: true, T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ },
+            { no: 4, name: "order_by", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<ListUnmanagedRoutesRequest>): ListUnmanagedRoutesRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<ListUnmanagedRoutesRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ListUnmanagedRoutesRequest): ListUnmanagedRoutesRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* optional string cluster_id */ 1:
+                    message.clusterId = reader.string();
+                    break;
+                case /* optional uint64 offset */ 2:
+                    message.offset = reader.uint64().toBigInt();
+                    break;
+                case /* optional uint64 limit */ 3:
+                    message.limit = reader.uint64().toBigInt();
+                    break;
+                case /* optional string order_by */ 4:
+                    message.orderBy = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: ListUnmanagedRoutesRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* optional string cluster_id = 1; */
+        if (message.clusterId !== undefined)
+            writer.tag(1, WireType.LengthDelimited).string(message.clusterId);
+        /* optional uint64 offset = 2; */
+        if (message.offset !== undefined)
+            writer.tag(2, WireType.Varint).uint64(message.offset);
+        /* optional uint64 limit = 3; */
+        if (message.limit !== undefined)
+            writer.tag(3, WireType.Varint).uint64(message.limit);
+        /* optional string order_by = 4; */
+        if (message.orderBy !== undefined)
+            writer.tag(4, WireType.LengthDelimited).string(message.orderBy);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.ListUnmanagedRoutesRequest
+ */
+export const ListUnmanagedRoutesRequest = new ListUnmanagedRoutesRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ListUnmanagedRoutesResponse$Type extends MessageType<ListUnmanagedRoutesResponse> {
+    constructor() {
+        super("pomerium.dashboard.ListUnmanagedRoutesResponse", [
+            { no: 1, name: "routes", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => Route },
+            { no: 2, name: "total_count", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ }
+        ]);
+    }
+    create(value?: PartialMessage<ListUnmanagedRoutesResponse>): ListUnmanagedRoutesResponse {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.routes = [];
+        message.totalCount = 0n;
+        if (value !== undefined)
+            reflectionMergePartial<ListUnmanagedRoutesResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ListUnmanagedRoutesResponse): ListUnmanagedRoutesResponse {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* repeated pomerium.dashboard.Route routes */ 1:
+                    message.routes.push(Route.internalBinaryRead(reader, reader.uint32(), options));
+                    break;
+                case /* uint64 total_count */ 2:
+                    message.totalCount = reader.uint64().toBigInt();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: ListUnmanagedRoutesResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* repeated pomerium.dashboard.Route routes = 1; */
+        for (let i = 0; i < message.routes.length; i++)
+            Route.internalBinaryWrite(message.routes[i], writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* uint64 total_count = 2; */
+        if (message.totalCount !== 0n)
+            writer.tag(2, WireType.Varint).uint64(message.totalCount);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.ListUnmanagedRoutesResponse
+ */
+export const ListUnmanagedRoutesResponse = new ListUnmanagedRoutesResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class LoadRoutesRequest$Type extends MessageType<LoadRoutesRequest> {
     constructor() {
@@ -2963,7 +3241,9 @@ export const RouteService = new ServiceType("pomerium.dashboard.RouteService", [
     { name: "DeleteRoute", options: {}, I: DeleteRouteRequest, O: DeleteRouteResponse },
     { name: "DeleteRoutes", options: {}, I: DeleteRoutesRequest, O: DeleteRoutesResponse },
     { name: "GetRoute", options: {}, I: GetRouteRequest, O: GetRouteResponse },
+    { name: "GetUnmanagedRoute", options: {}, I: GetUnmanagedRouteRequest, O: GetUnmanagedRouteResponse },
     { name: "ListRoutes", options: {}, I: ListRoutesRequest, O: ListRoutesResponse },
+    { name: "ListUnmanagedRoutes", options: {}, I: ListUnmanagedRoutesRequest, O: ListUnmanagedRoutesResponse },
     { name: "LoadRoutes", options: {}, I: LoadRoutesRequest, O: LoadRoutesResponse },
     { name: "SetRoute", options: {}, I: SetRouteRequest, O: SetRouteResponse },
     { name: "SetRoutes", options: {}, I: SetRoutesRequest, O: SetRoutesResponse },
