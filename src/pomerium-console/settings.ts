@@ -166,7 +166,7 @@ export interface IdentityProvider {
 }
 /**
  * Settings defines the global pomerium settings
- * Next id: 135.
+ * Next id: 138.
  *
  * @generated from protobuf message pomerium.dashboard.Settings
  */
@@ -584,6 +584,10 @@ export interface Settings {
      */
     sshUserCaKey?: string;
     /**
+     * @generated from protobuf field: optional google.protobuf.Duration ssh_two_person_approval_request_timeout = 136
+     */
+    sshTwoPersonApprovalRequestTimeout?: Duration;
+    /**
      * @generated from protobuf field: optional pomerium.dashboard.Settings.StringList mcp_allowed_as_metadata_domains = 126
      */
     mcpAllowedAsMetadataDomains?: Settings_StringList;
@@ -654,6 +658,16 @@ export interface Settings {
     identityProviders: {
         [key: string]: IdentityProvider;
     };
+    /**
+     * @generated from protobuf field: optional pomerium.dashboard.Settings.StringList readonly_console_audiences = 135
+     */
+    readonlyConsoleAudiences?: Settings_StringList;
+    /**
+     * License type for Pomerium.
+     *
+     * @generated from protobuf field: optional pomerium.dashboard.LicenseType license_type = 137
+     */
+    licenseType?: LicenseType;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.Settings.Certificate
@@ -975,6 +989,41 @@ export enum PathWithEscapedSlashesAction {
      * @generated from protobuf enum value: PATH_WITH_ESCAPED_SLASHES_ACTION_UNESCAPE_AND_FORWARD = 4;
      */
     UNESCAPE_AND_FORWARD = 4
+}
+/**
+ * LicenseType is the license type for Pomerium.
+ *
+ * @generated from protobuf enum pomerium.dashboard.LicenseType
+ */
+export enum LicenseType {
+    /**
+     * @generated from protobuf enum value: LICENSE_TYPE_UNKNOWN = 0;
+     */
+    UNKNOWN = 0,
+    /**
+     * Open Source Edition
+     *
+     * @generated from protobuf enum value: LICENSE_TYPE_OPEN_SOURCE = 1;
+     */
+    OPEN_SOURCE = 1,
+    /**
+     * Community Edition
+     *
+     * @generated from protobuf enum value: LICENSE_TYPE_COMMUNITY = 2;
+     */
+    COMMUNITY = 2,
+    /**
+     * Commercial Edition
+     *
+     * @generated from protobuf enum value: LICENSE_TYPE_COMMERCIAL = 3;
+     */
+    COMMERCIAL = 3,
+    /**
+     * Commercial Trial Edition
+     *
+     * @generated from protobuf enum value: LICENSE_TYPE_COMMERCIAL_TRIAL = 4;
+     */
+    COMMERCIAL_TRIAL = 4
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class LicenseOptions$Type extends MessageType<LicenseOptions> {
@@ -1461,6 +1510,7 @@ class Settings$Type extends MessageType<Settings> {
             { no: 113, name: "ssh_host_keys", kind: "message", T: () => Settings_StringList },
             { no: 114, name: "ssh_user_ca_key_file", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 115, name: "ssh_user_ca_key", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 136, name: "ssh_two_person_approval_request_timeout", kind: "message", T: () => Duration },
             { no: 126, name: "mcp_allowed_as_metadata_domains", kind: "message", T: () => Settings_StringList },
             { no: 122, name: "mcp_allowed_client_id_domains", kind: "message", T: () => Settings_StringList },
             { no: 123, name: "session_recording_enabled", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ },
@@ -1473,7 +1523,9 @@ class Settings$Type extends MessageType<Settings> {
             { no: 131, name: "merge_slashes", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ },
             { no: 132, name: "path_with_escaped_slashes_action", kind: "enum", opt: true, T: () => ["pomerium.dashboard.PathWithEscapedSlashesAction", PathWithEscapedSlashesAction, "PATH_WITH_ESCAPED_SLASHES_ACTION_"] },
             { no: 133, name: "headers_with_underscores_action", kind: "enum", opt: true, T: () => ["pomerium.dashboard.HeadersWithUnderscoresAction", HeadersWithUnderscoresAction, "HEADERS_WITH_UNDERSCORES_ACTION_"] },
-            { no: 134, name: "identity_providers", kind: "map", K: 9 /*ScalarType.STRING*/, V: { kind: "message", T: () => IdentityProvider } }
+            { no: 134, name: "identity_providers", kind: "map", K: 9 /*ScalarType.STRING*/, V: { kind: "message", T: () => IdentityProvider } },
+            { no: 135, name: "readonly_console_audiences", kind: "message", T: () => Settings_StringList },
+            { no: 137, name: "license_type", kind: "enum", opt: true, T: () => ["pomerium.dashboard.LicenseType", LicenseType, "LICENSE_TYPE_"] }
         ]);
     }
     create(value?: PartialMessage<Settings>): Settings {
@@ -1801,6 +1853,9 @@ class Settings$Type extends MessageType<Settings> {
                 case /* optional string ssh_user_ca_key */ 115:
                     message.sshUserCaKey = reader.string();
                     break;
+                case /* optional google.protobuf.Duration ssh_two_person_approval_request_timeout */ 136:
+                    message.sshTwoPersonApprovalRequestTimeout = Duration.internalBinaryRead(reader, reader.uint32(), options, message.sshTwoPersonApprovalRequestTimeout);
+                    break;
                 case /* optional pomerium.dashboard.Settings.StringList mcp_allowed_as_metadata_domains */ 126:
                     message.mcpAllowedAsMetadataDomains = Settings_StringList.internalBinaryRead(reader, reader.uint32(), options, message.mcpAllowedAsMetadataDomains);
                     break;
@@ -1839,6 +1894,12 @@ class Settings$Type extends MessageType<Settings> {
                     break;
                 case /* map<string, pomerium.dashboard.IdentityProvider> identity_providers */ 134:
                     this.binaryReadMap134(message.identityProviders, reader, options);
+                    break;
+                case /* optional pomerium.dashboard.Settings.StringList readonly_console_audiences */ 135:
+                    message.readonlyConsoleAudiences = Settings_StringList.internalBinaryRead(reader, reader.uint32(), options, message.readonlyConsoleAudiences);
+                    break;
+                case /* optional pomerium.dashboard.LicenseType license_type */ 137:
+                    message.licenseType = reader.int32();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -2262,6 +2323,15 @@ class Settings$Type extends MessageType<Settings> {
             IdentityProvider.internalBinaryWrite(message.identityProviders[k], writer, options);
             writer.join().join();
         }
+        /* optional pomerium.dashboard.Settings.StringList readonly_console_audiences = 135; */
+        if (message.readonlyConsoleAudiences)
+            Settings_StringList.internalBinaryWrite(message.readonlyConsoleAudiences, writer.tag(135, WireType.LengthDelimited).fork(), options).join();
+        /* optional google.protobuf.Duration ssh_two_person_approval_request_timeout = 136; */
+        if (message.sshTwoPersonApprovalRequestTimeout)
+            Duration.internalBinaryWrite(message.sshTwoPersonApprovalRequestTimeout, writer.tag(136, WireType.LengthDelimited).fork(), options).join();
+        /* optional pomerium.dashboard.LicenseType license_type = 137; */
+        if (message.licenseType !== undefined)
+            writer.tag(137, WireType.Varint).int32(message.licenseType);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
