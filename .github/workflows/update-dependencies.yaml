@@ -39,7 +39,7 @@ jobs:
         run: |
           if [ -z "$(git status --porcelain -- . ':(exclude)deps')" ]; then
             echo "only submodule pointers changed, resetting them"
-            git submodule update --init --recursive
+            git submodule update --init
           fi
 
       - name: Create CI write token
