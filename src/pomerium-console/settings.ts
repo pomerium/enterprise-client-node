@@ -11,6 +11,7 @@ import { UnknownFieldHandler } from "@protobuf-ts/runtime";
 import type { PartialMessage } from "@protobuf-ts/runtime";
 import { reflectionMergePartial } from "@protobuf-ts/runtime";
 import { MessageType } from "@protobuf-ts/runtime";
+import { OIDCBridge } from "./routes";
 import { CircuitBreakerThresholds } from "./routes";
 import { BearerTokenFormat } from "./routes";
 import { Struct } from "./google/protobuf/struct";
@@ -166,7 +167,7 @@ export interface IdentityProvider {
 }
 /**
  * Settings defines the global pomerium settings
- * Next id: 138.
+ * Next id: 139.
  *
  * @generated from protobuf message pomerium.dashboard.Settings
  */
@@ -668,6 +669,12 @@ export interface Settings {
      * @generated from protobuf field: optional pomerium.dashboard.LicenseType license_type = 137
      */
     licenseType?: LicenseType;
+    /**
+     * Configure default OIDC bridge support for all routes.
+     *
+     * @generated from protobuf field: optional pomerium.dashboard.OIDCBridge oidc_bridge = 138
+     */
+    oidcBridge?: OIDCBridge;
 }
 /**
  * @generated from protobuf message pomerium.dashboard.Settings.Certificate
@@ -1525,7 +1532,8 @@ class Settings$Type extends MessageType<Settings> {
             { no: 133, name: "headers_with_underscores_action", kind: "enum", opt: true, T: () => ["pomerium.dashboard.HeadersWithUnderscoresAction", HeadersWithUnderscoresAction, "HEADERS_WITH_UNDERSCORES_ACTION_"] },
             { no: 134, name: "identity_providers", kind: "map", K: 9 /*ScalarType.STRING*/, V: { kind: "message", T: () => IdentityProvider } },
             { no: 135, name: "readonly_console_audiences", kind: "message", T: () => Settings_StringList },
-            { no: 137, name: "license_type", kind: "enum", opt: true, T: () => ["pomerium.dashboard.LicenseType", LicenseType, "LICENSE_TYPE_"] }
+            { no: 137, name: "license_type", kind: "enum", opt: true, T: () => ["pomerium.dashboard.LicenseType", LicenseType, "LICENSE_TYPE_"] },
+            { no: 138, name: "oidc_bridge", kind: "message", T: () => OIDCBridge }
         ]);
     }
     create(value?: PartialMessage<Settings>): Settings {
@@ -1900,6 +1908,9 @@ class Settings$Type extends MessageType<Settings> {
                     break;
                 case /* optional pomerium.dashboard.LicenseType license_type */ 137:
                     message.licenseType = reader.int32();
+                    break;
+                case /* optional pomerium.dashboard.OIDCBridge oidc_bridge */ 138:
+                    message.oidcBridge = OIDCBridge.internalBinaryRead(reader, reader.uint32(), options, message.oidcBridge);
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -2332,6 +2343,9 @@ class Settings$Type extends MessageType<Settings> {
         /* optional pomerium.dashboard.LicenseType license_type = 137; */
         if (message.licenseType !== undefined)
             writer.tag(137, WireType.Varint).int32(message.licenseType);
+        /* optional pomerium.dashboard.OIDCBridge oidc_bridge = 138; */
+        if (message.oidcBridge)
+            OIDCBridge.internalBinaryWrite(message.oidcBridge, writer.tag(138, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
