@@ -221,7 +221,7 @@ export interface OAuth2Endpoint {
 }
 /**
  * Route defines a proxy route's settings and policy associations
- * Next ID: 80
+ * Next ID: 82
  *
  * @generated from protobuf message pomerium.dashboard.Route
  */
@@ -449,28 +449,6 @@ export interface Route {
      */
     dependsOn: string[];
     /**
-     * computed properties (may be nil)
-     *
-     * @generated from protobuf field: repeated string policy_names = 34
-     */
-    policyNames: string[];
-    /**
-     * computed
-     *
-     * @generated from protobuf field: string namespace_name = 35
-     */
-    namespaceName: string;
-    /**
-     * computed
-     *
-     * @generated from protobuf field: repeated string enforced_policy_ids = 63
-     */
-    enforcedPolicyIds: string[];
-    /**
-     * @generated from protobuf field: repeated string enforced_policy_names = 64
-     */
-    enforcedPolicyNames: string[];
-    /**
      * @generated from protobuf field: optional pomerium.dashboard.Route.StringList idp_access_token_allowed_audiences = 69
      */
     idpAccessTokenAllowedAudiences?: Route_StringList;
@@ -515,6 +493,32 @@ export interface Route {
      * @generated from protobuf field: repeated string identity_providers = 79
      */
     identityProviders: string[];
+    /**
+     * @generated from protobuf field: optional pomerium.dashboard.OIDCBridge oidc_bridge = 81
+     */
+    oidcBridge?: OIDCBridge;
+    /**
+     * computed properties (may be nil)
+     *
+     * @generated from protobuf field: repeated string policy_names = 34
+     */
+    policyNames: string[];
+    /**
+     * @generated from protobuf field: string namespace_name = 35
+     */
+    namespaceName: string;
+    /**
+     * @generated from protobuf field: repeated string enforced_policy_ids = 63
+     */
+    enforcedPolicyIds: string[];
+    /**
+     * @generated from protobuf field: repeated string enforced_policy_names = 64
+     */
+    enforcedPolicyNames: string[];
+    /**
+     * @generated from protobuf field: repeated string inline_ppl_policies = 80
+     */
+    inlinePplPolicies: string[]; // Configure OIDC bridge support for this route.
 }
 /**
  * @generated from protobuf message pomerium.dashboard.Route.StringList
@@ -524,6 +528,34 @@ export interface Route_StringList {
      * @generated from protobuf field: repeated string values = 1
      */
     values: string[];
+}
+/**
+ * OIDC bridge settings control whether Pomerium can serve as an OpenID
+ * provider for upstream applications.
+ *
+ * @generated from protobuf message pomerium.dashboard.OIDCBridge
+ */
+export interface OIDCBridge {
+    /**
+     * Whether the OIDC bridge feature should be enabled.
+     *
+     * @generated from protobuf field: optional bool enabled = 1
+     */
+    enabled?: boolean;
+    /**
+     * Client secret to use for upstream applications that do not support
+     * public clients / PKCE.
+     *
+     * @generated from protobuf field: optional string client_secret = 2
+     */
+    clientSecret?: string;
+    /**
+     * List of allowed redirect_uris. By default allows any subpath of the
+     * configured route's `to` address.
+     *
+     * @generated from protobuf field: repeated string redirect_uris = 3
+     */
+    redirectUris: string[];
 }
 /**
  * @generated from protobuf message pomerium.dashboard.SessionRecording
@@ -1534,10 +1566,6 @@ class Route$Type extends MessageType<Route> {
             { no: 54, name: "originator_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 28, name: "policy_ids", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
             { no: 72, name: "depends_on", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
-            { no: 34, name: "policy_names", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
-            { no: 35, name: "namespace_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 63, name: "enforced_policy_ids", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
-            { no: 64, name: "enforced_policy_names", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
             { no: 69, name: "idp_access_token_allowed_audiences", kind: "message", T: () => Route_StringList },
             { no: 70, name: "load_balancing_policy", kind: "enum", opt: true, T: () => ["pomerium.dashboard.LoadBalancingPolicy", LoadBalancingPolicy, "LOAD_BALANCING_POLICY_"], options: { "validate.rules": { enum: { definedOnly: true } } } },
             { no: 71, name: "health_checks", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => HealthCheck },
@@ -1547,7 +1575,13 @@ class Route$Type extends MessageType<Route> {
             { no: 76, name: "upstream_tunnel", kind: "message", T: () => UpstreamTunnel },
             { no: 77, name: "allow_upgrades", kind: "message", T: () => Route_StringList },
             { no: 78, name: "session_recording", kind: "message", T: () => SessionRecording },
-            { no: 79, name: "identity_providers", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ }
+            { no: 79, name: "identity_providers", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
+            { no: 81, name: "oidc_bridge", kind: "message", T: () => OIDCBridge },
+            { no: 34, name: "policy_names", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
+            { no: 35, name: "namespace_name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 63, name: "enforced_policy_ids", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
+            { no: 64, name: "enforced_policy_names", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
+            { no: 80, name: "inline_ppl_policies", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<Route>): Route {
@@ -1567,12 +1601,13 @@ class Route$Type extends MessageType<Route> {
         message.originatorId = "";
         message.policyIds = [];
         message.dependsOn = [];
+        message.healthChecks = [];
+        message.identityProviders = [];
         message.policyNames = [];
         message.namespaceName = "";
         message.enforcedPolicyIds = [];
         message.enforcedPolicyNames = [];
-        message.healthChecks = [];
-        message.identityProviders = [];
+        message.inlinePplPolicies = [];
         if (value !== undefined)
             reflectionMergePartial<Route>(this, message, value);
         return message;
@@ -1741,18 +1776,6 @@ class Route$Type extends MessageType<Route> {
                 case /* repeated string depends_on */ 72:
                     message.dependsOn.push(reader.string());
                     break;
-                case /* repeated string policy_names */ 34:
-                    message.policyNames.push(reader.string());
-                    break;
-                case /* string namespace_name */ 35:
-                    message.namespaceName = reader.string();
-                    break;
-                case /* repeated string enforced_policy_ids */ 63:
-                    message.enforcedPolicyIds.push(reader.string());
-                    break;
-                case /* repeated string enforced_policy_names */ 64:
-                    message.enforcedPolicyNames.push(reader.string());
-                    break;
                 case /* optional pomerium.dashboard.Route.StringList idp_access_token_allowed_audiences */ 69:
                     message.idpAccessTokenAllowedAudiences = Route_StringList.internalBinaryRead(reader, reader.uint32(), options, message.idpAccessTokenAllowedAudiences);
                     break;
@@ -1782,6 +1805,24 @@ class Route$Type extends MessageType<Route> {
                     break;
                 case /* repeated string identity_providers */ 79:
                     message.identityProviders.push(reader.string());
+                    break;
+                case /* optional pomerium.dashboard.OIDCBridge oidc_bridge */ 81:
+                    message.oidcBridge = OIDCBridge.internalBinaryRead(reader, reader.uint32(), options, message.oidcBridge);
+                    break;
+                case /* repeated string policy_names */ 34:
+                    message.policyNames.push(reader.string());
+                    break;
+                case /* string namespace_name */ 35:
+                    message.namespaceName = reader.string();
+                    break;
+                case /* repeated string enforced_policy_ids */ 63:
+                    message.enforcedPolicyIds.push(reader.string());
+                    break;
+                case /* repeated string enforced_policy_names */ 64:
+                    message.enforcedPolicyNames.push(reader.string());
+                    break;
+                case /* repeated string inline_ppl_policies */ 80:
+                    message.inlinePplPolicies.push(reader.string());
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -2028,6 +2069,12 @@ class Route$Type extends MessageType<Route> {
         /* repeated string identity_providers = 79; */
         for (let i = 0; i < message.identityProviders.length; i++)
             writer.tag(79, WireType.LengthDelimited).string(message.identityProviders[i]);
+        /* repeated string inline_ppl_policies = 80; */
+        for (let i = 0; i < message.inlinePplPolicies.length; i++)
+            writer.tag(80, WireType.LengthDelimited).string(message.inlinePplPolicies[i]);
+        /* optional pomerium.dashboard.OIDCBridge oidc_bridge = 81; */
+        if (message.oidcBridge)
+            OIDCBridge.internalBinaryWrite(message.oidcBridge, writer.tag(81, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -2085,6 +2132,67 @@ class Route_StringList$Type extends MessageType<Route_StringList> {
  * @generated MessageType for protobuf message pomerium.dashboard.Route.StringList
  */
 export const Route_StringList = new Route_StringList$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class OIDCBridge$Type extends MessageType<OIDCBridge> {
+    constructor() {
+        super("pomerium.dashboard.OIDCBridge", [
+            { no: 1, name: "enabled", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ },
+            { no: 2, name: "client_secret", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "redirect_uris", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<OIDCBridge>): OIDCBridge {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.redirectUris = [];
+        if (value !== undefined)
+            reflectionMergePartial<OIDCBridge>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: OIDCBridge): OIDCBridge {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* optional bool enabled */ 1:
+                    message.enabled = reader.bool();
+                    break;
+                case /* optional string client_secret */ 2:
+                    message.clientSecret = reader.string();
+                    break;
+                case /* repeated string redirect_uris */ 3:
+                    message.redirectUris.push(reader.string());
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: OIDCBridge, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* optional bool enabled = 1; */
+        if (message.enabled !== undefined)
+            writer.tag(1, WireType.Varint).bool(message.enabled);
+        /* optional string client_secret = 2; */
+        if (message.clientSecret !== undefined)
+            writer.tag(2, WireType.LengthDelimited).string(message.clientSecret);
+        /* repeated string redirect_uris = 3; */
+        for (let i = 0; i < message.redirectUris.length; i++)
+            writer.tag(3, WireType.LengthDelimited).string(message.redirectUris[i]);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message pomerium.dashboard.OIDCBridge
+ */
+export const OIDCBridge = new OIDCBridge$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class SessionRecording$Type extends MessageType<SessionRecording> {
     constructor() {
